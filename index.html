@@ -430,6 +430,19 @@ async function excluirExecucao(execucaoId){
   const ok=confirm("Excluir esta execução do histórico?\n\nA execução será removida da lista de Execuções. Os motoristas e resultados não serão apagados.");
   if(!ok) return;
 
+  // Primeiro desvincula os motoristas desta execução.
+  // Isso evita erro de chave estrangeira caso execucao_id esteja ligado à execução.
+  const {error:unlinkError}=await supabaseClient
+    .from("motoristas")
+    .update({execucao_id:null})
+    .eq("execucao_id", String(execucaoId));
+
+  if(unlinkError){
+    console.error(unlinkError);
+    alert("Não foi possível desvincular os motoristas desta execução: "+unlinkError.message);
+    return;
+  }
+
   const {error}=await supabaseClient
     .from("execucoes")
     .delete()
