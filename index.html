@@ -40,6 +40,9 @@ main{margin-left:240px;width:calc(100% - 240px);padding:28px;max-width:1600px}.t
 .login-message.error{display:block;background:#fff0f0;color:#b93636}
 .login-message.info{display:block;background:#eef6ff;color:#205b9e}
 
+
+.exec-details{padding:14px;background:#f8fafc;border-radius:10px}
+.exec-details .table-wrap{margin:0}
 </style>
 </head>
 <body>
@@ -324,18 +327,18 @@ async function renderExecucoes(){
   main.innerHTML=header("Execuções","Histórico das rodadas de processamento")+
     `<div class="panel" id="execucoesPanel">
       <div class="panel-head">
-        <div><h2>Histórico de execuções</h2><p>Cada rodada registra quem iniciou, quando começou e os resultados acumulados.</p></div>
+        <div><h2>Histórico de execuções</h2><p>Cada rodada registra a execução e os motoristas vinculados a ela.</p></div>
         <button class="btn" onclick="renderExecucoes()">↻ Atualizar</button>
       </div>
       <div class="table-wrap"><table><thead><tr>
-        <th>Início</th><th>Status</th><th>Total</th><th>Processados</th><th>Sucesso</th><th>Atenção</th><th>Erros</th><th>Fim</th>
+        <th>Início</th><th>Status</th><th>Total</th><th>Processados</th><th>Sucesso</th><th>Atenção</th><th>Erros</th><th>Fim</th><th>Ações</th>
       </tr></thead><tbody id="execucoesBody">
-        <tr><td colspan="8">Carregando...</td></tr>
+        <tr><td colspan="9">Carregando...</td></tr>
       </tbody></table></div>
     </div>`;
 
   if(!supabaseClient){
-    document.getElementById("execucoesBody").innerHTML='<tr><td colspan="8">Supabase não configurado.</td></tr>';
+    document.getElementById("execucoesBody").innerHTML='<tr><td colspan="9">Supabase não configurado.</td></tr>';
     return;
   }
 
@@ -347,23 +350,16 @@ async function renderExecucoes(){
 
   if(error){
     console.error(error);
-    document.getElementById("execucoesBody").innerHTML=`<tr><td colspan="8">Não foi possível carregar as execuções: ${error.message}</td></tr>`;
+    document.getElementById("execucoesBody").innerHTML=`<tr><td colspan="9">Não foi possível carregar as execuções: ${error.message}</td></tr>`;
     return;
   }
 
   if(!data || !data.length){
-    document.getElementById("execucoesBody").innerHTML='<tr><td colspan="8">Nenhuma execução registrada ainda.</td></tr>';
+    document.getElementById("execucoesBody").innerHTML='<tr><td colspan="9">Nenhuma execução registrada ainda.</td></tr>';
     return;
   }
 
-  const statusLabel={
-    EM_ANDAMENTO:"Em andamento",
-    CONCLUIDA:"Concluída",
-    PAUSADA:"Pausada",
-    CANCELADA:"Cancelada"
-  };
-
-  document.getElementById("execucoesBody").innerHTML=data.map(e=>`<tr>
+  document.getElementById("execucoesBody").innerHTML=data.map(e=>`<tr id="exec-${e.id}">
     <td>${e.criado_em ? new Date(e.criado_em).toLocaleString("pt-BR") : "-"}</td>
     <td>${badge(e.status==="CONCLUIDA"?"SUCESSO":e.status==="EM_ANDAMENTO"?"PROCESSANDO":e.status==="CANCELADA"?"ERRO":"ATENCAO")}</td>
     <td>${e.total ?? 0}</td>
@@ -372,7 +368,51 @@ async function renderExecucoes(){
     <td class="yellow"><b>${e.atencao ?? 0}</b></td>
     <td class="red"><b>${e.erros ?? 0}</b></td>
     <td>${e.finalizado_em ? new Date(e.finalizado_em).toLocaleString("pt-BR") : "-"}</td>
-  </tr>`).join("");
+    <td><button class="view" type="button" onclick='toggleExecucaoDetalhes(${JSON.stringify(String(e.id))})'>Ver motoristas</button></td>
+  </tr>
+  <tr id="exec-details-${e.id}" style="display:none"><td colspan="9"><div class="exec-details">Carregando motoristas...</div></td></tr>`).join("");
+}
+
+async function toggleExecucaoDetalhes(execucaoId){
+  const row=document.getElementById("exec-details-"+execucaoId);
+  if(!row) return;
+
+  if(row.style.display==="table-row"){
+    row.style.display="none";
+    return;
+  }
+
+  row.style.display="table-row";
+  const box=row.querySelector(".exec-details");
+
+  const {data,error}=await supabaseClient
+    .from("motoristas")
+    .select("id,nome,cpf,renach,status,resultado,data_consulta,execucao_id")
+    .eq("execucao_id",execucaoId)
+    .order("data_consulta",{ascending:false});
+
+  if(error){
+    box.innerHTML=`<div class="alert"><p>Não foi possível carregar os motoristas desta execução: ${error.message}</p></div>`;
+    return;
+  }
+
+  if(!data || !data.length){
+    box.innerHTML=`<div class="alert"><p>Nenhum motorista está vinculado a esta execução. As execuções antigas foram criadas antes do vínculo por motorista ser adicionado.</p></div>`;
+    return;
+  }
+
+  box.innerHTML=`<div class="table-wrap"><table>
+    <thead><tr><th>Motorista</th><th>CPF</th><th>RENACH</th><th>Status</th><th>Resultado</th><th>Consulta</th><th>Ação</th></tr></thead>
+    <tbody>${data.map(d=>`<tr>
+      <td><b>${d.nome||"-"}</b></td>
+      <td>${mask(d.cpf||"")}</td>
+      <td>${d.renach||"-"}</td>
+      <td>${badge(d.status||"PENDENTE")}</td>
+      <td>${d.resultado||"-"}</td>
+      <td>${d.data_consulta ? new Date(d.data_consulta).toLocaleString("pt-BR") : "-"}</td>
+      <td><button class="view" type="button" onclick='openDetails(${JSON.stringify(String(d.id))})'>Detalhes</button></td>
+    </tr>`).join("")}</tbody>
+  </table></div>`;
 }
 
 function renderLogs(){let logs=[["14:32:10","João Silva","Consulta iniciada","INFO"],["14:32:13","João Silva","Resultado recebido","SUCCESS"],["14:33:01","Maria Souza","Erro","ERROR"],["14:33:25","Carlos Oliveira","Consulta concluída","SUCCESS"],["14:34:02","Ana Santos","Atenção","WARNING"]];main.innerHTML=header("Logs","Histórico das atividades do sistema")+`<div class="panel"><div class="table-wrap"><table><thead><tr><th>Horário</th><th>Motorista</th><th>Ação</th><th>Status</th></tr></thead><tbody>${logs.map(l=>`<tr><td>${l[0]}</td><td><b>${l[1]}</b></td><td>${l[2]}</td><td>${badge(l[3]==="SUCCESS"?"SUCESSO":l[3]==="ERROR"?"ERRO":l[3]==="WARNING"?"ATENCAO":"PROCESSANDO")}</td></tr>`).join("")}</tbody></table></div></div>`}
@@ -448,6 +488,7 @@ async function updateDriverStatus(id, status, resultado){
   const payload = {
     status,
     resultado,
+    ...(execucaoId ? { execucao_id: execucaoId } : {}),
     data_consulta: status==="PROCESSANDO" ? null : new Date().toISOString()
   };
 
@@ -509,6 +550,12 @@ async function cancelarExecucao(){
 }
 
 async function iniciarProximo(){
+  if(execucaoId){
+    // Existing execution: continue using it.
+  } else {
+    // The existing function below creates the execution before processing.
+  }
+
   const atual = drivers.find(x=>x.status==="PROCESSANDO");
   if(atual){
     alert("Já existe um motorista em processamento.");
