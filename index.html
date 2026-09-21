@@ -413,9 +413,39 @@ async function renderExecucoes(){
     <td class="yellow"><b>${e.atencao ?? 0}</b></td>
     <td class="red"><b>${e.erros ?? 0}</b></td>
     <td>${e.finalizado_em ? new Date(e.finalizado_em).toLocaleString("pt-BR") : "-"}</td>
-    <td><button class="view" type="button" onclick='toggleExecucaoDetalhes(${JSON.stringify(String(e.id))})'>Ver motoristas</button></td>
+    <td style="display:flex;gap:6px;align-items:center">
+  <button class="view" type="button" onclick='toggleExecucaoDetalhes(${JSON.stringify(String(e.id))})'>Ver motoristas</button>
+  <button class="view danger" type="button" title="Excluir execução" onclick='excluirExecucao(${JSON.stringify(String(e.id))})'>🗑</button>
+</td>
   </tr>
   <tr id="exec-details-${e.id}" style="display:none"><td colspan="9"><div class="exec-details">Carregando motoristas...</div></td></tr>`).join("");
+}
+
+async function excluirExecucao(execucaoId){
+  if(!supabaseClient){
+    alert("Supabase não configurado.");
+    return;
+  }
+
+  const ok=confirm("Excluir esta execução do histórico?\n\nA execução será removida da lista de Execuções. Os motoristas e resultados não serão apagados.");
+  if(!ok) return;
+
+  const {error}=await supabaseClient
+    .from("execucoes")
+    .delete()
+    .eq("id", String(execucaoId));
+
+  if(error){
+    console.error(error);
+    alert("Não foi possível excluir a execução: "+error.message);
+    return;
+  }
+
+  const row=document.getElementById("exec-"+execucaoId);
+  const detail=document.getElementById("exec-details-"+execucaoId);
+  if(row) row.remove();
+  if(detail) detail.remove();
+  alert("Execução excluída do histórico.");
 }
 
 async function toggleExecucaoDetalhes(execucaoId){
