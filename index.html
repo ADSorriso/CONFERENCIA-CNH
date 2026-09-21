@@ -111,12 +111,37 @@ function setLoginMessage(message, type="info"){
   loginMessage.className = "login-message " + type;
 }
 
-function showSystem(){
+async function showSystem(){
   loginOverlay.style.display = "none";
+  await loadDrivers();
+  render();
 }
 
 function showLogin(){
   loginOverlay.style.display = "grid";
+}
+
+async function loadDrivers(){
+  if(!supabaseClient) return;
+  const {data, error} = await supabaseClient
+    .from("motoristas")
+    .select("id,nome,cpf,renach,status,resultado,data_consulta,criado_em")
+    .order("criado_em", {ascending:false})
+    .limit(1000);
+
+  if(error){
+    console.error(error);
+    setLoginMessage("Login realizado, mas não foi possível carregar os motoristas: " + error.message,"error");
+    return;
+  }
+
+  drivers = (data || []).map(d => ({
+    ...d,
+    result: d.resultado || "-",
+    data: d.data_consulta ? new Date(d.data_consulta).toLocaleString("pt-BR") : "-",
+    tempo: "-",
+    tentativas: "-"
+  }));
 }
 
 async function initAuth(){
@@ -134,7 +159,7 @@ async function initAuth(){
   }
 
   if(data.session){
-    showSystem();
+    await showSystem();
   }else{
     showLogin();
   }
@@ -183,29 +208,53 @@ async function logout(){
 
 
 const names=["João da Silva","Maria Souza","Carlos Oliveira","Ana Santos","Pedro Almeida","Lucas Ferreira","Juliana Costa","Marcos Pereira","Fernanda Lima","Rafael Gomes","Bruna Martins","Diego Rodrigues","Camila Barbosa","André Carvalho","Larissa Rocha","Gustavo Mendes","Patrícia Nunes","Eduardo Castro","Renata Alves","Thiago Ribeiro"];
-let drivers=Array.from({length:120},(_,i)=>{let status=i<47?["SUCESSO","SUCESSO","SUCESSO","ATENCAO","ERRO","PENDENTE"][i%6]:"PENDENTE";return{id:i+1,nome:names[i%names.length],cpf:"123456789"+String(i+1).padStart(2,"0"),renach:"MT"+String(10000000+i),status,result:status==="SUCESSO"?"CNH encontrada":status==="ATENCAO"?"Conferência necessária":status==="ERRO"?"Erro na consulta":"Aguardando processamento",data:status==="PENDENTE"?"-":"21/09/2026 14:"+(30+i%30),tempo:status==="PENDENTE"?"-":(2+i%5)+"s",tentativas:status==="ERRO"?2:1}});
+let drivers=[];
 let page="dashboard", selected=null, paused=false, query="", filter="TODOS";
 
 function mask(c){return"***.***.***-"+c.slice(-2)}
 function badge(s){let c={SUCESSO:"success",ATENCAO:"attention",ERRO:"error",PENDENTE:"pending",PROCESSANDO:"processing",CAPTCHA:"captcha",BLOQUEADO:"error"}[s]||"pending";let l={SUCESSO:"Sucesso",ATENCAO:"Atenção",ERRO:"Erro",PENDENTE:"Pendente",PROCESSANDO:"Processando",CAPTCHA:"CAPTCHA",BLOQUEADO:"Bloqueado"}[s];return`<span class="badge ${c}">${l}</span>`}
 function header(title,sub){return`<div class="top"><div><h1>${title}</h1><p>${sub}</p></div><div class="top-actions"><span class="system"><i></i>Sistema operacional</span><button class="icon" onclick="toggleTheme()">☾</button><button class="icon" onclick="logout()" title="Sair">↪</button></div></div>`}
 function table(data){return`<div class="table-wrap"><table><thead><tr><th>Nome</th><th>CPF</th><th>RENACH</th><th>Status</th><th>Resultado</th><th>Consulta</th><th>Ações</th></tr></thead><tbody>${data.map(d=>`<tr><td><b>${d.nome}</b></td><td>${mask(d.cpf)}</td><td>${d.renach}</td><td>${badge(d.status)}</td><td>${d.result}</td><td>${d.data}</td><td><button class="view" onclick="openDetails(${d.id})">Ver detalhes</button></td></tr>`).join("")}</tbody></table></div>`}
-function stats(){return`<div class="cards">
-${card("◉","Total de motoristas","600","Arquivo atual")}
-${card("▣","Processados","347","58% do total")}
-${card("✓","Conferidos","320","92% dos processados")}
-${card("◷","Pendentes","253","Aguardando")}
-${card("!","Atenção","18","Revisão manual","yellow")}
-${card("×","Erros","9","Necessitam revisão","red")}</div>`}
+function stats(){
+  const total = drivers.length;
+  const processados = drivers.filter(d => d.status && d.status !== "PENDENTE").length;
+  const sucesso = drivers.filter(d => d.status === "SUCESSO").length;
+  const pendentes = drivers.filter(d => d.status === "PENDENTE" || !d.status).length;
+  const atencao = drivers.filter(d => d.status === "ATENCAO").length;
+  const erros = drivers.filter(d => d.status === "ERRO").length;
+  const pct = total ? Math.round(processados / total * 100) : 0;
+  return`<div class="cards">
+${card("◉","Total de motoristas",total,"Supabase")}
+${card("▣","Processados",processados,pct+"% do total")}
+${card("✓","Conferidos",sucesso,"Status sucesso")}
+${card("◷","Pendentes",pendentes,"Aguardando")}
+${card("!","Atenção",atencao,"Revisão manual","yellow")}
+${card("×","Erros",erros,"Necessitam revisão","red")}</div>`}
 function card(icon,title,val,small,tone=""){return`<div class="card"><div class="card-icon ${tone}">${icon}</div><div><span>${title}</span><b>${val}</b><small>${small}</small></div></div>`}
-function progress(){return`<div class="panel"><div class="panel-head"><div><h2>Processamento atual</h2><p>${paused?"O processamento está pausado.":"Conferência em andamento."}</p></div>${badge(paused?"ATENCAO":"PROCESSANDO")}</div><div class="progress"><div></div></div><div class="progress-row"><b>347 / 600</b><span>58%</span></div><div class="mini"><div><span>Processados</span><b>347</b></div><div><span>Sucesso</span><b class="green">320</b></div><div><span>Atenção</span><b class="yellow">18</b></div><div><span>Erros</span><b class="red">9</b></div><div><span>Pendentes</span><b>253</b></div></div><div class="actions"><button class="btn primary" onclick="pauseResume()">${paused?"▶ Continuar":"Ⅱ Pausar"}</button><button class="btn danger" onclick="paused=true;render()">■ Cancelar</button></div></div>`}
+function progress(){
+  const total=drivers.length;
+  const processados=drivers.filter(d=>d.status && d.status!=="PENDENTE").length;
+  const sucesso=drivers.filter(d=>d.status==="SUCESSO").length;
+  const atencao=drivers.filter(d=>d.status==="ATENCAO").length;
+  const erros=drivers.filter(d=>d.status==="ERRO").length;
+  const pendentes=drivers.filter(d=>d.status==="PENDENTE" || !d.status).length;
+  const pct=total?Math.round(processados/total*100):0;
+  return`<div class="panel"><div class="panel-head"><div><h2>Processamento atual</h2><p>${paused?"O processamento está pausado.":"Conferência em andamento."}</p></div>${badge(paused?"ATENCAO":"PROCESSANDO")}</div><div class="progress"><div style="width:${pct}%"></div></div><div class="progress-row"><b>${processados} / ${total}</b><span>${pct}%</span></div><div class="mini"><div><span>Processados</span><b>${processados}</b></div><div><span>Sucesso</span><b class="green">${sucesso}</b></div><div><span>Atenção</span><b class="yellow">${atencao}</b></div><div><span>Erros</span><b class="red">${erros}</b></div><div><span>Pendentes</span><b>${pendentes}</b></div></div><div class="actions"><button class="btn primary" onclick="pauseResume()">${paused?"▶ Continuar":"Ⅱ Pausar"}</button><button class="btn danger" onclick="paused=true;render()">■ Cancelar</button></div></div>`}
 
-function renderDashboard(){main.innerHTML=header("Dashboard","Visão geral da conferência de motoristas")+stats()+progress()+`<div class="panel"><div class="panel-head"><div><h2>Últimas consultas</h2><p>Atividade recente do processamento.</p></div></div>${table(drivers.slice(0,8))}</div>`}
-function renderMotoristas(){let data=drivers.filter(d=>(filter==="TODOS"||d.status===filter)&&(`${d.nome} ${d.cpf} ${d.renach}`).toLowerCase().includes(query.toLowerCase()));main.innerHTML=header("Motoristas","Todos os motoristas importados")+`<div class="toolbar"><div class="search">⌕ <input placeholder="Buscar por nome, CPF ou RENACH..." value="${query}" oninput="query=this.value;render()"></div><select class="select" onchange="filter=this.value;render()"><option value="TODOS">Todos</option><option>PENDENTE</option><option>PROCESSANDO</option><option>SUCESSO</option><option>ATENCAO</option><option>ERRO</option></select></div><div class="panel"><p><b>${data.length}</b> motoristas encontrados</p>${table(data.slice(0,20))}</div>`}
+function renderDashboard(){main.innerHTML=header("Dashboard","Visão geral da conferência de motoristas")+stats()+progress()+`<div class="panel"><div class="panel-head"><div><h2>Últimas consultas</h2><p>Atividade recente do processamento.</p></div></div>${drivers.length?table(drivers.slice(0,8)):"<p>Nenhum motorista cadastrado no Supabase ainda.</p>"}</div>`}
+function renderMotoristas(){let data=drivers.filter(d=>(filter==="TODOS"||d.status===filter)&&(`${d.nome} ${d.cpf} ${d.renach}`).toLowerCase().includes(query.toLowerCase()));main.innerHTML=header("Motoristas","Todos os motoristas importados")+`<div class="toolbar"><div class="search">⌕ <input placeholder="Buscar por nome, CPF ou RENACH..." value="${query}" oninput="query=this.value;render()"></div><select class="select" onchange="filter=this.value;render()"><option value="TODOS">Todos</option><option>PENDENTE</option><option>PROCESSANDO</option><option>SUCESSO</option><option>ATENCAO</option><option>ERRO</option></select></div><div class="panel"><p><b>${data.length}</b> motoristas encontrados</p>${data.length?table(data):"<p>Nenhum motorista encontrado.</p>"}</div>`}
 function renderImportar(){main.innerHTML=header("Importar Excel","Adicione a lista de motoristas para conferência")+`<div class="panel"><label class="upload" for="excel"><div class="upload-icon">⇧</div><h3>Importe sua planilha de motoristas</h3><p>Arraste seu arquivo Excel aqui ou clique para selecionar.</p><b>.xlsx · .xls</b><input id="excel" type="file" accept=".xlsx,.xls" onchange="fileChosen(this.files[0])"></label></div>`}
 function fileChosen(f){if(!f)return;if(!/\.(xlsx|xls)$/i.test(f.name)){alert("Selecione um arquivo Excel.");return}main.innerHTML=header("Importar Excel","Prévia e mapeamento da planilha")+`<div class="panel"><div class="file-card"><div>▣</div><div><b>${f.name}</b><small>${(f.size/1024/1024).toFixed(2)} MB · 600 registros encontrados</small></div><b class="check">✓</b></div><div class="mapping"><h2>Mapear colunas</h2><p>Confirme as colunas da sua planilha.</p><label>Nome<select><option>Nome</option><option>Nome completo</option></select></label><label>CPF<select><option>CPF</option></select></label><label>RENACH<select><option>RENACH</option></select></label></div><div class="preview"><h2>Prévia</h2><div class="preview-grid"><b>Nome</b><b>CPF</b><b>RENACH</b>${drivers.slice(0,5).map(d=>`<div class="row"><span>${d.nome}</span><span>${mask(d.cpf)}</span><span>${d.renach}</span></div>`).join("")}</div></div><button class="btn primary" style="margin-top:18px" onclick="alert('Planilha preparada para processamento.')">✓ Confirmar importação</button></div>`}
-function renderProcessamento(){main.innerHTML=header("Processamento","Acompanhe a conferência em tempo real")+progress()+`<div class="process-grid"><div class="panel"><div class="eyebrow">MOTORISTA ATUAL</div><h2>João da Silva</h2><div class="fields"><span>CPF<b>***.***.***-00</b></span><span>RENACH<b>MT10000001</b></span></div><div class="processing"><span class="spinner"></span>Consultando dados...</div></div><div class="panel"><div class="eyebrow">AÇÕES</div><button class="btn primary" style="width:100%;justify-content:center" onclick="captcha()">⚠ Simular CAPTCHA</button></div></div><div class="alert">⚠ <p>Se o portal solicitar verificação humana, o processamento deverá ser pausado para intervenção manual.</p></div>`}
-function renderResultados(){main.innerHTML=header("Resultados","Resultados da conferência atual")+`<div class="cards" style="grid-template-columns:repeat(3,1fr)">${card("✓","Total","347","Processados")}${card("!","Atenção","18","Revisão manual","yellow")}${card("×","Erros","9","Necessitam revisão","red")}</div><div class="panel"><div class="panel-head"><div><h2>Resultados</h2><p>Resultados registrados.</p></div><div class="actions"><button class="btn primary" onclick="alert('Exportação será conectada ao backend.')">⇩ Excel</button><button class="btn" onclick="alert('Exportação será conectada ao backend.')">⇩ CSV</button></div></div>${table(drivers.filter(d=>d.status!=="PENDENTE").slice(0,15))}</div>`}
+function renderProcessamento(){
+  const d=drivers.find(x=>x.status==="PROCESSANDO") || drivers.find(x=>x.status==="PENDENTE");
+  main.innerHTML=header("Processamento","Acompanhe a conferência em tempo real")+progress()+`<div class="process-grid"><div class="panel"><div class="eyebrow">MOTORISTA ATUAL</div>${d?`<h2>${d.nome}</h2><div class="fields"><span>CPF<b>${mask(d.cpf)}</b></span><span>RENACH<b>${d.renach}</b></span></div>`:"<h2>Nenhum motorista aguardando processamento.</h2>"}<div class="processing"><span class="spinner"></span>Pronto para a futura integração de processamento.</div></div><div class="panel"><div class="eyebrow">AÇÕES</div><button class="btn primary" style="width:100%;justify-content:center" onclick="captcha()">⚠ Simular CAPTCHA</button></div></div><div class="alert">⚠ <p>Se o portal solicitar verificação humana, o processamento deverá ser pausado para intervenção manual.</p></div>`}
+function renderResultados(){
+  const processados=drivers.filter(d=>d.status && d.status!=="PENDENTE").length;
+  const atencao=drivers.filter(d=>d.status==="ATENCAO").length;
+  const erros=drivers.filter(d=>d.status==="ERRO").length;
+  const rows=drivers.filter(d=>d.status!=="PENDENTE");
+  main.innerHTML=header("Resultados","Resultados da conferência atual")+`<div class="cards" style="grid-template-columns:repeat(3,1fr)">${card("✓","Total",processados,"Processados")}${card("!","Atenção",atencao,"Revisão manual","yellow")}${card("×","Erros",erros,"Necessitam revisão","red")}</div><div class="panel"><div class="panel-head"><div><h2>Resultados</h2><p>Resultados registrados no Supabase.</p></div><div class="actions"><button class="btn primary" onclick="alert('Exportação será conectada ao backend.')">⇩ Excel</button><button class="btn" onclick="alert('Exportação será conectada ao backend.')">⇩ CSV</button></div></div>${rows.length?table(rows):"<p>Nenhum resultado registrado ainda.</p>"}</div>`
+}
 function renderLogs(){let logs=[["14:32:10","João Silva","Consulta iniciada","INFO"],["14:32:13","João Silva","Resultado recebido","SUCCESS"],["14:33:01","Maria Souza","Erro","ERROR"],["14:33:25","Carlos Oliveira","Consulta concluída","SUCCESS"],["14:34:02","Ana Santos","Atenção","WARNING"]];main.innerHTML=header("Logs","Histórico das atividades do sistema")+`<div class="panel"><div class="table-wrap"><table><thead><tr><th>Horário</th><th>Motorista</th><th>Ação</th><th>Status</th></tr></thead><tbody>${logs.map(l=>`<tr><td>${l[0]}</td><td><b>${l[1]}</b></td><td>${l[2]}</td><td>${badge(l[3]==="SUCCESS"?"SUCESSO":l[3]==="ERROR"?"ERRO":l[3]==="WARNING"?"ATENCAO":"PROCESSANDO")}</td></tr>`).join("")}</tbody></table></div></div>`}
 function renderConfig(){main.innerHTML=header("Configurações","Preferências da interface")+`<div class="settings-grid"><div class="panel setting"><h2>Geral</h2><p>Informações do sistema.</p><label>Nome<input value="DETRAN-MT CNH Checker" readonly></label><label>URL do portal<input value="https://www.detran.mt.gov.br/consulte-sua-habilitacao" readonly></label></div><div class="panel setting"><h2>Processamento</h2><p>Preferências para a futura integração.</p><label>Intervalo mínimo<input type="number" value="1500"></label><label>Intervalo máximo<input type="number" value="4000"></label><label>Limite por execução<input type="number" value="600"></label></div></div><button class="btn primary" onclick="alert('Configurações salvas neste navegador.')">✓ Salvar configurações</button>`}
 function render(){document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));({dashboard:renderDashboard,motoristas:renderMotoristas,importar:renderImportar,processamento:renderProcessamento,resultados:renderResultados,logs:renderLogs,configuracoes:renderConfig}[page]||renderDashboard)()}
