@@ -216,7 +216,7 @@ let execucaoId = localStorage.getItem("cnh_execucao_id") || null;
 function mask(c){return"***.***.***-"+c.slice(-2)}
 function badge(s){let c={SUCESSO:"success",ATENCAO:"attention",ERRO:"error",PENDENTE:"pending",PROCESSANDO:"processing",CAPTCHA:"captcha",BLOQUEADO:"error"}[s]||"pending";let l={SUCESSO:"Sucesso",ATENCAO:"Atenção",ERRO:"Erro",PENDENTE:"Pendente",PROCESSANDO:"Processando",CAPTCHA:"CAPTCHA",BLOQUEADO:"Bloqueado"}[s];return`<span class="badge ${c}">${l}</span>`}
 function header(title,sub){return`<div class="top"><div><h1>${title}</h1><p>${sub}</p></div><div class="top-actions"><span class="system"><i></i>Sistema operacional</span><button class="icon" onclick="toggleTheme()">☾</button><button class="icon" onclick="logout()" title="Sair">↪</button></div></div>`}
-function table(data){return`<div class="table-wrap"><table><thead><tr><th>Nome</th><th>CPF</th><th>RENACH</th><th>Status</th><th>Resultado</th><th>Consulta</th><th>Ações</th></tr></thead><tbody>${data.map(d=>`<tr><td><b>${d.nome}</b></td><td>${mask(d.cpf)}</td><td>${d.renach}</td><td>${badge(d.status)}</td><td>${d.result}</td><td>${d.data}</td><td><button class="view" onclick="openDetails(${JSON.stringify(d.id)})">Ver detalhes</button></td></tr>`).join("")}</tbody></table></div>`}
+function table(data){return`<div class="table-wrap"><table><thead><tr><th>Nome</th><th>CPF</th><th>RENACH</th><th>Status</th><th>Resultado</th><th>Consulta</th><th>Ações</th></tr></thead><tbody>${data.map(d=>`<tr><td><b>${d.nome}</b></td><td>${mask(d.cpf)}</td><td>${d.renach}</td><td>${badge(d.status)}</td><td>${d.result}</td><td>${d.data}</td><td><button class="view" type="button" onclick='openDetails(${JSON.stringify(String(d.id))})'>Ver detalhes</button></td></tr>`).join("")}</tbody></table></div>`}
 function stats(){
   const total = drivers.length;
   const processados = drivers.filter(d => d.status && d.status !== "PENDENTE").length;
@@ -296,7 +296,8 @@ function renderProcessamento(){
       <div><h2>Execução atual</h2><p>Histórico da rodada de processamento.</p></div>
       <span class="badge ${execucaoId ? "processing" : "pending"}">${execucaoId ? "Em andamento" : "Sem execução ativa"}</span>
     </div>
-    <p>${execucaoId ? "Esta rodada será atualizada no Supabase a cada motorista processado." : "Clique em Iniciar próximo para criar uma nova execução no histórico."}</p>
+    <p>${execucaoId ? "Esta rodada será atualizada no Supabase a cada motorista processado. Cancelar não apaga os resultados já concluídos." : "Clique em Iniciar próximo para criar uma nova execução no histórico."}</p>
+    ${execucaoId ? `<button class="btn danger" type="button" onclick="cancelarExecucao()">✕ Cancelar execução</button>` : ""}
   </div>
 
   <div class="panel">
@@ -476,9 +477,38 @@ async function updateDriverStatus(id, status, resultado){
   return {ok:true};
 }
 
-async function iniciarProximo(){
-  if(paused) return;
+async function cancelarExecucao(){
+  if(!execucaoId){
+    alert("Não existe uma execução ativa.");
+    return;
+  }
 
+  const atual=drivers.find(x=>x.status==="PROCESSANDO");
+
+  if(!confirm("Cancelar esta execução? O motorista em processamento voltará para Pendente e os resultados já concluídos serão mantidos.")){
+    return;
+  }
+
+  if(atual){
+    const reset=await updateDriverStatus(atual.id,"PENDENTE","Aguardando processamento");
+    if(!reset.ok){
+      alert("Não foi possível devolver o motorista para Pendente: "+reset.message);
+      return;
+    }
+  }
+
+  const result=await atualizarExecucao("CANCELADA");
+  if(!result.ok){
+    alert("Não foi possível cancelar a execução: "+result.message);
+    return;
+  }
+
+  execucaoId=null;
+  localStorage.removeItem("cnh_execucao_id");
+  render();
+}
+
+async function iniciarProximo(){
   const atual = drivers.find(x=>x.status==="PROCESSANDO");
   if(atual){
     alert("Já existe um motorista em processamento.");
@@ -540,7 +570,38 @@ async function setResultadoAtual(status, resultado){
   render();
 }
 
-function openDetails(id){selected=drivers.find(d=>d.id===id);document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg" id="modal"><div class="modal"><div class="modal-head"><div><h2>Detalhes do motorista</h2><p>Informações da conferência</p></div><button class="close" onclick="document.getElementById('modal').remove()">×</button></div><div class="details"><div><span>Nome</span><b>${selected.nome}</b></div><div><span>CPF</span><b>${mask(selected.cpf)}</b></div><div><span>RENACH</span><b>${selected.renach}</b></div><div><span>Status</span><b>${badge(selected.status)}</b></div><div><span>Resultado</span><b>${selected.result}</b></div><div><span>Data</span><b>${selected.data}</b></div><div><span>Tempo</span><b>${selected.tempo}</b></div><div><span>Tentativas</span><b>${selected.tentativas}</b></div></div><button class="btn primary" style="width:100%;justify-content:center" onclick="document.getElementById('modal').remove()">Fechar</button></div></div>`)}
+function openDetails(id){
+  const key=String(id);
+  selected=drivers.find(d=>String(d.id)===key);
+
+  if(!selected){
+    alert("Não foi possível encontrar os dados deste motorista.");
+    return;
+  }
+
+  const modal=document.getElementById("modal");
+  if(modal) modal.remove();
+
+  document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg" id="modal">
+    <div class="modal">
+      <div class="modal-head">
+        <div><h2>Detalhes do motorista</h2><p>Informações da conferência</p></div>
+        <button class="close" type="button" onclick="document.getElementById('modal')?.remove()">×</button>
+      </div>
+      <div class="details">
+        <div><span>Nome</span><b>${selected.nome||"-"}</b></div>
+        <div><span>CPF</span><b>${mask(selected.cpf||"")}</b></div>
+        <div><span>RENACH</span><b>${selected.renach||"-"}</b></div>
+        <div><span>Status</span><b>${badge(selected.status||"PENDENTE")}</b></div>
+        <div><span>Resultado</span><b>${selected.resultado||selected.result||"-"}</b></div>
+        <div><span>Data da consulta</span><b>${selected.data_consulta ? new Date(selected.data_consulta).toLocaleString("pt-BR") : (selected.data||"-")}</b></div>
+        <div><span>Criado em</span><b>${selected.criado_em ? new Date(selected.criado_em).toLocaleString("pt-BR") : "-"}</b></div>
+        <div><span>ID</span><b style="font-size:9px;word-break:break-all">${selected.id}</b></div>
+      </div>
+      <button class="btn primary" type="button" style="width:100%;justify-content:center" onclick="document.getElementById('modal')?.remove()">Fechar</button>
+    </div>
+  </div>`);
+}
 function captcha(){document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg" id="captchaModal"><div class="modal captcha-box"><div class="captcha-icon">⚠</div><h2>Intervenção necessária</h2><p>O portal solicitou uma verificação humana.</p><div class="alert"><p>Realize a verificação no navegador e depois clique em <b>Continuar</b>.</p></div><div class="modal-actions"><button class="btn" onclick="document.getElementById('captchaModal').remove()">Cancelar</button><button class="btn primary" onclick="document.getElementById('captchaModal').remove()">Continuar</button></div></div></div>`)}
 function toggleTheme(){document.body.style.filter=document.body.style.filter?"":"brightness(.92)"}
 render();
