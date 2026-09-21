@@ -210,6 +210,7 @@ async function logout(){
 const names=["João da Silva","Maria Souza","Carlos Oliveira","Ana Santos","Pedro Almeida","Lucas Ferreira","Juliana Costa","Marcos Pereira","Fernanda Lima","Rafael Gomes","Bruna Martins","Diego Rodrigues","Camila Barbosa","André Carvalho","Larissa Rocha","Gustavo Mendes","Patrícia Nunes","Eduardo Castro","Renata Alves","Thiago Ribeiro"];
 let drivers=[];
 let page="dashboard", selected=null, paused=false, query="", filter="TODOS";
+let execucaoId = localStorage.getItem("cnh_execucao_id") || null;
 
 function mask(c){return"***.***.***-"+c.slice(-2)}
 function badge(s){let c={SUCESSO:"success",ATENCAO:"attention",ERRO:"error",PENDENTE:"pending",PROCESSANDO:"processing",CAPTCHA:"captcha",BLOQUEADO:"error"}[s]||"pending";let l={SUCESSO:"Sucesso",ATENCAO:"Atenção",ERRO:"Erro",PENDENTE:"Pendente",PROCESSANDO:"Processando",CAPTCHA:"CAPTCHA",BLOQUEADO:"Bloqueado"}[s];return`<span class="badge ${c}">${l}</span>`}
@@ -239,7 +240,7 @@ function progress(){
   const erros=drivers.filter(d=>d.status==="ERRO").length;
   const pendentes=drivers.filter(d=>d.status==="PENDENTE" || !d.status).length;
   const pct=total?Math.round(processados/total*100):0;
-  return`<div class="panel"><div class="panel-head"><div><h2>Processamento atual</h2><p>${paused?"O processamento está pausado.":"Conferência em andamento."}</p></div>${badge(paused?"ATENCAO":"PROCESSANDO")}</div><div class="progress"><div style="width:${pct}%"></div></div><div class="progress-row"><b>${processados} / ${total}</b><span>${pct}%</span></div><div class="mini"><div><span>Processados</span><b>${processados}</b></div><div><span>Sucesso</span><b class="green">${sucesso}</b></div><div><span>Atenção</span><b class="yellow">${atencao}</b></div><div><span>Erros</span><b class="red">${erros}</b></div><div><span>Pendentes</span><b>${pendentes}</b></div></div><div class="actions"><button class="btn primary" onclick="pauseResume()">${paused?"▶ Continuar":"Ⅱ Pausar"}</button><button class="btn danger" onclick="paused=true;render()">■ Cancelar</button></div></div>`}
+  return`<div class="panel"><div class="panel-head"><div><h2>Processamento atual</h2><p>${paused?"O processamento está pausado.":"Conferência em andamento."}</p></div>${badge(paused?"ATENCAO":"PROCESSANDO")}</div><div class="progress"><div style="width:${pct}%"></div></div><div class="progress-row"><b>${processados} / ${total}</b><span>${pct}%</span></div><div class="mini"><div><span>Processados</span><b>${processados}</b></div><div><span>Sucesso</span><b class="green">${sucesso}</b></div><div><span>Atenção</span><b class="yellow">${atencao}</b></div><div><span>Erros</span><b class="red">${erros}</b></div><div><span>Pendentes</span><b>${pendentes}</b></div></div><div class="actions"><button class="btn primary" onclick="pauseResume()">${paused?"▶ Continuar":"Ⅱ Pausar"}</button><button class="btn danger" onclick="cancelarExecucao()">■ Cancelar</button></div></div>`}
 
 function renderDashboard(){main.innerHTML=header("Dashboard","Visão geral da conferência de motoristas")+stats()+progress()+`<div class="panel"><div class="panel-head"><div><h2>Últimas consultas</h2><p>Atividade recente do processamento.</p></div></div>${drivers.length?table(drivers.slice(0,8)):"<p>Nenhum motorista cadastrado no Supabase ainda.</p>"}</div>`}
 function renderMotoristas(){let data=drivers.filter(d=>(filter==="TODOS"||d.status===filter)&&(`${d.nome} ${d.cpf} ${d.renach}`).toLowerCase().includes(query.toLowerCase()));main.innerHTML=header("Motoristas","Todos os motoristas importados")+`<div class="toolbar"><div class="search">⌕ <input placeholder="Buscar por nome, CPF ou RENACH..." value="${query}" oninput="query=this.value;render()"></div><select class="select" onchange="filter=this.value;render()"><option value="TODOS">Todos</option><option>PENDENTE</option><option>PROCESSANDO</option><option>SUCESSO</option><option>ATENCAO</option><option>ERRO</option></select></div><div class="panel"><p><b>${data.length}</b> motoristas encontrados</p>${data.length?table(data):"<p>Nenhum motorista encontrado.</p>"}</div>`}
@@ -290,6 +291,13 @@ function renderProcessamento(){
   <div class="alert">
     ⚠ <p><b>Modo de teste:</b> esta etapa controla a fila e grava os status no Supabase. A consulta real ao DETRAN ainda será integrada depois.</p>
   </div>
+  <div class="panel">
+    <div class="panel-head">
+      <div><h2>Execução atual</h2><p>Histórico da rodada de processamento.</p></div>
+      <span class="badge ${execucaoId ? "processing" : "pending"}">${execucaoId ? "Em andamento" : "Sem execução ativa"}</span>
+    </div>
+    <p>${execucaoId ? "Esta rodada será atualizada no Supabase a cada motorista processado." : "Clique em Iniciar próximo para criar uma nova execução."}</p>
+  </div>
 
   <div class="panel">
     <div class="panel-head">
@@ -315,6 +323,69 @@ function renderLogs(){let logs=[["14:32:10","João Silva","Consulta iniciada","I
 function renderConfig(){main.innerHTML=header("Configurações","Preferências da interface")+`<div class="settings-grid"><div class="panel setting"><h2>Geral</h2><p>Informações do sistema.</p><label>Nome<input value="DETRAN-MT CNH Checker" readonly></label><label>URL do portal<input value="https://www.detran.mt.gov.br/consulte-sua-habilitacao" readonly></label></div><div class="panel setting"><h2>Processamento</h2><p>Preferências para a futura integração.</p><label>Intervalo mínimo<input type="number" value="1500"></label><label>Intervalo máximo<input type="number" value="4000"></label><label>Limite por execução<input type="number" value="600"></label></div></div><button class="btn primary" onclick="alert('Configurações salvas neste navegador.')">✓ Salvar configurações</button>`}
 function render(){document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));({dashboard:renderDashboard,motoristas:renderMotoristas,importar:renderImportar,processamento:renderProcessamento,resultados:renderResultados,logs:renderLogs,configuracoes:renderConfig}[page]||renderDashboard)()}
 document.getElementById("nav").onclick=e=>{let b=e.target.closest("button");if(!b)return;page=b.dataset.page;render()};
+async function criarExecucao(){
+  if(!supabaseClient) return {ok:false, message:"Supabase não configurado."};
+
+  const {data:{user}} = await supabaseClient.auth.getUser();
+  if(!user) return {ok:false, message:"Usuário não autenticado."};
+
+  const total = drivers.length;
+  const {data, error} = await supabaseClient
+    .from("execucoes")
+    .insert({
+      usuario_id:user.id,
+      status:"EM_ANDAMENTO",
+      total,
+      processados:drivers.filter(x=>x.status && x.status!=="PENDENTE" && x.status!=="PROCESSANDO").length,
+      sucesso:drivers.filter(x=>x.status==="SUCESSO").length,
+      atencao:drivers.filter(x=>x.status==="ATENCAO").length,
+      erros:drivers.filter(x=>x.status==="ERRO").length
+    })
+    .select("id")
+    .single();
+
+  if(error){
+    console.error(error);
+    return {ok:false, message:error.message};
+  }
+
+  execucaoId=data.id;
+  localStorage.setItem("cnh_execucao_id", execucaoId);
+  return {ok:true, id:execucaoId};
+}
+
+async function atualizarExecucao(status=null){
+  if(!supabaseClient || !execucaoId) return {ok:true};
+
+  const payload={
+    total:drivers.length,
+    processados:drivers.filter(x=>x.status && x.status!=="PENDENTE" && x.status!=="PROCESSANDO").length,
+    sucesso:drivers.filter(x=>x.status==="SUCESSO").length,
+    atencao:drivers.filter(x=>x.status==="ATENCAO").length,
+    erros:drivers.filter(x=>x.status==="ERRO").length
+  };
+
+  if(status) payload.status=status;
+  if(status==="CONCLUIDA" || status==="CANCELADA") payload.finalizado_em=new Date().toISOString();
+
+  const {error}=await supabaseClient.from("execucoes").update(payload).eq("id",execucaoId);
+  if(error){
+    console.error(error);
+    return {ok:false,message:error.message};
+  }
+  return {ok:true};
+}
+
+async function garantirExecucao(){
+  if(execucaoId){
+    const {data,error}=await supabaseClient.from("execucoes").select("id,status").eq("id",execucaoId).maybeSingle();
+    if(!error && data && data.status==="EM_ANDAMENTO") return {ok:true};
+    execucaoId=null;
+    localStorage.removeItem("cnh_execucao_id");
+  }
+  return criarExecucao();
+}
+
 async function updateDriverStatus(id, status, resultado){
   if(!supabaseClient) return {ok:false, message:"Supabase não configurado."};
 
@@ -361,8 +432,15 @@ async function iniciarProximo(){
 
   const d = drivers.find(x=>x.status==="PENDENTE" || !x.status);
   if(!d){
+    await atualizarExecucao("CONCLUIDA");
     alert("Não existem motoristas pendentes.");
     render();
+    return;
+  }
+
+  const exec = await garantirExecucao();
+  if(!exec.ok){
+    alert("Não foi possível iniciar a execução: " + exec.message);
     return;
   }
 
@@ -377,6 +455,7 @@ async function iniciarProximo(){
     return;
   }
 
+  await atualizarExecucao("EM_ANDAMENTO");
   render();
 }
 
@@ -394,10 +473,33 @@ async function setResultadoAtual(status, resultado){
     return;
   }
 
+  const restantes=drivers.filter(x=>x.status==="PENDENTE" || !x.status).length;
+  if(restantes===0){
+    await atualizarExecucao("CONCLUIDA");
+    localStorage.removeItem("cnh_execucao_id");
+    execucaoId=null;
+  }else{
+    await atualizarExecucao("EM_ANDAMENTO");
+  }
+
   render();
 }
 
-function pauseResume(){paused=!paused;render()}
+async function cancelarExecucao(){
+  paused=true;
+  if(execucaoId){
+    await atualizarExecucao("CANCELADA");
+    localStorage.removeItem("cnh_execucao_id");
+    execucaoId=null;
+  }
+  render();
+}
+
+async function pauseResume(){
+  paused=!paused;
+  if(execucaoId) await atualizarExecucao(paused ? "PAUSADA" : "EM_ANDAMENTO");
+  render();
+}
 function openDetails(id){selected=drivers.find(d=>d.id===id);document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg" id="modal"><div class="modal"><div class="modal-head"><div><h2>Detalhes do motorista</h2><p>Informações da conferência</p></div><button class="close" onclick="document.getElementById('modal').remove()">×</button></div><div class="details"><div><span>Nome</span><b>${selected.nome}</b></div><div><span>CPF</span><b>${mask(selected.cpf)}</b></div><div><span>RENACH</span><b>${selected.renach}</b></div><div><span>Status</span><b>${badge(selected.status)}</b></div><div><span>Resultado</span><b>${selected.result}</b></div><div><span>Data</span><b>${selected.data}</b></div><div><span>Tempo</span><b>${selected.tempo}</b></div><div><span>Tentativas</span><b>${selected.tentativas}</b></div></div><button class="btn primary" style="width:100%;justify-content:center" onclick="document.getElementById('modal').remove()">Fechar</button></div></div>`)}
 function captcha(){document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg" id="captchaModal"><div class="modal captcha-box"><div class="captcha-icon">⚠</div><h2>Intervenção necessária</h2><p>O portal solicitou uma verificação humana.</p><div class="alert"><p>Realize a verificação no navegador e depois clique em <b>Continuar</b>.</p></div><div class="modal-actions"><button class="btn" onclick="document.getElementById('captchaModal').remove()">Cancelar</button><button class="btn primary" onclick="document.getElementById('captchaModal').remove()">Continuar</button></div></div></div>`)}
 function toggleTheme(){document.body.style.filter=document.body.style.filter?"":"brightness(.92)"}
