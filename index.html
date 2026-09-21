@@ -219,7 +219,10 @@ let execucaoId = localStorage.getItem("cnh_execucao_id") || null;
 function mask(c){return"***.***.***-"+c.slice(-2)}
 function badge(s){let c={SUCESSO:"success",ATENCAO:"attention",ERRO:"error",PENDENTE:"pending",PROCESSANDO:"processing",CAPTCHA:"captcha",BLOQUEADO:"error"}[s]||"pending";let l={SUCESSO:"Sucesso",ATENCAO:"Atenção",ERRO:"Erro",PENDENTE:"Pendente",PROCESSANDO:"Processando",CAPTCHA:"CAPTCHA",BLOQUEADO:"Bloqueado"}[s];return`<span class="badge ${c}">${l}</span>`}
 function header(title,sub){return`<div class="top"><div><h1>${title}</h1><p>${sub}</p></div><div class="top-actions"><span class="system"><i></i>Sistema operacional</span><button class="icon" onclick="toggleTheme()">☾</button><button class="icon" onclick="logout()" title="Sair">↪</button></div></div>`}
-function table(data){return`<div class="table-wrap"><table><thead><tr><th>Nome</th><th>CPF</th><th>RENACH</th><th>Status</th><th>Resultado</th><th>Consulta</th><th>Ações</th></tr></thead><tbody>${data.map(d=>`<tr><td><b>${d.nome}</b></td><td>${mask(d.cpf)}</td><td>${d.renach}</td><td>${badge(d.status)}</td><td>${d.result}</td><td>${d.data}</td><td><button class="view" type="button" onclick='openDetails(${JSON.stringify(String(d.id))})'>Ver detalhes</button></td></tr>`).join("")}</tbody></table></div>`}
+function table(data){return`<div class="table-wrap"><table><thead><tr><th>Nome</th><th>CPF</th><th>RENACH</th><th>Status</th><th>Resultado</th><th>Consulta</th><th>Ações</th></tr></thead><tbody>${data.map(d=>`<tr><td><b>${d.nome}</b></td><td>${mask(d.cpf)}</td><td>${d.renach}</td><td>${badge(d.status)}</td><td>${d.result}</td><td>${d.data}</td><td style="display:flex;gap:6px;align-items:center">
+  <button class="view" type="button" onclick='openDetails(${JSON.stringify(String(d.id))})'>Ver detalhes</button>
+  ${d.status==="ERRO" ? `<button class="view danger" type="button" title="Excluir registro" onclick='excluirMotorista(${JSON.stringify(String(d.id))})'>🗑</button>` : ""}
+</td></tr>`).join("")}</tbody></table></div>`}
 function stats(){
   const total = drivers.length;
   const processados = drivers.filter(d => d.status && d.status !== "PENDENTE").length;
@@ -323,6 +326,47 @@ function renderResultados(){
   const rows=drivers.filter(d=>d.status!=="PENDENTE");
   main.innerHTML=header("Resultados","Resultados da conferência atual")+`<div class="cards" style="grid-template-columns:repeat(3,1fr)">${card("✓","Total",processados,"Processados")}${card("!","Atenção",atencao,"Revisão manual","yellow")}${card("×","Erros",erros,"Necessitam revisão","red")}</div><div class="panel"><div class="panel-head"><div><h2>Resultados</h2><p>Resultados registrados no Supabase.</p></div><div class="actions"><button class="btn primary" onclick="alert('Exportação será conectada ao backend.')">⇩ Excel</button><button class="btn" onclick="alert('Exportação será conectada ao backend.')">⇩ CSV</button></div></div>${rows.length?table(rows):"<p>Nenhum resultado registrado ainda.</p>"}</div>`
 }
+async function excluirMotorista(id){
+  const key=String(id);
+  const motorista=drivers.find(d=>String(d.id)===key);
+
+  if(!motorista){
+    alert("Motorista não encontrado.");
+    return;
+  }
+
+  if(motorista.status!=="ERRO"){
+    alert("A exclusão pelo botão de lixeira está disponível somente para registros com status ERRO.");
+    return;
+  }
+
+  const ok=confirm(`Excluir o registro de ${motorista.nome}?\n\nEssa ação remove o motorista do Supabase e não pode ser desfeita.`);
+  if(!ok) return;
+
+  if(!supabaseClient){
+    alert("Supabase não configurado.");
+    return;
+  }
+
+  const {error}=await supabaseClient
+    .from("motoristas")
+    .delete()
+    .eq("id", key);
+
+  if(error){
+    console.error(error);
+    alert("Não foi possível excluir: "+error.message);
+    return;
+  }
+
+  const idx=drivers.findIndex(d=>String(d.id)===key);
+  if(idx>=0) drivers.splice(idx,1);
+
+  selected=null;
+  alert("Registro excluído com sucesso.");
+  render();
+}
+
 async function renderExecucoes(){
   main.innerHTML=header("Execuções","Histórico das rodadas de processamento")+
     `<div class="panel" id="execucoesPanel">
