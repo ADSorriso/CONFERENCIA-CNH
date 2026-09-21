@@ -221,7 +221,7 @@ function badge(s){let c={SUCESSO:"success",ATENCAO:"attention",ERRO:"error",PEND
 function header(title,sub){return`<div class="top"><div><h1>${title}</h1><p>${sub}</p></div><div class="top-actions"><span class="system"><i></i>Sistema operacional</span><button class="icon" onclick="toggleTheme()">☾</button><button class="icon" onclick="logout()" title="Sair">↪</button></div></div>`}
 function table(data){return`<div class="table-wrap"><table><thead><tr><th>Nome</th><th>CPF</th><th>RENACH</th><th>Status</th><th>Resultado</th><th>Consulta</th><th>Ações</th></tr></thead><tbody>${data.map(d=>`<tr><td><b>${d.nome}</b></td><td>${mask(d.cpf)}</td><td>${d.renach}</td><td>${badge(d.status)}</td><td>${d.result}</td><td>${d.data}</td><td style="display:flex;gap:6px;align-items:center">
   <button class="view" type="button" onclick='openDetails(${JSON.stringify(String(d.id))})'>Ver detalhes</button>
-  ${d.status==="ERRO" ? `<button class="view danger" type="button" title="Excluir registro" onclick='excluirMotorista(${JSON.stringify(String(d.id))})'>🗑</button>` : ""}
+  <button class="view danger" type="button" title="Excluir registro" onclick='excluirMotorista(${JSON.stringify(String(d.id))})'>🗑</button>
 </td></tr>`).join("")}</tbody></table></div>`}
 function stats(){
   const total = drivers.length;
@@ -335,12 +335,7 @@ async function excluirMotorista(id){
     return;
   }
 
-  if(motorista.status!=="ERRO"){
-    alert("A exclusão pelo botão de lixeira está disponível somente para registros com status ERRO.");
-    return;
-  }
-
-  const ok=confirm(`Excluir o registro de ${motorista.nome}?\n\nEssa ação remove o motorista do Supabase e não pode ser desfeita.`);
+  const ok=confirm(`Excluir o registro de ${motorista.nome}?\n\nEssa ação remove o motorista do Supabase e não pode ser desfeita. O histórico da execução não será apagado.`);
   if(!ok) return;
 
   if(!supabaseClient){
@@ -365,6 +360,12 @@ async function excluirMotorista(id){
   selected=null;
   alert("Registro excluído com sucesso.");
   render();
+}
+
+function badgeExecucaoStatus(status){
+  const labels={EM_ANDAMENTO:"Processando",CONCLUIDA:"Concluída",CANCELADA:"Cancelada",PAUSADA:"Pausada"};
+  const cls={EM_ANDAMENTO:"PROCESSANDO",CONCLUIDA:"SUCESSO",CANCELADA:"PENDENTE",PAUSADA:"ATENCAO"}[status] || "PENDENTE";
+  return `<span class="badge ${cls.toLowerCase()}">${labels[status] || status || "Desconhecido"}</span>`;
 }
 
 async function renderExecucoes(){
@@ -405,7 +406,7 @@ async function renderExecucoes(){
 
   document.getElementById("execucoesBody").innerHTML=data.map(e=>`<tr id="exec-${e.id}">
     <td>${e.criado_em ? new Date(e.criado_em).toLocaleString("pt-BR") : "-"}</td>
-    <td>${badge(e.status==="CONCLUIDA"?"SUCESSO":e.status==="EM_ANDAMENTO"?"PROCESSANDO":e.status==="CANCELADA"?"ERRO":"ATENCAO")}</td>
+    <td>${badgeExecucaoStatus(e.status)}</td>
     <td>${e.total ?? 0}</td>
     <td>${e.processados ?? 0}</td>
     <td class="green"><b>${e.sucesso ?? 0}</b></td>
@@ -454,7 +455,10 @@ async function toggleExecucaoDetalhes(execucaoId){
       <td>${badge(d.status||"PENDENTE")}</td>
       <td>${d.resultado||"-"}</td>
       <td>${d.data_consulta ? new Date(d.data_consulta).toLocaleString("pt-BR") : "-"}</td>
-      <td><button class="view" type="button" onclick='openDetails(${JSON.stringify(String(d.id))})'>Detalhes</button></td>
+      <td style="display:flex;gap:6px;align-items:center">
+  <button class="view" type="button" onclick='openDetails(${JSON.stringify(String(d.id))})'>Detalhes</button>
+  <button class="view danger" type="button" title="Excluir registro" onclick='excluirMotorista(${JSON.stringify(String(d.id))})'>🗑</button>
+</td>
     </tr>`).join("")}</tbody>
   </table></div>`;
 }
