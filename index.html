@@ -1580,9 +1580,8 @@ table{border-collapse:collapse;width:100%;min-width:880px}th,td{padding:10px 11p
   box-shadow:0 9px 18px rgba(12,42,80,.18),inset 0 1px 0 #ffffff22!important;
 }
 .process-main + .panel .btn:before{
-  content:'▣';
-  margin-right:8px;
-  opacity:.9;
+  content:none!important;
+  display:none!important;
 }
 .process-main + .panel .btn:hover{
   transform:translateY(-1px);
@@ -1816,7 +1815,7 @@ function renderProcessamento(){
   selected=d;
   const c=getConferenceDraft(d.id), ready=conferenceReady(c), overall=conferenceOverall(c);
   const summary=ready?`Validade: <b>${conferenceLabel('validade',c.validade)}</b> &nbsp;•&nbsp; Pontuação: <b>${conferenceLabel('pontuacao',c.pontuacao)}</b> &nbsp;•&nbsp; Suspensão: <b>${conferenceLabel('suspensao',c.suspensao)}</b>`:`Selecione uma opção em cada item para registrar a conferência.`;
-  main.innerHTML=header('Processamento','Faça a consulta no portal oficial e registre o resultado')+`<div class="process-grid"><div class="panel process-main"><div class="current"><div class="process-hero-head"><div class="process-driver-title"><div class="eyebrow">MOTORISTA ATUAL</div><h2>${esc(d.nome)}</h2><div class="process-fields"><span>CPF<b>${maskCPF(d.cpf)}</b></span><span>RENACH<b>${esc(d.renach||'—')}</b></span></div></div><div class="process-driver-info"><div class="info-icon"><svg viewBox="0 0 24 24" width="25" height="25" fill="none"><circle cx="12" cy="8" r="3.2" fill="currentColor"/><path d="M5.5 20c.7-4 2.9-6 6.5-6s5.8 2 6.5 6" fill="currentColor"/></svg></div><div><strong>Dados do motorista</strong><span>Confira e realize a consulta no DETRAN-MT.</span></div></div></div><div class="det-card"><h3><svg class="det-title-icon" viewBox="0 0 24 24" fill="none"><path d="M5 19 19 5M9 5h10v10M5 9v10h10" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Consultar no DETRAN-MT</h3><p>Abra a página oficial “Consulte sua Habilitação” em uma nova aba.</p><div class="copy-row"><button class="copy-chip" onclick="copyText('${esc(d.cpf)}','CPF copiado')"><span class="chip-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.4" fill="currentColor"/><path d="M7.5 17c.6-2.2 2-3.3 4.5-3.3s3.9 1.1 4.5 3.3" fill="currentColor"/></svg></span><span><span class="chip-label">CPF</span><b>${maskCPF(d.cpf)}</b></span><span class="chip-copy"><svg viewBox="0 0 24 24" width="15" height="15" fill="none"><rect x="8" y="8" width="11" height="11" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 16V5a2 2 0 0 1 2-2h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button><button class="copy-chip" onclick="copyText('${esc(d.renach||'')}','RENACH copiado')"><span class="chip-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="11" r="2" fill="currentColor"/><path d="M12 10h6M12 14h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><span class="chip-label">RENACH</span><b>${esc(d.renach||'—')}</b></span><span class="chip-copy"><svg viewBox="0 0 24 24" width="15" height="15" fill="none"><rect x="8" y="8" width="11" height="11" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 16V5a2 2 0 0 1 2-2h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button><button class="copy-chip" onclick="copyBoth()"><span class="chip-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="4" y="6" width="10" height="10" rx="2" stroke="currentColor" stroke-width="2"/><rect x="10" y="10" width="10" height="10" rx="2" stroke="currentColor" stroke-width="2"/></svg></span><span><span class="chip-label">Copiar os dois</span><b>CPF e RENACH</b></span></button></div><button class="open-detran" onclick="openDetran()"><svg viewBox="0 0 24 24" width="25" height="25" fill="none"><path d="M5 19 19 5M9 5h10v10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span><span class="open-main">Abrir DETRAN-MT</span><span class="open-sub">Será aberto em uma nova aba</span></span><span class="open-arrow">›</span></button><div class="hint">ⓘ &nbsp; Depois da consulta, volte para esta aba e registre o resultado. O reCAPTCHA continua sendo feito normalmente no portal.</div></div><div class="conference-area"><div class="conference-title"><strong>Resultado da conferência</strong><span>Registre exatamente o que apareceu no portal</span></div><div class="conference-grid">${renderConferenceCard('validade','Validade','✓',[{value:'valida',label:'Válida',hint:'Dentro da validade'},{value:'proxima',label:'Próxima do vencimento',hint:'Requer acompanhamento'},{value:'vencida',label:'Vencida',hint:'Necessita atenção'}],c)}${renderConferenceCard('pontuacao','Pontuação','•',[{value:'sem_alerta',label:'Sem alerta',hint:'Nenhuma pontuação relevante'},{value:'possui',label:'Possui pontuação',hint:'Há pontuação registrada'},{value:'revisao',label:'Requer atenção',hint:'Situação precisa de análise'}],c)}${renderConferenceCard('suspensao','Suspensão','!',[{value:'nao_consta',label:'Não consta',hint:'Nenhuma suspensão indicada'},{value:'consta',label:'Consta suspensão',hint:'Há suspensão registrada'},{value:'revisao',label:'Necessita conferência',hint:'Não foi possível confirmar'}],c)}</div><div class="conference-footer"><div class="conference-summary">${summary}</div><button class="register-btn" ${ready?'':'disabled'} onclick="finishConference()">✓ Registrar conferência</button><button class="register-error" onclick="finishDriver('erro')">Registrar erro</button></div></div></div></div><div class="panel"><div class="eyebrow">COMO FUNCIONA?</div><h2>Consulta assistida</h2><div class="steps"><div class="step"><span class="step-num">1</span><span class="step-copy">Abra o site do <b>DETRAN-MT</b></span><span class="step-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 12h17M12 3c2.3 2.4 3.4 5.4 3.4 9s-1.1 6.6-3.4 9c-2.3-2.4-3.4-5.4-3.4-9S9.7 5.4 12 3Z" stroke="currentColor" stroke-width="1.5"/></svg></span></div><div class="step"><span class="step-num">2</span><span class="step-copy">Preencha o <b>CPF e o RENACH</b></span><span class="step-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="14" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 8h8M8 12h5M8 16h7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span></div><div class="step"><span class="step-num">3</span><span class="step-copy">Resolva o <b>reCAPTCHA</b></span><span class="step-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 19 6v5c0 4.5-2.8 7.6-7 9-4.2-1.4-7-4.5-7-9V6l7-3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m8.5 12 2.1 2.1 4.8-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="step"><span class="step-num">4</span><span class="step-copy">Clique em <b>Consultar</b></span><span class="step-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="10.5" cy="10.5" r="5.8" stroke="currentColor" stroke-width="1.8"/><path d="m15 15 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span></div><div class="step"><span class="step-num">5</span><span class="step-copy">Volte aqui e <b>registre o resultado</b></span><span class="step-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.8"/><path d="m8.5 12 2.2 2.2 4.8-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></div><hr style="border:0;border-top:1px solid #edf0f4;margin:18px 0"><button class="btn detail-driver-btn" style="width:100%" onclick="openDetails('${d.id}')"><span class="detail-driver-main"><span class="detail-driver-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M5 4h10l4 4v12H5V4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 4v5h5M8 13h8M8 16h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span>Ver detalhes do motorista</span></span><span class="detail-driver-side"><span>Visualize todas as informações completas</span><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></div></div>`
+  main.innerHTML=header('Processamento','Faça a consulta no portal oficial e registre o resultado')+`<div class="process-grid"><div class="panel process-main"><div class="current"><div class="process-hero-head"><div class="process-driver-title"><div class="eyebrow">MOTORISTA ATUAL</div><h2>${esc(d.nome)}</h2><div class="process-fields"><span>CPF<b>${maskCPF(d.cpf)}</b></span><span>RENACH<b>${esc(d.renach||'—')}</b></span></div></div><div class="process-driver-info"><div class="info-icon"><svg viewBox="0 0 24 24" width="25" height="25" fill="none"><circle cx="12" cy="8" r="3.2" fill="currentColor"/><path d="M5.5 20c.7-4 2.9-6 6.5-6s5.8 2 6.5 6" fill="currentColor"/></svg></div><div><strong>Dados do motorista</strong><span>Confira e realize a consulta no DETRAN-MT.</span></div></div></div><div class="det-card"><h3><svg class="det-title-icon" viewBox="0 0 24 24" fill="none"><path d="M5 19 19 5M9 5h10v10M5 9v10h10" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Consultar no DETRAN-MT</h3><p>Abra a página oficial “Consulte sua Habilitação” em uma nova aba.</p><div class="copy-row"><button class="copy-chip" onclick="copyText('${esc(d.cpf)}','CPF copiado')"><span class="chip-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.4" fill="currentColor"/><path d="M7.5 17c.6-2.2 2-3.3 4.5-3.3s3.9 1.1 4.5 3.3" fill="currentColor"/></svg></span><span><span class="chip-label">CPF</span><b>${maskCPF(d.cpf)}</b></span><span class="chip-copy"><svg viewBox="0 0 24 24" width="15" height="15" fill="none"><rect x="8" y="8" width="11" height="11" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 16V5a2 2 0 0 1 2-2h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button><button class="copy-chip" onclick="copyText('${esc(d.renach||'')}','RENACH copiado')"><span class="chip-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="11" r="2" fill="currentColor"/><path d="M12 10h6M12 14h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><span class="chip-label">RENACH</span><b>${esc(d.renach||'—')}</b></span><span class="chip-copy"><svg viewBox="0 0 24 24" width="15" height="15" fill="none"><rect x="8" y="8" width="11" height="11" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 16V5a2 2 0 0 1 2-2h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button><button class="copy-chip" onclick="copyBoth()"><span class="chip-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="4" y="6" width="10" height="10" rx="2" stroke="currentColor" stroke-width="2"/><rect x="10" y="10" width="10" height="10" rx="2" stroke="currentColor" stroke-width="2"/></svg></span><span><span class="chip-label">Copiar os dois</span><b>CPF e RENACH</b></span></button></div><button class="open-detran" onclick="openDetran()"><svg viewBox="0 0 24 24" width="25" height="25" fill="none"><path d="M5 19 19 5M9 5h10v10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span><span class="open-main">Abrir DETRAN-MT</span><span class="open-sub">Será aberto em uma nova aba</span></span><span class="open-arrow">›</span></button><div class="hint">ⓘ &nbsp; Depois da consulta, volte para esta aba e registre o resultado. O reCAPTCHA continua sendo feito normalmente no portal.</div></div><div class="conference-area"><div class="conference-title"><strong>Resultado da conferência</strong><span>Registre exatamente o que apareceu no portal</span></div><div class="conference-grid">${renderConferenceCard('validade','Validade','✓',[{value:'valida',label:'Válida',hint:'Dentro da validade'},{value:'proxima',label:'Próxima do vencimento',hint:'Requer acompanhamento'},{value:'vencida',label:'Vencida',hint:'Necessita atenção'}],c)}${renderConferenceCard('pontuacao','Pontuação','•',[{value:'sem_alerta',label:'Sem alerta',hint:'Nenhuma pontuação relevante'},{value:'possui',label:'Possui pontuação',hint:'Há pontuação registrada'},{value:'revisao',label:'Requer atenção',hint:'Situação precisa de análise'}],c)}${renderConferenceCard('suspensao','Suspensão','!',[{value:'nao_consta',label:'Não consta',hint:'Nenhuma suspensão indicada'},{value:'consta',label:'Consta suspensão',hint:'Há suspensão registrada'},{value:'revisao',label:'Necessita conferência',hint:'Não foi possível confirmar'}],c)}</div><div class="conference-footer"><div class="conference-summary">${summary}</div><button class="register-btn" ${ready?'':'disabled'} onclick="finishConference()">✓ Registrar conferência</button><button class="register-error" onclick="finishDriver('erro')">Registrar erro</button></div></div></div></div><div class="panel"><div class="eyebrow">COMO FUNCIONA?</div><h2>Consulta assistida</h2><div class="steps"><div class="step"><span class="step-num">1</span><span class="step-copy">Abra o site do <b>DETRAN-MT</b></span><span class="step-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 12h17M12 3c2.3 2.4 3.4 5.4 3.4 9s-1.1 6.6-3.4 9c-2.3-2.4-3.4-5.4-3.4-9S9.7 5.4 12 3Z" stroke="currentColor" stroke-width="1.5"/></svg></span></div><div class="step"><span class="step-num">2</span><span class="step-copy">Preencha o <b>CPF e o RENACH</b></span><span class="step-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="14" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 8h8M8 12h5M8 16h7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span></div><div class="step"><span class="step-num">3</span><span class="step-copy">Resolva o <b>reCAPTCHA</b></span><span class="step-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 19 6v5c0 4.5-2.8 7.6-7 9-4.2-1.4-7-4.5-7-9V6l7-3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m8.5 12 2.1 2.1 4.8-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="step"><span class="step-num">4</span><span class="step-copy">Clique em <b>Consultar</b></span><span class="step-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="10.5" cy="10.5" r="5.8" stroke="currentColor" stroke-width="1.8"/><path d="m15 15 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span></div><div class="step"><span class="step-num">5</span><span class="step-copy">Volte aqui e <b>registre o resultado</b></span><span class="step-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.8"/><path d="m8.5 12 2.2 2.2 4.8-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></div><hr style="border:0;border-top:1px solid #edf0f4;margin:18px 0"><button class="btn detail-driver-btn" style="width:100%" onclick="openDetails('${d.id}')"><span class="detail-driver-main"><span>Ver detalhes do motorista</span></span><span class="detail-driver-side"><span>Visualize todas as informações completas</span><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></div></div>`
 }
 
 async function copyText(value,label){try{await navigator.clipboard.writeText(String(value||''));msg(label)}catch{msg('Não foi possível copiar automaticamente.',true)}}
@@ -2195,6 +2194,250 @@ setInterval(()=>{const el=document.getElementById('dashboardTime');const de=docu
  .process-page-ref .process-main + .panel .step:not(:last-child):after{display:none!important}
 }
 
+</style>
+
+
+<style id="consulta-assistida-design-moderno-v2">
+/* ===== CONSULTA ASSISTIDA — DESIGN MODERNO DA REFERÊNCIA ===== */
+.process-page-ref .process-main + .panel{
+  position:relative!important;
+  margin-top:22px!important;
+  padding:30px 28px 28px!important;
+  border:1px solid #d8e8fb!important;
+  border-radius:24px!important;
+  background:linear-gradient(145deg,#ffffff 0%,#f7fbff 100%)!important;
+  box-shadow:0 18px 42px rgba(25,78,137,.09), inset 0 1px 0 rgba(255,255,255,.95)!important;
+  overflow:hidden!important;
+}
+.process-page-ref .process-main + .panel::after{
+  content:"";
+  position:absolute;
+  right:-70px;
+  bottom:-95px;
+  width:520px;
+  height:210px;
+  border-radius:50%;
+  background:radial-gradient(ellipse at center,rgba(30,132,242,.10) 0%,rgba(30,132,242,.035) 45%,transparent 72%);
+  pointer-events:none;
+}
+.process-page-ref .process-main + .panel .eyebrow{
+  position:relative!important;
+  z-index:2!important;
+  margin:0 0 6px!important;
+  color:#0877df!important;
+  font-size:10px!important;
+  font-weight:900!important;
+  letter-spacing:1.1px!important;
+}
+.process-page-ref .process-main + .panel .eyebrow:before{
+  width:9px!important;height:9px!important;
+  background:#1489f4!important;
+  box-shadow:0 0 0 4px #e5f3ff!important;
+}
+.process-page-ref .process-main + .panel h2{
+  position:relative!important;
+  z-index:2!important;
+  margin:0!important;
+  color:#092f67!important;
+  font-size:28px!important;
+  line-height:1.08!important;
+  letter-spacing:-.8px!important;
+  font-weight:950!important;
+}
+.process-page-ref .process-main + .panel h2:after{
+  display:block!important;
+  margin-top:8px!important;
+  color:#617a9b!important;
+  font-size:14px!important;
+  line-height:1.4!important;
+  font-weight:500!important;
+  letter-spacing:0!important;
+}
+/* selo do cabeçalho */
+.process-page-ref .process-main + .panel::before{
+  content:"⚡  Processo rápido e seguro\\A    Em poucos minutos você registra o resultado";
+  white-space:pre;
+  position:absolute;
+  top:30px;
+  right:28px;
+  z-index:3;
+  min-width:280px;
+  padding:14px 18px 14px 46px;
+  border-radius:18px;
+  color:#1267c8;
+  background:linear-gradient(135deg,#eaf5ff,#e1efff);
+  box-shadow:inset 0 1px 0 #fff,0 7px 18px rgba(22,105,200,.06);
+  font-size:11px;
+  line-height:1.45;
+  font-weight:900;
+}
+.process-page-ref .process-main + .panel .steps{
+  position:relative!important;
+  z-index:2!important;
+  display:grid!important;
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  gap:18px!important;
+  margin-top:28px!important;
+  align-items:stretch!important;
+}
+.process-page-ref .process-main + .panel .step{
+  position:relative!important;
+  min-height:210px!important;
+  padding:28px 28px 24px!important;
+  display:grid!important;
+  grid-template-columns:1fr auto!important;
+  grid-template-rows:auto 1fr!important;
+  align-items:start!important;
+  gap:0!important;
+  border:1px solid #d6e7fa!important;
+  border-radius:22px!important;
+  background:linear-gradient(145deg,#ffffff 0%,#fbfdff 100%)!important;
+  box-shadow:0 10px 26px rgba(21,83,148,.07),inset 0 1px 0 #fff!important;
+  color:#0b3167!important;
+  text-align:left!important;
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease!important;
+  overflow:visible!important;
+}
+.process-page-ref .process-main + .panel .step:hover{
+  transform:translateY(-3px)!important;
+  border-color:#b9d9f8!important;
+  box-shadow:0 16px 32px rgba(21,83,148,.11),inset 0 1px 0 #fff!important;
+}
+.process-page-ref .process-main + .panel .step-num{
+  grid-column:1!important;grid-row:1!important;
+  width:52px!important;height:52px!important;min-width:52px!important;
+  border-radius:50%!important;
+  display:grid!important;place-items:center!important;
+  background:linear-gradient(145deg,#e8f4ff,#d7ebff)!important;
+  color:#075fc6!important;
+  font-size:23px!important;font-weight:950!important;
+  box-shadow:inset 1px 1px 3px #fff,0 7px 16px rgba(23,116,221,.10)!important;
+}
+.process-page-ref .process-main + .panel .step-icon{
+  grid-column:2!important;grid-row:1!important;
+  width:58px!important;height:58px!important;min-width:58px!important;
+  border-radius:17px!important;
+  display:grid!important;place-items:center!important;
+  color:#0875dd!important;
+  background:linear-gradient(145deg,#edf7ff,#e0efff)!important;
+  box-shadow:inset 1px 1px 3px #fff,0 7px 16px rgba(25,112,211,.08)!important;
+}
+.process-page-ref .process-main + .panel .step-icon svg{width:31px!important;height:31px!important}
+.process-page-ref .process-main + .panel .step-copy{
+  grid-column:1 / -1!important;grid-row:2!important;
+  align-self:end!important;
+  min-width:0!important;
+  padding-top:25px!important;
+  color:#122f5c!important;
+  font-size:16px!important;
+  line-height:1.35!important;
+  font-weight:700!important;
+  text-align:left!important;
+}
+.process-page-ref .process-main + .panel .step-copy b{
+  color:#092d65!important;
+  font-weight:950!important;
+}
+.process-page-ref .process-main + .panel .step-copy:after{
+  display:block!important;
+  margin-top:10px!important;
+  color:#667f9f!important;
+  font-size:13px!important;
+  line-height:1.45!important;
+  font-weight:500!important;
+}
+.process-page-ref .process-main + .panel .step:nth-child(1) .step-copy:after{content:"Acesse o portal oficial do DETRAN-MT."}
+.process-page-ref .process-main + .panel .step:nth-child(2) .step-copy:after{content:"Informe os dados do motorista no sistema."}
+.process-page-ref .process-main + .panel .step:nth-child(3) .step-copy:after{content:"Confirme que você não é um robô."}
+.process-page-ref .process-main + .panel .step:nth-child(4) .step-copy:after{content:"Aguarde o sistema processar as informações."}
+.process-page-ref .process-main + .panel .step:nth-child(5) .step-copy:after{content:"Selecione as opções e salve a conferência."}
+.process-page-ref .process-main + .panel .step:not(:last-child):after{
+  content:'›'!important;
+  position:absolute!important;
+  right:-28px!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  width:48px!important;height:48px!important;
+  border:1px solid #d5e8fc!important;
+  border-radius:50%!important;
+  display:grid!important;place-items:center!important;
+  background:#fff!important;
+  color:#1682e9!important;
+  font-size:32px!important;
+  line-height:1!important;
+  font-weight:400!important;
+  box-shadow:0 7px 18px rgba(19,106,201,.08)!important;
+  z-index:10!important;
+}
+/* CTA inferior */
+.process-page-ref .process-main + .panel .detail-driver-btn,
+.process-page-ref .process-main + .panel .btn.detail-driver-btn{
+  position:relative!important;
+  z-index:3!important;
+  width:100%!important;
+  min-height:108px!important;
+  height:auto!important;
+  margin-top:28px!important;
+  padding:18px 28px!important;
+  border:1px solid #1c62b5!important;
+  border-radius:20px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:24px!important;
+  text-align:left!important;
+  color:#fff!important;
+  background:linear-gradient(110deg,#173d75 0%,#124e9d 56%,#075ec8 100%)!important;
+  box-shadow:0 14px 28px rgba(9,53,111,.24),inset 0 1px 0 rgba(255,255,255,.14)!important;
+  overflow:hidden!important;
+}
+.process-page-ref .process-main + .panel .detail-driver-btn:before{
+  content:""!important;
+  position:absolute!important;
+  width:500px!important;height:180px!important;
+  right:25%!important;bottom:-110px!important;
+  border-radius:50%!important;
+  background:rgba(44,145,255,.18)!important;
+  filter:blur(2px)!important;
+  pointer-events:none!important;
+}
+.process-page-ref .process-main + .panel .detail-driver-main{
+  display:flex!important;align-items:center!important;gap:0!important;
+  font-size:20px!important;font-weight:900!important;
+  position:relative!important;z-index:2!important;
+}
+.process-page-ref .process-main + .panel .detail-driver-main > span:last-child:after{
+  content:'→'!important;margin-left:12px!important;font-size:27px!important;font-weight:500!important;vertical-align:-2px!important
+}
+.process-page-ref .process-main + .panel .detail-driver-side{
+  display:flex!important;align-items:center!important;gap:16px!important;
+  padding-left:28px!important;border-left:1px solid rgba(255,255,255,.18)!important;
+  color:#dcecff!important;font-size:14px!important;font-weight:600!important;
+  position:relative!important;z-index:2!important;
+}
+.process-page-ref .process-main + .panel .detail-driver-side svg{width:27px!important;height:27px!important;color:#fff!important}
+@media(max-width:1200px){
+ .process-page-ref .process-main + .panel::before{min-width:250px;right:20px}
+ .process-page-ref .process-main + .panel .step{min-height:190px!important;padding:22px!important}
+ .process-page-ref .process-main + .panel .step-copy{font-size:14px!important}
+ .process-page-ref .process-main + .panel .step-copy:after{font-size:12px!important}
+ .process-page-ref .process-main + .panel .detail-driver-main{font-size:17px!important}
+ .process-page-ref .process-main + .panel .detail-driver-side{font-size:12px!important}
+}
+@media(max-width:900px){
+ .process-page-ref .process-main + .panel{padding:24px 20px 22px!important}
+ .process-page-ref .process-main + .panel::before{position:relative!important;top:auto!important;right:auto!important;display:block!important;width:max-content!important;min-width:0!important;margin:16px 0 0 auto!important}
+ .process-page-ref .process-main + .panel .steps{grid-template-columns:1fr 1fr!important;gap:14px!important}
+ .process-page-ref .process-main + .panel .step:not(:last-child):after{display:none!important}
+ .process-page-ref .process-main + .panel .detail-driver-btn{flex-direction:column!important;align-items:flex-start!important}
+ .process-page-ref .process-main + .panel .detail-driver-side{border-left:0!important;border-top:1px solid rgba(255,255,255,.18)!important;padding:14px 0 0!important;width:100%!important}
+}
+@media(max-width:560px){
+ .process-page-ref .process-main + .panel h2{font-size:23px!important}
+ .process-page-ref .process-main + .panel .steps{grid-template-columns:1fr!important}
+ .process-page-ref .process-main + .panel .step{min-height:170px!important}
+ .process-page-ref .process-main + .panel .detail-driver-main{font-size:15px!important}
+}
 </style>
 
 </body>
