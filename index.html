@@ -1742,15 +1742,18 @@ function mfaMessage(id,text,type='info'){const e=document.getElementById(id);if(
 function onlyDigits(v){return String(v||'').replace(/\D/g,'').slice(0,6)}
 function bindMFACodeInputs(){['mfaEnrollCode','mfaChallengeCode'].forEach(id=>{const e=document.getElementById(id);if(e&&!e.dataset.bound){e.dataset.bound='1';e.addEventListener('input',()=>{e.value=onlyDigits(e.value)});e.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();id==='mfaEnrollCode'?confirmMFAEnrollment():verifyMFAChallenge()}})}})}
 async function loadAuthenticatedApp(){showSystem();await loadDrivers();setupAutoRefresh();render()}
-function mfaQrDataUri(svg){
-  const s=String(svg||'').trim();
+function mfaQrDataUri(qr){
+  const s=String(qr||'').trim();
   if(!s)return '';
-  try{
-    const bytes=unescape(encodeURIComponent(s));
-    return 'data:image/svg+xml;base64,'+btoa(bytes);
-  }catch(_){
-    return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);
+  // Supabase may return the QR as a ready-to-use data URI or as raw SVG.
+  if(/^data:image\//i.test(s)) return s;
+  if(/^<svg[\s>]/i.test(s)){
+    try{
+      return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);
+    }catch(_){ return ''; }
   }
+  // Also accept a plain URI returned by the SDK.
+  return s;
 }
 async function beginMFAEnrollment(){
   showMFAOverlay('setup');
@@ -1773,10 +1776,12 @@ async function beginMFAEnrollment(){
       try{await supabaseClient.auth.mfa.unenroll({factorId:f.id})}catch(_){}
     }
 
-    // friendlyName is intentionally omitted so an old factor name cannot
-    // block enrollment with mfa_factor_name_conflict.
+    // Use a unique friendly name. Supabase can reject enrollment when an
+    // older factor already exists with the same (including empty) name.
+    const friendlyName='CNH CHECKER 2FA '+Date.now();
     const {data,error}=await supabaseClient.auth.mfa.enroll({
       factorType:'totp',
+      friendlyName,
       issuer:'CNH CHECKER'
     });
     if(error)throw error;
