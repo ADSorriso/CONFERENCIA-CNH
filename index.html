@@ -1046,6 +1046,13 @@ table{border-collapse:collapse;width:100%;min-width:880px}th,td{padding:10px 11p
 @media(max-width:520px){
   .process-main + .panel .steps{grid-template-columns:1fr!important}
 }
+
+/* MFA */
+.mfa-overlay{position:fixed;inset:0;background:linear-gradient(135deg,#07183d,#174e9d);display:none;place-items:center;padding:20px;z-index:10000;overflow:auto}
+.mfa-card{width:min(470px,100%);background:#fff;border-radius:22px;padding:28px;box-shadow:0 25px 90px #0006}
+.mfa-brand{display:flex;align-items:center;gap:12px;margin-bottom:18px}.mfa-brand-icon{width:46px;height:46px;border-radius:13px;background:linear-gradient(145deg,#0b58c8,#06357f);display:grid;place-items:center;color:#fff;font-weight:900;font-size:20px;box-shadow:0 7px 16px #06357f33}.mfa-brand b{display:block;font-size:17px}.mfa-brand small{color:#71809a}
+.mfa-card h1{margin:0 0 7px;font-size:23px;color:#10284f}.mfa-card p{color:#71809a;font-size:13px;line-height:1.55}.mfa-qr-wrap{width:210px;height:210px;margin:18px auto;padding:12px;border-radius:18px;background:#fff;border:1px solid #dbe6f4;box-shadow:inset 1px 1px 3px #fff,0 9px 22px #123e7812;display:grid;place-items:center}.mfa-qr{width:100%;height:100%;display:block}.mfa-code{width:100%;height:52px;border:1px solid #d8e1ec;border-radius:12px;text-align:center;font-size:25px;font-weight:800;letter-spacing:7px;color:#123e78;outline:0;box-shadow:inset 2px 2px 5px #dce5ef}.mfa-code:focus{border-color:#4a8de8;box-shadow:0 0 0 3px #4a8de81c,inset 2px 2px 5px #dce5ef}.mfa-btn{width:100%;height:46px;margin-top:14px;border:0;border-radius:11px;background:linear-gradient(135deg,#062e72,#0a4eb8);color:#fff;font-weight:800;box-shadow:0 7px 16px #0a3f9233;cursor:pointer}.mfa-btn:disabled{opacity:.55;cursor:not-allowed}.mfa-secondary{width:100%;height:42px;margin-top:9px;border:1px solid #d8e3ef;border-radius:11px;background:#f7faff;color:#214b80;font-weight:700;cursor:pointer}.mfa-message{display:none;margin-top:12px;padding:11px;border-radius:10px;font-size:12px;line-height:1.4}.mfa-message.error{display:block;background:#fff0f0;color:#b93636}.mfa-message.info{display:block;background:#eef6ff;color:#205b9e}.mfa-note{font-size:11px!important;text-align:center;margin-top:14px!important;color:#8a97aa!important}.mfa-step{display:flex;gap:8px;align-items:center;margin:12px 0 0;padding:10px 12px;border-radius:10px;background:#f4f8fe;color:#456789;font-size:12px}.mfa-step b{width:22px;height:22px;border-radius:50%;background:#0a4eb8;color:#fff;display:grid;place-items:center;flex:0 0 22px}
+@media(max-width:520px){.mfa-card{padding:22px}.mfa-qr-wrap{width:190px;height:190px}.mfa-code{font-size:22px;letter-spacing:5px}}
 </style>
 </head>
 <body>
@@ -1060,6 +1067,33 @@ table{border-collapse:collapse;width:100%;min-width:880px}th,td{padding:10px 11p
     </form>
     <div id="loginMessage" class="login-message"></div>
     <p style="text-align:center;font-size:10px;margin-top:18px">Acesso protegido por Supabase Auth</p>
+  </div>
+</div>
+
+<div class="mfa-overlay" id="mfaSetupOverlay">
+  <div class="mfa-card">
+    <div class="mfa-brand"><div class="mfa-brand-icon">✓</div><div><b>CNH CHECKER</b><small>DETRAN-MT • Segurança</small></div></div>
+    <h1>Ative a verificação em 2 etapas</h1>
+    <p>Para proteger o acesso ao sistema, configure um autenticador no seu celular. Use Google Authenticator, Authy ou outro aplicativo compatível com TOTP.</p>
+    <div class="mfa-step"><b>1</b><span>Abra o aplicativo autenticador e escaneie o QR Code abaixo.</span></div>
+    <div class="mfa-qr-wrap"><img id="mfaQr" class="mfa-qr" alt="QR Code para configurar autenticação em duas etapas"></div>
+    <div class="mfa-step"><b>2</b><span>Digite aqui o código de 6 dígitos mostrado no aplicativo.</span></div>
+    <div style="margin-top:12px"><input id="mfaEnrollCode" class="mfa-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" aria-label="Código do autenticador"></div>
+    <button class="mfa-btn" id="mfaEnrollBtn" type="button" onclick="confirmMFAEnrollment()">Ativar proteção</button>
+    <div id="mfaEnrollMessage" class="mfa-message"></div>
+    <p class="mfa-note">Não compartilhe o QR Code nem o segredo de configuração com ninguém.</p>
+  </div>
+</div>
+
+<div class="mfa-overlay" id="mfaChallengeOverlay">
+  <div class="mfa-card">
+    <div class="mfa-brand"><div class="mfa-brand-icon">✓</div><div><b>CNH CHECKER</b><small>DETRAN-MT • Segurança</small></div></div>
+    <h1>Verificação em duas etapas</h1>
+    <p>Digite o código de 6 dígitos exibido no seu aplicativo autenticador para continuar.</p>
+    <div style="margin-top:18px"><input id="mfaChallengeCode" class="mfa-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" aria-label="Código do autenticador"></div>
+    <button class="mfa-btn" id="mfaChallengeBtn" type="button" onclick="verifyMFAChallenge()">Verificar e entrar</button>
+    <button class="mfa-secondary" type="button" onclick="logoutFromMFA()">Sair</button>
+    <div id="mfaChallengeMessage" class="mfa-message"></div>
   </div>
 </div>
 
@@ -1701,11 +1735,78 @@ function saveSettings(v){localStorage.setItem(APP_SETTINGS_KEY,JSON.stringify(v)
 
 function msg(t,error=false){const e=document.createElement('div');e.className='toast'+(error?' error':'');e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2600)}
 function setLogin(t,type='info'){loginMessage.textContent=t;loginMessage.className='login-message '+type}
-function showSystem(){loginOverlay.style.display='none'} function showLogin(){loginOverlay.style.display='grid'}
-async function initAuth(){const {data,error}=await supabaseClient.auth.getSession();if(error){setLogin('Erro ao verificar sessão.','error');return}currentUser=data.session?.user||null;if(data.session)showSystem();else showLogin();supabaseClient.auth.onAuthStateChange((_e,s)=>{currentUser=s?.user||null;if(s)showSystem();else showLogin();});}
-
-loginForm.addEventListener('submit',async e=>{e.preventDefault();setLogin('Entrando...','info');const {error}=await supabaseClient.auth.signInWithPassword({email:loginEmail.value.trim(),password:loginPassword.value});if(error){setLogin('E-mail ou senha inválidos.','error');return}currentUser=(await supabaseClient.auth.getUser()).data.user||null;showSystem();await loadDrivers();setupAutoRefresh();render()});
+function showSystem(){loginOverlay.style.display='none';document.getElementById('mfaSetupOverlay').style.display='none';document.getElementById('mfaChallengeOverlay').style.display='none'}
+function showLogin(){loginOverlay.style.display='grid';document.getElementById('mfaSetupOverlay').style.display='none';document.getElementById('mfaChallengeOverlay').style.display='none'}
+function showMFAOverlay(id){document.getElementById('mfaSetupOverlay').style.display=id==='setup'?'grid':'none';document.getElementById('mfaChallengeOverlay').style.display=id==='challenge'?'grid':'none'}
+function mfaMessage(id,text,type='info'){const e=document.getElementById(id);if(!e)return;e.textContent=text;e.className='mfa-message '+type}
+function onlyDigits(v){return String(v||'').replace(/\D/g,'').slice(0,6)}
+function bindMFACodeInputs(){['mfaEnrollCode','mfaChallengeCode'].forEach(id=>{const e=document.getElementById(id);if(e&&!e.dataset.bound){e.dataset.bound='1';e.addEventListener('input',()=>{e.value=onlyDigits(e.value)});e.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();id==='mfaEnrollCode'?confirmMFAEnrollment():verifyMFAChallenge()}})}})}
+async function loadAuthenticatedApp(){showSystem();await loadDrivers();setupAutoRefresh();render()}
+async function beginMFAEnrollment(){
+  showMFAOverlay('setup');mfaMessage('mfaEnrollMessage','Preparando seu QR Code...','info');
+  try{
+    const factors=await supabaseClient.auth.mfa.listFactors();
+    if(factors.error)throw factors.error;
+    const pending=(factors.data?.totp||[]).filter(f=>f.status!=='verified');
+    for(const f of pending){try{await supabaseClient.auth.mfa.unenroll({factorId:f.id})}catch(_){} }
+    const {data,error}=await supabaseClient.auth.mfa.enroll({factorType:'totp',issuer:'CNH CHECKER',friendlyName:'CNH CHECKER'});
+    if(error)throw error;
+    window.cnhMfaFactorId=data.id;
+    const qr=data?.totp?.qr_code||'';
+    const img=document.getElementById('mfaQr');
+    if(!qr)throw new Error('O Supabase não retornou o QR Code.');
+    img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(qr);
+    document.getElementById('mfaEnrollCode').value='';
+    mfaMessage('mfaEnrollMessage','Escaneie o QR Code e digite o código de 6 dígitos.','info');
+    bindMFACodeInputs();setTimeout(()=>document.getElementById('mfaEnrollCode')?.focus(),100);
+  }catch(err){console.error(err);mfaMessage('mfaEnrollMessage','Não foi possível preparar a autenticação: '+(err?.message||'erro desconhecido'),'error')}
+}
+async function confirmMFAEnrollment(){
+  const code=onlyDigits(document.getElementById('mfaEnrollCode')?.value);if(code.length!==6){mfaMessage('mfaEnrollMessage','Digite o código de 6 dígitos do seu autenticador.','error');return}
+  const btn=document.getElementById('mfaEnrollBtn');btn.disabled=true;btn.textContent='Verificando...';mfaMessage('mfaEnrollMessage','Validando o código...','info');
+  try{
+    const challenge=await supabaseClient.auth.mfa.challenge({factorId:window.cnhMfaFactorId});if(challenge.error)throw challenge.error;
+    const verify=await supabaseClient.auth.mfa.verify({factorId:window.cnhMfaFactorId,challengeId:challenge.data.id,code});if(verify.error)throw verify.error;
+    mfaMessage('mfaEnrollMessage','Proteção ativada com sucesso.','info');await loadAuthenticatedApp();
+  }catch(err){console.error(err);mfaMessage('mfaEnrollMessage','Código inválido ou expirado. Confira o aplicativo e tente novamente.','error');document.getElementById('mfaEnrollCode').value='';document.getElementById('mfaEnrollCode').focus()}
+  finally{btn.disabled=false;btn.textContent='Ativar proteção'}
+}
+async function beginMFAChallenge(){
+  showMFAOverlay('challenge');mfaMessage('mfaChallengeMessage','Preparando verificação...','info');
+  try{
+    const factors=await supabaseClient.auth.mfa.listFactors();if(factors.error)throw factors.error;
+    const factor=(factors.data?.totp||[]).find(f=>f.status==='verified');if(!factor)throw new Error('Nenhum autenticador verificado foi encontrado.');
+    window.cnhMfaFactorId=factor.id;
+    const challenge=await supabaseClient.auth.mfa.challenge({factorId:factor.id});if(challenge.error)throw challenge.error;
+    window.cnhMfaChallengeId=challenge.data.id;mfaMessage('mfaChallengeMessage','Digite o código atual do seu aplicativo autenticador.','info');bindMFACodeInputs();setTimeout(()=>document.getElementById('mfaChallengeCode')?.focus(),100);
+  }catch(err){console.error(err);mfaMessage('mfaChallengeMessage','Não foi possível iniciar a verificação: '+(err?.message||'erro desconhecido'),'error')}
+}
+async function verifyMFAChallenge(){
+  const code=onlyDigits(document.getElementById('mfaChallengeCode')?.value);if(code.length!==6){mfaMessage('mfaChallengeMessage','Digite o código de 6 dígitos.','error');return}
+  const btn=document.getElementById('mfaChallengeBtn');btn.disabled=true;btn.textContent='Verificando...';
+  try{
+    const verify=await supabaseClient.auth.mfa.verify({factorId:window.cnhMfaFactorId,challengeId:window.cnhMfaChallengeId,code});if(verify.error)throw verify.error;
+    const aal=await supabaseClient.auth.mfa.getAuthenticatorAssuranceLevel();if(aal.error)throw aal.error;
+    if(aal.data?.currentLevel!=='aal2')throw new Error('A sessão ainda não foi elevada para AAL2.');
+    await loadAuthenticatedApp();
+  }catch(err){console.error(err);mfaMessage('mfaChallengeMessage','Código inválido ou expirado. Tente novamente.','error');document.getElementById('mfaChallengeCode').value='';document.getElementById('mfaChallengeCode').focus()}
+  finally{btn.disabled=false;btn.textContent='Verificar e entrar'}
+}
+async function gateSession(session){
+  if(!session){currentUser=null;showLogin();return}
+  currentUser=session.user;
+  try{
+    const aal=await supabaseClient.auth.mfa.getAuthenticatorAssuranceLevel();if(aal.error)throw aal.error;
+    if(aal.data?.currentLevel==='aal2'){await loadAuthenticatedApp();return}
+    const factors=await supabaseClient.auth.mfa.listFactors();if(factors.error)throw factors.error;
+    const verified=(factors.data?.totp||[]).some(f=>f.status==='verified');
+    if(verified)await beginMFAChallenge();else await beginMFAEnrollment();
+  }catch(err){console.error(err);showLogin();setLogin('Não foi possível validar a autenticação em duas etapas.','error')}
+}
+async function initAuth(){const {data,error}=await supabaseClient.auth.getSession();if(error){setLogin('Erro ao verificar sessão.','error');return}await gateSession(data.session);supabaseClient.auth.onAuthStateChange((_e,s)=>{if(_e==='SIGNED_OUT'){showLogin();return}if(s)setTimeout(()=>gateSession(s),0);});}
+loginForm.addEventListener('submit',async e=>{e.preventDefault();setLogin('Entrando...','info');const {error}=await supabaseClient.auth.signInWithPassword({email:loginEmail.value.trim(),password:loginPassword.value});if(error){setLogin('E-mail ou senha inválidos.','error');return}setLogin('Senha confirmada. Verificando proteção...','info');});
 async function logout(){const {error}=await supabaseClient.auth.signOut();if(error){msg('Não foi possível sair do sistema.',true);return}currentUser=null;showLogin();msg('Sessão encerrada.')}
+async function logoutFromMFA(){await logout()}
 function maskCPF(cpf){const s=String(cpf||'').replace(/\D/g,'');return s.length>=11?s.slice(0,3)+'.***.***-'+s.slice(-2):s||'—'}
 function fullCPF(cpf){const s=String(cpf||'').replace(/\D/g,'');return s.length===11?s.slice(0,3)+'.'+s.slice(3,6)+'.'+s.slice(6,9)+'-'+s.slice(9):String(cpf||'—')}
 function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
@@ -2109,7 +2210,7 @@ function renderExecucoes(){
 }
 function render(){document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));({dashboard:renderDashboard,motoristas:renderMotoristas,processamento:renderProcessamento,execucoes:renderExecucoes}[page]||renderDashboard)()}
 document.getElementById('nav').onclick=e=>{const b=e.target.closest('button');if(!b)return;page=b.dataset.page;render()}
-supabaseClient.auth.getSession().then(({data})=>{currentUser=data.session?.user||null;if(data.session){showSystem();loadDrivers().then(()=>{setupAutoRefresh();render()})}else showLogin()});
+initAuth();
 setInterval(()=>{const el=document.getElementById('dashboardTime');const de=document.getElementById('dashboardDate');if(el){const now=new Date();el.textContent=now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}if(de){const now=new Date();de.textContent=now.toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'});}},1000);
 
 </script>
