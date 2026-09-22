@@ -594,9 +594,10 @@ table{min-width:980px}th,td{padding:14px 13px;font-size:11px}th{font-size:9px}td
   font-size:16px;line-height:1;box-shadow:inset 1px 1px 2px rgba(255,255,255,.10),inset -2px -3px 5px rgba(0,0,0,.25),0 4px 8px rgba(7,24,61,.12);
 }
 .motoristas-page .motoristas-pagination{display:flex;justify-content:flex-end;align-items:center;gap:6px;padding:10px 13px 1px}
-.motoristas-page .motoristas-pagination .page-btn{min-width:31px;height:31px;border-radius:8px;font-size:10px}
-.motoristas-page .motoristas-pagination .page-btn.active{background:linear-gradient(145deg,#18385f,#0b2348)!important;box-shadow:inset 1px 1px 2px rgba(255,255,255,.12),inset -2px -3px 5px rgba(0,0,0,.25),0 4px 9px rgba(7,27,63,.18)!important}
-.motoristas-page .motoristas-pagination .page-btn:disabled{opacity:.48}
+.motoristas-page .motoristas-pagination .page-btn{min-width:29px;width:29px;height:29px;padding:0;border:1px solid #d9e4f0;border-radius:8px;font-size:10px;font-weight:800;background:#fff!important;color:#31527a!important;display:grid;place-items:center;box-shadow:0 2px 5px rgba(33,73,116,.08),inset 0 1px 1px rgba(255,255,255,.9);transition:.15s}
+.motoristas-page .motoristas-pagination .page-btn:hover:not(:disabled):not(.active){background:#f7fbff!important;border-color:#c8d8ea;transform:translateY(-1px);box-shadow:0 4px 8px rgba(33,73,116,.10)}
+.motoristas-page .motoristas-pagination .page-btn.active{background:linear-gradient(145deg,#1670e8,#0759c9)!important;color:#fff!important;border-color:#0759c9;box-shadow:inset 1px 1px 2px rgba(255,255,255,.35),inset -2px -3px 5px rgba(0,44,130,.22),0 4px 9px rgba(7,88,198,.22)!important}
+.motoristas-page .motoristas-pagination .page-btn:disabled{opacity:1;background:#fff!important;color:#9db0c8!important;border-color:#dce6f0;box-shadow:0 2px 4px rgba(33,73,116,.05)}
 .motoristas-page .empty{padding:48px}
 @media(max-width:900px){.motoristas-page .motoristas-toolbar{grid-template-columns:1fr 155px}.motoristas-page .motoristas-found{grid-column:1/-1;text-align:left}}
 @media(max-width:650px){.motoristas-page .motoristas-head{flex-direction:column}.motoristas-page .import-btn{width:100%}.motoristas-page .motoristas-toolbar{grid-template-columns:1fr}.motoristas-page .motoristas-found{grid-column:auto}.motoristas-page .motoristas-head h1{font-size:29px}}
@@ -648,15 +649,76 @@ table{min-width:980px}th,td{padding:14px 13px;font-size:11px}th{font-size:9px}td
 .execucoes-page .exec-table .success-badge{background:#e5f8ee;color:#138b54}.execucoes-page .exec-table .attention-badge{background:#fff3d8;color:#9a7000}
 .execucoes-page .exec-actions{display:flex;align-items:center;gap:7px}
 .execucoes-page .exec-view{height:30px;padding:0 12px;border:0;border-radius:8px;background:linear-gradient(145deg,#18385f,#0b2348);color:#fff;font-size:9px;font-weight:800;box-shadow:inset 1px 1px 2px rgba(255,255,255,.14),inset -2px -3px 5px rgba(0,0,0,.25),0 4px 8px rgba(7,27,63,.16)}
-.execucoes-page .exec-menu{width:30px;height:30px;border:0;border-radius:8px;background:transparent;color:#0b3d78;font-size:19px;line-height:1}
+.execucoes-page .exec-menu{width:30px;height:30px;border:0;border-radius:8px;background:#ffe8eb;color:#d92d43;font-size:16px;line-height:1;display:grid;place-items:center;box-shadow:inset 1px 1px 2px rgba(255,255,255,.85),inset -2px -2px 4px rgba(208,39,60,.10),0 3px 7px rgba(208,39,60,.10);transition:.15s}
+.execucoes-page .exec-menu:hover{background:#ffd9de;color:#bd2037;transform:translateY(-1px);box-shadow:0 5px 10px rgba(208,39,60,.18)}
 .execucoes-page .exec-view:hover{transform:translateY(-1px);filter:brightness(1.07)}
 .execucoes-page .exec-pagination{display:flex;align-items:center;justify-content:space-between;padding:11px 18px 2px;color:#59749b;font-size:11px}
-.execucoes-page .exec-pages{display:flex;align-items:center;gap:6px}.exec-pages .page-btn{min-width:34px;height:34px;border-radius:9px}
-.execucoes-page .exec-pages .page-btn.active{background:linear-gradient(135deg,#062f78,#0753bb)!important}
+.execucoes-page .exec-pages{display:flex;align-items:center;gap:7px}
+.execucoes-page .exec-pages .page-btn{min-width:29px;width:29px;height:29px;padding:0;border:1px solid #d9e4f0;border-radius:8px;background:#fff!important;color:#31527a!important;font-size:10px;font-weight:800;display:grid;place-items:center;box-shadow:0 2px 5px rgba(33,73,116,.08),inset 0 1px 1px rgba(255,255,255,.9);transition:.15s}
+.execucoes-page .exec-pages .page-btn:hover:not(:disabled):not(.active){background:#f7fbff!important;border-color:#c8d8ea;transform:translateY(-1px);box-shadow:0 4px 8px rgba(33,73,116,.10)}
+.execucoes-page .exec-pages .page-btn.active{background:linear-gradient(145deg,#1670e8,#0759c9)!important;color:#fff!important;border-color:#0759c9;box-shadow:inset 1px 1px 2px rgba(255,255,255,.35),inset -2px -3px 5px rgba(0,44,130,.22),0 4px 9px rgba(7,88,198,.22)!important}
+.execucoes-page .exec-pages .page-btn:disabled{opacity:1;background:#fff!important;color:#9db0c8!important;border-color:#dce6f0;box-shadow:0 2px 4px rgba(33,73,116,.05)}
 .execucoes-page .exec-empty{padding:45px;text-align:center;color:#778398}
 @media(max-width:1200px){.execucoes-page .exec-filter-grid{grid-template-columns:1.4fr 1fr 1fr 1fr}.execucoes-page .exec-action{width:100%}}
 @media(max-width:850px){.execucoes-page .exec-stats{grid-template-columns:1fr 1fr}.execucoes-page .exec-title{align-items:flex-start}.execucoes-page .exec-date{display:none}.execucoes-page .exec-filter-grid{grid-template-columns:1fr 1fr}.execucoes-page .exec-search{grid-column:1/-1}}
 @media(max-width:600px){.execucoes-page .exec-stats{grid-template-columns:1fr}.execucoes-page .exec-filter-grid{grid-template-columns:1fr}.execucoes-page .exec-search{grid-column:auto}.execucoes-page .exec-title h1{font-size:30px}.execucoes-page .exec-pagination{align-items:flex-start;gap:10px;flex-direction:column}}
+
+
+/* ===== PROCESSAMENTO — redesign visual ===== */
+.process-grid{display:block}
+.process-grid>.process-main{width:100%;box-sizing:border-box;padding:22px 22px 20px;border-radius:18px;background:linear-gradient(145deg,#ffffff 0%,#f8fbff 58%,#eef5ff 100%);border:1px solid #d6e4f6;box-shadow:0 16px 34px rgba(18,63,120,.13);overflow:hidden}
+.process-main:before{left:0;top:18px;bottom:18px;width:5px;background:#16c98a;border-radius:0 5px 5px 0}
+.current{padding-left:16px}
+.process-hero-head{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:22px}
+.process-driver-title{min-width:0}
+.process-driver-title .eyebrow{font-size:9px;letter-spacing:1.5px;color:#7386a2;margin-bottom:5px}
+.process-driver-title h2{font-size:25px;line-height:1.15;margin:0;color:#12325f;letter-spacing:-.4px}
+.process-fields{display:flex;gap:68px;margin-top:17px}
+.process-fields span{font-size:10px;color:#71819a;text-transform:uppercase;letter-spacing:.4px}
+.process-fields b{display:block;color:#29405f;margin-top:5px;font-size:13px;text-transform:none;letter-spacing:0}
+.process-driver-info{flex:0 0 310px;display:flex;align-items:center;gap:12px;padding:13px 15px;border:1px solid #d5e5fa;border-radius:15px;background:linear-gradient(145deg,#f7fbff,#edf5ff);box-shadow:inset 1px 1px 2px #fff,0 5px 13px rgba(24,75,140,.06)}
+.process-driver-info .info-icon{width:46px;height:46px;flex:0 0 46px;border-radius:14px;display:grid;place-items:center;color:#0d4c9f;background:linear-gradient(145deg,#f5faff,#e4f0ff);box-shadow:inset 2px 2px 5px #fff,inset -2px -2px 5px #d6e6fa}
+.process-driver-info strong{display:block;color:#123b78;font-size:13px}
+.process-driver-info span{display:block;margin-top:4px;color:#5e7290;font-size:10px}
+.det-card{margin-top:0;padding:18px 18px 17px;border-radius:16px;background:linear-gradient(145deg,#f5faff,#eaf3ff);border:1px solid #d3e4f8;box-shadow:inset 1px 1px 3px #fff,0 8px 20px rgba(26,75,130,.06)}
+.det-card h3{display:flex;align-items:center;gap:10px;margin:0 0 5px;color:#123b78;font-size:17px}
+.det-card h3 .det-title-icon{width:25px;height:25px;color:#0e55a8}
+.det-card p{font-size:11px;color:#59708f;margin:0 0 14px}
+.copy-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:0}
+.copy-chip{height:58px;box-sizing:border-box;display:flex;align-items:center;gap:11px;text-align:left;padding:10px 12px;border-radius:12px;background:linear-gradient(145deg,#fff,#f8fbff);border:1px solid #d8e5f4;color:#6a7d99;box-shadow:2px 2px 7px rgba(18,61,115,.07),inset 1px 1px 2px #fff;cursor:pointer}
+.copy-chip .chip-icon{width:34px;height:34px;flex:0 0 34px;border-radius:10px;display:grid;place-items:center;color:#0b4d9e;background:linear-gradient(145deg,#f5faff,#e7f1ff);box-shadow:inset 2px 2px 4px #fff,inset -2px -2px 4px #d5e5f8}
+.copy-chip .chip-label{display:block;font-size:9px;color:#72839c;line-height:1.1}
+.copy-chip b{display:block;color:#193a68;font-size:13px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.copy-chip .chip-copy{margin-left:auto;width:28px;height:28px;border-radius:8px;display:grid;place-items:center;color:#0b4d9e;background:#f5faff;border:1px solid #dbe8f6}
+.open-detran{height:58px;margin-top:13px;border-radius:13px;font-size:17px;background:linear-gradient(135deg,#06398f,#0867d7);box-shadow:0 9px 18px rgba(7,83,190,.25),inset 0 1px 0 #ffffff35;position:relative;display:flex;align-items:center;justify-content:center;gap:12px;cursor:pointer}
+.open-detran .open-main{font-weight:900;display:block;line-height:1.1}
+.open-detran .open-sub{display:block;font-size:10px;font-weight:500;margin-top:3px;opacity:.92}
+.open-detran .open-arrow{position:absolute;right:13px;width:35px;height:35px;border-radius:50%;display:grid;place-items:center;background:#ffffff22;font-size:23px}
+.hint{margin-top:13px;padding:11px 13px;border-radius:11px;background:#fff7e8;color:#916000;font-size:10px;border:1px solid #ffedc4}
+ .conference-area{margin-top:17px}
+.conference-title{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:10px}
+.conference-title strong{font-size:15px;color:#173864}
+.conference-title span{font-size:10px;color:#71839d}
+.conference-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.conference-card{border:1px solid #d8e5f4;border-radius:14px;background:linear-gradient(145deg,#fff,#f6faff);padding:12px;box-shadow:2px 3px 9px rgba(18,61,115,.07),inset 1px 1px 2px #fff}
+.conference-card .conf-head{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.conference-card .conf-icon{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;color:#0b4d9e;background:linear-gradient(145deg,#f5faff,#e5f1ff);box-shadow:inset 2px 2px 4px #fff,inset -2px -2px 4px #d4e5f8}
+.conference-card .conf-head strong{font-size:12px;color:#183a67}
+.conference-options{display:grid;gap:7px}
+.conf-option{width:100%;border:1px solid #dce7f4;background:#fff;color:#3b506d;border-radius:9px;padding:8px 9px;text-align:left;font-size:10px;font-weight:700;cursor:pointer;transition:.15s;box-shadow:0 2px 5px rgba(18,61,115,.04)}
+.conf-option:hover{transform:translateY(-1px);border-color:#b9d1ed;background:#f8fbff}
+.conf-option.active{background:linear-gradient(145deg,#0b55ae,#0b3f8b);border-color:#0b4a9e;color:#fff;box-shadow:0 6px 12px rgba(8,72,155,.22),inset 0 1px 0 #ffffff35}
+.conf-option small{display:block;margin-top:2px;font-size:8px;font-weight:600;opacity:.78}
+.conference-footer{display:flex;align-items:center;gap:10px;margin-top:12px}
+.conference-summary{flex:1;min-height:42px;padding:9px 11px;border-radius:11px;background:#eef5ff;border:1px solid #d8e7f8;color:#526985;font-size:10px;line-height:1.45}
+.conference-summary b{color:#173e75}
+.register-btn{min-height:48px;border:0;border-radius:11px;padding:0 18px;background:linear-gradient(135deg,#06398f,#0867d7);color:#fff;font-weight:900;cursor:pointer;box-shadow:0 8px 15px rgba(7,83,190,.23),inset 0 1px 0 #ffffff35}
+.register-btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.register-error{min-height:48px;border:1px solid #f0cfd4;border-radius:11px;padding:0 14px;background:#fff1f3;color:#b52b3e;font-weight:800;cursor:pointer}
+@media(max-width:900px){.process-driver-info{flex-basis:260px}.copy-row{grid-template-columns:1fr}.conference-grid{grid-template-columns:1fr}.conference-footer{flex-direction:column;align-items:stretch}.register-btn,.register-error{width:100%}}
+.process-main+.panel{margin-top:18px}
+@media(max-width:900px){.process-driver-info{flex-basis:260px}.copy-row{grid-template-columns:1fr}.process-fields{gap:35px}.result-buttons{grid-template-columns:1fr}}
+@media(max-width:680px){.process-hero-head{flex-direction:column}.process-driver-info{width:100%;box-sizing:border-box}.process-driver-title h2{font-size:21px}.process-grid>.process-main{padding:18px 15px}.current{padding-left:12px}.process-fields{gap:28px}.open-detran{font-size:14px}}
 
 </style>
 </head>
@@ -702,6 +764,7 @@ const DETRAN_URL="https://www.detran.mt.gov.br/consulte-sua-habilitacao";
 const loginOverlay=document.getElementById('loginOverlay'),loginForm=document.getElementById('loginForm'),loginMessage=document.getElementById('loginMessage'),main=document.getElementById('main');
 let page='dashboard',drivers=[],selected=null,query='',filter='TODOS',loading=false,currentPage=1;
 let execQuery='',execStatus='TODOS',execStart='',execEnd='',execPage=1,execPageSize=10;
+let conferenceDrafts={};
 const PAGE_SIZE=10;
 
 function msg(t,error=false){const e=document.createElement('div');e.className='toast'+(error?' error':'');e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2600)}
@@ -821,11 +884,65 @@ function table(rows,startIndex=0){
 }
 function nextPending(){return drivers.find(d=>['pendente','processando'].includes(statusKey(d.status)))||null}
 function currentDriver(){if(selected)return selected;return nextPending()}
-function renderProcessamento(){const d=currentDriver();if(!d){main.innerHTML=header('Processamento','Faça a consulta no portal oficial e registre o resultado')+`<div class="panel empty"><h2>Fila concluída 🎉</h2><p>Não há motoristas pendentes para consulta.</p></div>`;return}selected=d;const c=counts();main.innerHTML=header('Processamento','Faça a consulta no portal oficial e registre o resultado')+`<div class="panel"><div class="panel-head"><div><h2>Fila de consulta</h2><p>${c.done} de ${c.total} concluídos</p></div><div>${badge(d.status)}</div></div><div class="progress"><div style="width:${c.total?Math.round(c.done/c.total*100):0}%"></div></div></div><div class="process-grid"><div class="panel process-main"><div class="current"><div class="eyebrow">MOTORISTA ATUAL</div><h2>${esc(d.nome)}</h2><div class="fields"><span>CPF<b>${maskCPF(d.cpf)}</b></span><span>RENACH<b>${esc(d.renach||'—')}</b></span></div><div class="det-card"><h3>↗ Consultar no DETRAN-MT</h3><p>Abra a página oficial “Consulte sua Habilitação” em uma nova aba.</p><div class="copy-row"><button class="copy-chip" onclick="copyText('${esc(d.cpf)}','CPF copiado')">▣ CPF <b>${maskCPF(d.cpf)}</b></button><button class="copy-chip" onclick="copyText('${esc(d.renach||'')}','RENACH copiado')">▣ RENACH <b>${esc(d.renach||'—')}</b></button><button class="copy-chip" onclick="copyBoth()">▣ Copiar os dois</button></div><button class="open-detran" onclick="openDetran()">↗ Abrir DETRAN-MT</button><div class="hint">Depois da consulta, volte para esta aba e registre o resultado. O reCAPTCHA continua sendo feito normalmente no portal.</div></div></div><div class="result-buttons"><button class="btn success" onclick="finishDriver('sucesso')">✓ Sucesso<small>Consulta realizada com sucesso</small></button><button class="btn warning" onclick="finishDriver('atencao')">⚠ Atenção<small>Necessita revisão manual</small></button><button class="btn danger" onclick="finishDriver('erro')">× Erro<small>Problema na consulta</small></button></div></div><div class="panel"><div class="eyebrow">COMO FUNCIONA?</div><h2>Consulta assistida</h2><div class="steps"><div class="step"><span class="step-num">1</span>Abra o site do DETRAN-MT</div><div class="step"><span class="step-num">2</span>Preencha o CPF e o RENACH</div><div class="step"><span class="step-num">3</span>Resolva o reCAPTCHA</div><div class="step"><span class="step-num">4</span>Clique em Consultar</div><div class="step"><span class="step-num">5</span>Volte aqui e registre o resultado</div></div><hr style="border:0;border-top:1px solid #edf0f4;margin:18px 0"><button class="btn" style="width:100%" onclick="openDetails('${d.id}')">▣ Ver detalhes do motorista</button></div></div>`}
+function getConferenceDraft(id){
+  if(!conferenceDrafts[id]) conferenceDrafts[id]={validade:'',pontuacao:'',suspensao:''};
+  return conferenceDrafts[id];
+}
+function conferenceReady(c){return !!(c.validade&&c.pontuacao&&c.suspensao)}
+function conferenceLabel(type,value){
+  const labels={
+    validade:{valida:'Válida',proxima:'Próxima do vencimento',vencida:'Vencida'},
+    pontuacao:{sem_alerta:'Sem alerta',possui:'Possui pontuação',revisao:'Requer atenção'},
+    suspensao:{nao_consta:'Não consta',consta:'Consta suspensão',revisao:'Necessita conferência'}
+  };
+  return labels[type]?.[value]||'—';
+}
+function conferenceOverall(c){
+  if(!conferenceReady(c)) return null;
+  const ok=c.validade==='valida'&&c.pontuacao==='sem_alerta'&&c.suspensao==='nao_consta';
+  return ok?'sucesso':'atencao';
+}
+function renderConferenceCard(type,title,icon,options,c){
+  return `<div class="conference-card"><div class="conf-head"><span class="conf-icon">${icon}</span><strong>${title}</strong></div><div class="conference-options">${options.map(o=>`<button class="conf-option ${c[type]===o.value?'active':''}" onclick="setConference('${type}','${o.value}')">${o.label}<small>${o.hint}</small></button>`).join('')}</div></div>`;
+}
+function setConference(type,value){
+  const d=currentDriver(); if(!d)return;
+  const c=getConferenceDraft(d.id); c[type]=value; render();
+}
+function renderProcessamento(){
+  const d=currentDriver();
+  if(!d){main.innerHTML=header('Processamento','Faça a consulta no portal oficial e registre o resultado')+`<div class="panel empty"><h2>Fila concluída 🎉</h2><p>Não há motoristas pendentes para consulta.</p></div>`;return}
+  selected=d;
+  const c=getConferenceDraft(d.id), ready=conferenceReady(c), overall=conferenceOverall(c);
+  const summary=ready?`Validade: <b>${conferenceLabel('validade',c.validade)}</b> &nbsp;•&nbsp; Pontuação: <b>${conferenceLabel('pontuacao',c.pontuacao)}</b> &nbsp;•&nbsp; Suspensão: <b>${conferenceLabel('suspensao',c.suspensao)}</b>`:`Selecione uma opção em cada item para registrar a conferência.`;
+  main.innerHTML=header('Processamento','Faça a consulta no portal oficial e registre o resultado')+`<div class="process-grid"><div class="panel process-main"><div class="current"><div class="process-hero-head"><div class="process-driver-title"><div class="eyebrow">MOTORISTA ATUAL</div><h2>${esc(d.nome)}</h2><div class="process-fields"><span>CPF<b>${maskCPF(d.cpf)}</b></span><span>RENACH<b>${esc(d.renach||'—')}</b></span></div></div><div class="process-driver-info"><div class="info-icon"><svg viewBox="0 0 24 24" width="25" height="25" fill="none"><circle cx="12" cy="8" r="3.2" fill="currentColor"/><path d="M5.5 20c.7-4 2.9-6 6.5-6s5.8 2 6.5 6" fill="currentColor"/></svg></div><div><strong>Dados do motorista</strong><span>Confira e realize a consulta no DETRAN-MT.</span></div></div></div><div class="det-card"><h3><svg class="det-title-icon" viewBox="0 0 24 24" fill="none"><path d="M5 19 19 5M9 5h10v10M5 9v10h10" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Consultar no DETRAN-MT</h3><p>Abra a página oficial “Consulte sua Habilitação” em uma nova aba.</p><div class="copy-row"><button class="copy-chip" onclick="copyText('${esc(d.cpf)}','CPF copiado')"><span class="chip-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.4" fill="currentColor"/><path d="M7.5 17c.6-2.2 2-3.3 4.5-3.3s3.9 1.1 4.5 3.3" fill="currentColor"/></svg></span><span><span class="chip-label">CPF</span><b>${maskCPF(d.cpf)}</b></span><span class="chip-copy"><svg viewBox="0 0 24 24" width="15" height="15" fill="none"><rect x="8" y="8" width="11" height="11" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 16V5a2 2 0 0 1 2-2h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button><button class="copy-chip" onclick="copyText('${esc(d.renach||'')}','RENACH copiado')"><span class="chip-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="11" r="2" fill="currentColor"/><path d="M12 10h6M12 14h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><span class="chip-label">RENACH</span><b>${esc(d.renach||'—')}</b></span><span class="chip-copy"><svg viewBox="0 0 24 24" width="15" height="15" fill="none"><rect x="8" y="8" width="11" height="11" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 16V5a2 2 0 0 1 2-2h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button><button class="copy-chip" onclick="copyBoth()"><span class="chip-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="4" y="6" width="10" height="10" rx="2" stroke="currentColor" stroke-width="2"/><rect x="10" y="10" width="10" height="10" rx="2" stroke="currentColor" stroke-width="2"/></svg></span><span><span class="chip-label">Copiar os dois</span><b>CPF e RENACH</b></span></button></div><button class="open-detran" onclick="openDetran()"><svg viewBox="0 0 24 24" width="25" height="25" fill="none"><path d="M5 19 19 5M9 5h10v10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span><span class="open-main">Abrir DETRAN-MT</span><span class="open-sub">Será aberto em uma nova aba</span></span><span class="open-arrow">›</span></button><div class="hint">ⓘ &nbsp; Depois da consulta, volte para esta aba e registre o resultado. O reCAPTCHA continua sendo feito normalmente no portal.</div></div><div class="conference-area"><div class="conference-title"><strong>Resultado da conferência</strong><span>Registre exatamente o que apareceu no portal</span></div><div class="conference-grid">${renderConferenceCard('validade','Validade','✓',[{value:'valida',label:'Válida',hint:'Dentro da validade'},{value:'proxima',label:'Próxima do vencimento',hint:'Requer acompanhamento'},{value:'vencida',label:'Vencida',hint:'Necessita atenção'}],c)}${renderConferenceCard('pontuacao','Pontuação','•',[{value:'sem_alerta',label:'Sem alerta',hint:'Nenhuma pontuação relevante'},{value:'possui',label:'Possui pontuação',hint:'Há pontuação registrada'},{value:'revisao',label:'Requer atenção',hint:'Situação precisa de análise'}],c)}${renderConferenceCard('suspensao','Suspensão','!',[{value:'nao_consta',label:'Não consta',hint:'Nenhuma suspensão indicada'},{value:'consta',label:'Consta suspensão',hint:'Há suspensão registrada'},{value:'revisao',label:'Necessita conferência',hint:'Não foi possível confirmar'}],c)}</div><div class="conference-footer"><div class="conference-summary">${summary}</div><button class="register-btn" ${ready?'':'disabled'} onclick="finishConference()">✓ Registrar conferência</button><button class="register-error" onclick="finishDriver('erro')">Registrar erro</button></div></div></div></div><div class="panel"><div class="eyebrow">COMO FUNCIONA?</div><h2>Consulta assistida</h2><div class="steps"><div class="step"><span class="step-num">1</span>Abra o site do DETRAN-MT</div><div class="step"><span class="step-num">2</span>Preencha o CPF e o RENACH</div><div class="step"><span class="step-num">3</span>Resolva o reCAPTCHA</div><div class="step"><span class="step-num">4</span>Clique em Consultar</div><div class="step"><span class="step-num">5</span>Volte aqui e registre o resultado</div></div><hr style="border:0;border-top:1px solid #edf0f4;margin:18px 0"><button class="btn" style="width:100%" onclick="openDetails('${d.id}')">▣ Ver detalhes do motorista</button></div></div>`
+}
+
 async function copyText(value,label){try{await navigator.clipboard.writeText(String(value||''));msg(label)}catch{msg('Não foi possível copiar automaticamente.',true)}}
 async function copyBoth(){const d=currentDriver();if(!d)return;await copyText(`CPF: ${d.cpf}\nRENACH: ${d.renach||''}`,'CPF + RENACH copiados')}
 function openDetran(){const d=currentDriver();if(!d)return;copyBoth();window.open(DETRAN_URL,'_blank','noopener,noreferrer');msg('DETRAN aberto. CPF + RENACH foram copiados.')}
-async function finishDriver(status){const d=currentDriver();if(!d)return;const label=status==='sucesso'?'CNH consultada no DETRAN':status==='atencao'?'Conferência manual necessária':'Erro na consulta';const {error}=await supabaseClient.from('motoristas').update({status,resultado:label,data_consulta:new Date().toISOString()}).eq('id',d.id);if(error){console.error(error);msg('Não foi possível salvar o resultado.',true);return}await loadDrivers();selected=null;msg('Resultado salvo. Próximo motorista carregado.');render()}
+async function finishConference(){
+  const d=currentDriver(); if(!d)return;
+  const c=getConferenceDraft(d.id); if(!conferenceReady(c)){msg('Selecione Validade, Pontuação e Suspensão.',true);return}
+  const overall=conferenceOverall(c);
+  const label=`Validade: ${conferenceLabel('validade',c.validade)} | Pontuação: ${conferenceLabel('pontuacao',c.pontuacao)} | Suspensão: ${conferenceLabel('suspensao',c.suspensao)}`;
+  const {error}=await supabaseClient.from('motoristas').update({status:overall,resultado:label,data_consulta:new Date().toISOString()}).eq('id',d.id);
+  if(error){console.error(error);msg('Não foi possível salvar a conferência.',true);return}
+  delete conferenceDrafts[d.id]; await loadDrivers(); selected=null; msg(overall==='sucesso'?'Conferência registrada com sucesso.':'Conferência registrada como atenção.'); render();
+}
+async function finishDriver(status){const d=currentDriver();if(!d)return;const label='Erro na consulta';const {error}=await supabaseClient.from('motoristas').update({status,resultado:label,data_consulta:new Date().toISOString()}).eq('id',d.id);if(error){console.error(error);msg('Não foi possível salvar o resultado.',true);return}delete conferenceDrafts[d.id];await loadDrivers();selected=null;msg('Erro registrado. Próximo motorista carregado.');render()}
+async function excluirExecucao(id){
+  const d=drivers.find(x=>String(x.id)===String(id));
+  if(!d)return;
+  if(!confirm(`Remover a execução de \"${d.nome}\" do histórico?\n\nO motorista não será apagado. Apenas o resultado desta consulta será resetado para pendente.`))return;
+  const {error}=await supabaseClient.from('motoristas').update({status:'pendente',resultado:null,data_consulta:null}).eq('id',d.id);
+  if(error){console.error(error);msg('Não foi possível remover a execução.',true);return}
+  await loadDrivers();
+  execPage=1;
+  msg('Execução removida do histórico.');
+  render();
+}
+
 function openDetails(id){const d=drivers.find(x=>String(x.id)===String(id));if(!d)return;document.body.insertAdjacentHTML('beforeend',`<div class="modal-bg" id="modal"><div class="modal"><div class="modal-head"><div><h2>Detalhes do motorista</h2><p>Dados armazenados no sistema.</p></div><button class="close" onclick="document.getElementById('modal').remove()">×</button></div><div class="details"><div><span>Nome</span><b>${esc(d.nome)}</b></div><div><span>CPF</span><b>${esc(fullCPF(d.cpf))}</b></div><div><span>RENACH</span><b>${esc(d.renach||'—')}</b></div><div><span>Status</span><b>${badge(d.status)}</b></div><div><span>Resultado</span><b>${esc(d.resultado||'—')}</b></div><div><span>Consulta</span><b>${d.data_consulta?new Date(d.data_consulta).toLocaleString('pt-BR'):'—'}</b></div></div><div class="actions" style="display:flex;gap:8px"><button class="btn primary" style="flex:1" onclick="document.getElementById('modal').remove();selected=drivers.find(x=>x.id==='${d.id}');page='processamento';render()">Consultar este motorista</button><button class="btn" onclick="document.getElementById('modal').remove()">Fechar</button></div></div></div>`)}
 function renderExecucoes(){
   const executions=drivers.filter(d=>d.data_consulta);
@@ -865,7 +982,7 @@ function renderExecucoes(){
     </div></div>
     <div class="exec-table-card">
       <div class="exec-table-top"><div class="exec-found"><b>${data.length}</b> execuções encontradas</div><div class="per-page">Exibir <select onchange="execPageSize=Number(this.value)||10;execPage=1;render()"><option ${execPageSize===10?'selected':''}>10</option><option ${execPageSize===20?'selected':''}>20</option><option ${execPageSize===50?'selected':''}>50</option></select> por página</div></div>
-      ${shown.length?`<div class="exec-table-wrap"><table class="exec-table"><thead><tr><th>#</th><th>Motorista</th><th>CPF</th><th>RENACH</th><th>Status</th><th>Resultado</th><th>Consulta</th><th>Ações</th></tr></thead><tbody>${shown.map((d,i)=>`<tr><td class="exec-num">${(execPage-1)*execPageSize+i+1}</td><td class="exec-name">${esc(d.nome||'—')}</td><td class="exec-cpf">${esc(maskCPF(d.cpf))}</td><td class="exec-renach">${esc(d.renach||'—')}</td><td>${badge(d.status)}</td><td class="exec-result">${esc(d.resultado||'—')}</td><td class="exec-result">${d.data_consulta?new Date(d.data_consulta).toLocaleString('pt-BR'): '—'}</td><td><div class="exec-actions"><button class="exec-view" onclick="openDetails('${esc(d.id)}')">Ver detalhes</button><button class="exec-menu" title="Mais ações" onclick="openDetails('${esc(d.id)}')">⋮</button></div></td></tr>`).join('')}</tbody></table></div>`:`<div class="exec-empty"><h3>Nenhuma execução encontrada</h3><p>Ajuste os filtros para localizar uma consulta.</p></div>`}
+      ${shown.length?`<div class="exec-table-wrap"><table class="exec-table"><thead><tr><th>#</th><th>Motorista</th><th>CPF</th><th>RENACH</th><th>Status</th><th>Resultado</th><th>Consulta</th><th>Ações</th></tr></thead><tbody>${shown.map((d,i)=>`<tr><td class="exec-num">${(execPage-1)*execPageSize+i+1}</td><td class="exec-name">${esc(d.nome||'—')}</td><td class="exec-cpf">${esc(maskCPF(d.cpf))}</td><td class="exec-renach">${esc(d.renach||'—')}</td><td>${badge(d.status)}</td><td class="exec-result">${esc(d.resultado||'—')}</td><td class="exec-result">${d.data_consulta?new Date(d.data_consulta).toLocaleString('pt-BR'): '—'}</td><td><div class="exec-actions"><button class="exec-view" onclick="openDetails('${esc(d.id)}')">Ver detalhes</button><button class="exec-menu" title="Remover execução" aria-label="Remover execução" onclick="excluirExecucao('${esc(d.id)}')"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3m-9 0 1 13h8l1-13M10 11v6M14 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></td></tr>`).join('')}</tbody></table></div>`:`<div class="exec-empty"><h3>Nenhuma execução encontrada</h3><p>Ajuste os filtros para localizar uma consulta.</p></div>`}
       <div class="exec-pagination"><span>Mostrando ${shown.length?((execPage-1)*execPageSize+1):0} a ${Math.min(execPage*execPageSize,data.length)} de ${data.length} resultados</span><div class="exec-pages"><button class="page-btn" onclick="execPage=Math.max(1,execPage-1);render()">‹</button>${pag}<button class="page-btn" onclick="execPage=Math.min(${pages},execPage+1);render()">›</button></div></div>
     </div>
   </div>`;
