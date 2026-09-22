@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#071b45">
+<title>CNH CHECKER — DETRAN-MT</title>
+<style>
+:root{
+  --navy:#07183d;--navy2:#0b2555;--blue:#1763d1;--blue2:#2f7bea;
+  --bg:#f4f7fb;--card:#fff;--line:#e3eaf3;--text:#12254a;--muted:#71809a;
+  --green:#16a765;--greenbg:#e4f8ee;--yellow:#b77b00;--yellowbg:#fff3cf;
+  --red:#e34848;--redbg:#ffebeb;--shadow:0 10px 30px rgba(17,48,95,.08);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}button{cursor:pointer;border:0}
+.app{display:flex;min-height:100vh}
+.sidebar{width:238px;background:linear-gradient(180deg,#07183d,#0b2555);color:#dce8ff;padding:18px 12px;position:fixed;inset:0 auto 0 0;z-index:10}
+.brand{display:flex;align-items:center;gap:10px;padding:8px 10px 27px}
+.brand-icon{width:38px;height:38px;border-radius:12px;background:#1464d8;display:grid;place-items:center;color:#fff;font-size:21px;font-weight:900;box-shadow:0 6px 16px #0003}
+.brand b{display:block;color:#fff;font-size:14px;letter-spacing:.2px}.brand small{color:#8fa9d4;font-size:10px}
+.nav{display:grid;gap:6px}.nav button{display:flex;align-items:center;gap:11px;width:100%;padding:12px;border-radius:10px;background:transparent;color:#aebfdf;text-align:left;font-weight:700;font-size:13px}
+.nav button:hover,.nav button.active{background:linear-gradient(90deg,#0b3f96,#0a58c7);color:#fff;box-shadow:0 6px 18px #061b46aa,inset 0 1px 0 #ffffff22}
+.nav-ico{width:18px;text-align:center;font-size:14px}
+.side-bottom{position:absolute;bottom:18px;left:25px;font-size:10px;color:#91a9d0}.dot{display:inline-block;width:7px;height:7px;background:#35d18a;border-radius:50%;margin-right:6px;box-shadow:0 0 0 3px #35d18a22}
+main{margin-left:238px;width:calc(100% - 238px);padding:18px 28px 35px;max-width:1700px}
+.topbar{height:52px;display:flex;align-items:center;gap:15px;margin-bottom:17px}
+.global-search{height:38px;background:#fff;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;gap:8px;padding:0 13px;flex:1;color:#6d7b92;box-shadow:0 2px 7px #15386706}
+.global-search input{border:0;outline:0;width:100%;font-size:12px;background:transparent;color:var(--text)}
+.top-right{display:flex;align-items:center;gap:9px}.top-icon{width:38px;height:38px;border:1px solid var(--line);background:#fff;border-radius:10px;color:#334d76}
+.user{height:38px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:0 10px;display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700}
+.avatar{width:26px;height:26px;border-radius:50%;background:#102d66;color:#fff;display:grid;place-items:center;font-size:10px}
+.top-title{display:flex;justify-content:space-between;align-items:flex-end;margin:4px 0 18px}
+.top-title h1{margin:0;font-size:27px;letter-spacing:-.5px}.top-title p{margin:5px 0 0;color:var(--muted);font-size:12px}
+.datebox{font-size:11px;color:#65758f;text-align:right}.datebox b{display:block;color:#263d63}
+.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:13px;margin-bottom:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:13px;padding:14px 15px;display:flex;gap:11px;align-items:center;box-shadow:var(--shadow)}
+.card-icon{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:#eaf2ff;color:#2164c0;font-size:18px;flex:0 0 auto}
+.card-icon.green{background:var(--greenbg);color:var(--green)}.card-icon.yellow{background:var(--yellowbg);color:var(--yellow)}.card-icon.red{background:var(--redbg);color:var(--red)}
+.card span{display:block;color:#77869d;font-size:9px}.card b{display:block;font-size:21px;margin-top:2px}.card small{color:#9aa6b8;font-size:8px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:19px;box-shadow:var(--shadow);margin-bottom:18px}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:14px}.panel h2{margin:0;font-size:16px}.panel p{margin:4px 0;color:var(--muted);font-size:11px}
+.progress-main{display:grid;grid-template-columns:1fr 210px;gap:18px;align-items:center}.progress{height:11px;background:#e8eef6;border-radius:99px;overflow:hidden}.progress div{height:100%;background:linear-gradient(90deg,#1555b5,#2e82ed);border-radius:99px;transition:.3s}
+.progress-row{display:flex;justify-content:space-between;margin-top:7px;color:#687891;font-size:11px}.progress-cta{height:54px;border-radius:10px;background:linear-gradient(135deg,#06398f,#0757c9);color:#fff;font-weight:800;font-size:12px;box-shadow:0 7px 16px #0b4eae55,inset 0 1px 0 #ffffff24}
+.mini{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:17px}.mini div{background:#f7f9fc;border-radius:9px;padding:10px}.mini span{display:block;font-size:9px;color:#7d899b}.mini b{font-size:15px}
+.green-text{color:var(--green)!important}.yellow-text{color:var(--yellow)!important}.red-text{color:var(--red)!important}
+.lower-grid{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:13px}.simple-list{display:grid;gap:8px}.simple-row{display:flex;justify-content:space-between;align-items:center;font-size:11px;padding:5px 0;color:#52627b}.status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:8px}.recent-empty{text-align:center;padding:28px 10px;color:#8793a7;font-size:11px}.quote{margin-top:13px;color:#657692;font-size:10px;font-style:italic}
+.tip{display:flex;gap:8px;align-items:flex-start;font-size:10px;color:#52627b}.tip+.tip{margin-top:10px}.check{color:#16a765;font-weight:900}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:11px}
+table{border-collapse:collapse;width:100%;min-width:880px}th,td{padding:10px 11px;border-bottom:1px solid #edf1f6;text-align:left;font-size:10px;white-space:nowrap}th{background:#fafbfd;color:#738198;text-transform:uppercase;font-size:8px;letter-spacing:.5px}td{color:#4f607a}tr:last-child td{border-bottom:0}
+.view{background:#0b4aa8;color:#fff;box-shadow:0 4px 10px #0b4aa833;border-radius:7px;padding:6px 9px;font-size:9px;font-weight:800}.menu-dot{font-size:16px;color:#74839b}
+.toolbar{display:flex;gap:9px;margin-bottom:13px}.search{background:#fff;border:1px solid var(--line);border-radius:9px;height:39px;display:flex;align-items:center;padding:0 11px;flex:1;max-width:510px}.search input{border:0;outline:0;width:100%;font-size:11px}.select{height:39px;border:1px solid var(--line);border-radius:9px;background:#fff;padding:0 10px;color:#59677d;font-size:11px}
+.btn{display:flex;align-items:center;justify-content:center;gap:7px;padding:10px 13px;border-radius:9px;background:#263653;color:#fff;font-size:11px;font-weight:800;box-shadow:0 5px 12px #07183d33,inset 0 1px 0 #ffffff18}.btn.primary{background:linear-gradient(135deg,#073a91,#075bcf);color:#fff}.btn.success{background:linear-gradient(135deg,#087847,#10a960);color:#fff}.btn.warning{background:linear-gradient(135deg,#9a6500,#c78b00);color:#fff}.btn.danger{background:linear-gradient(135deg,#a61e2d,#d6323f);color:#fff}.btn:disabled{opacity:.5;cursor:not-allowed}
+.toolbar-right{margin-left:auto}.toolbar-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}.found{font-size:10px;color:#74839a}.pagination{display:flex;justify-content:flex-end;gap:5px;margin-top:12px}.page-btn{min-width:29px;height:29px;border:0;background:#263653;border-radius:7px;color:#fff;font-size:10px;box-shadow:0 4px 9px #07183d22}.page-btn.active{background:linear-gradient(135deg,#073a91,#075bcf);color:#fff;border-color:#075bcf}
+.process-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:17px}.process-main{position:relative}.process-main:before{content:"";position:absolute;left:0;top:18px;bottom:18px;width:4px;background:#1bc27a;border-radius:4px}.current{padding-left:14px}.eyebrow{font-size:8px;font-weight:900;letter-spacing:1.2px;color:#8492a7}.current h2{font-size:20px;margin:4px 0 14px}.fields{display:flex;gap:60px}.fields span{font-size:10px;color:#7a8798}.fields b{display:block;color:#2c3c53;margin-top:4px;font-size:12px}
+.det-card{background:linear-gradient(135deg,#f7fbff,#edf5ff);border:1px solid #dbe9fb;border-radius:12px;padding:15px;margin-top:16px}.det-card h3{margin:0 0 5px;font-size:14px}.det-card p{font-size:10px}.copy-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}.copy-chip{background:#fff;border:1px solid #dfe7f2;border-radius:8px;padding:8px 10px;font-size:10px;color:#40516b}.copy-chip b{color:#17233a}.hint{margin-top:10px;padding:9px;border-radius:8px;background:#fff7e8;color:#8b6100;font-size:9px}
+.open-detran{width:100%;height:43px;background:linear-gradient(135deg,#06398f,#075bcf);color:#fff;border-radius:9px;font-size:11px;font-weight:900;margin-top:11px;box-shadow:0 6px 14px #0757c044,inset 0 1px 0 #ffffff22}.result-buttons{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-top:15px}.result-buttons button{min-height:55px}.result-buttons small{display:block;font-size:8px;font-weight:600;margin-top:3px}
+.steps{display:grid;gap:10px;margin-top:8px}.step{display:flex;gap:9px;align-items:center;font-size:10px;color:#586b88}.step-num{width:20px;height:20px;border-radius:50%;background:#1758b4;color:#fff;display:grid;place-items:center;font-size:9px;font-weight:900;flex:0 0 auto}
+.badge{display:inline-block;border-radius:99px;padding:5px 8px;font-size:8px;font-weight:900}.success-badge{background:var(--greenbg);color:#138b54}.attention-badge{background:var(--yellowbg);color:#9a7000}.error-badge{background:var(--redbg);color:#c53d3d}.pending-badge{background:#edf0f4;color:#657184}.processing-badge{background:#e8f1ff;color:#1e5eb6}
+.empty{padding:35px;text-align:center;color:#778398}
+.modal-bg{position:fixed;inset:0;background:#061126aa;backdrop-filter:blur(4px);display:grid;place-items:center;padding:20px;z-index:20}.modal{background:#fff;border-radius:16px;padding:22px;width:min(650px,100%);box-shadow:0 25px 70px #0004}.modal-head{display:flex;justify-content:space-between}.modal-head h2{margin:0}.close{background:#eef1f5;width:34px;height:34px;border-radius:8px}.details{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}.details div{background:#f7f9fc;padding:11px;border-radius:9px}.details span{display:block;font-size:9px;color:#7b8799}.details b{display:block;font-size:12px;margin-top:4px}
+.login-overlay{position:fixed;inset:0;background:linear-gradient(135deg,#07183d,#174e9d);display:grid;place-items:center;padding:20px;z-index:9999}.login-card{width:min(430px,100%);background:#fff;border-radius:18px;padding:30px;box-shadow:0 25px 80px #0005}.login-brand{display:flex;align-items:center;gap:12px;margin-bottom:24px}.login-brand-icon{width:46px;height:46px;border-radius:13px;background:#1763d1;display:grid;place-items:center;color:#fff;font-weight:800;font-size:20px}.login-brand b{display:block;font-size:17px}.login-brand small{color:#71809a}.login-card h1{margin:0 0 7px;font-size:23px}.login-card p{color:#778398;font-size:13px}.login-field{margin-top:16px}.login-field label{display:block;font-size:12px;font-weight:700;margin-bottom:7px}.login-field input{width:100%;height:44px;border:1px solid #dfe5ed;border-radius:9px;padding:0 12px;outline:0}.login-btn{width:100%;height:44px;margin-top:20px;border-radius:9px;background:linear-gradient(135deg,#062e72,#0a4eb8);color:#fff;font-weight:800;box-shadow:0 6px 14px #0a3f9244,inset 0 1px 0 #ffffff22}.login-message{margin-top:13px;padding:11px;border-radius:9px;font-size:12px;display:none}.login-message.error{display:block;background:#fff0f0;color:#b93636}.login-message.info{display:block;background:#eef6ff;color:#205b9e}
+.toast{position:fixed;right:20px;bottom:20px;background:#12213e;color:#fff;padding:12px 15px;border-radius:10px;font-size:12px;z-index:50;box-shadow:0 10px 30px #0003}.toast.error{background:#a62d2d}
+@media(max-width:1150px){.cards{grid-template-columns:repeat(3,1fr)}.lower-grid{grid-template-columns:1fr 1fr}.lower-grid>div:last-child{grid-column:1/-1}}
+@media(max-width:850px){.sidebar{width:70px}.sidebar .brand div:last-child,.nav button span,.side-bottom{display:none}.nav button{justify-content:center}.brand{justify-content:center}.sidebar{padding:15px 8px}main{margin-left:70px;width:calc(100% - 70px);padding:15px}.process-grid{grid-template-columns:1fr}.progress-main{grid-template-columns:1fr}.progress-cta{width:100%}}
+@media(max-width:600px){.cards{grid-template-columns:1fr 1fr}.lower-grid{grid-template-columns:1fr}.lower-grid>div:last-child{grid-column:auto}.topbar{height:auto}.global-search{display:none}.top-title{align-items:flex-start}.datebox{display:none}.mini{grid-template-columns:1fr 1fr}.toolbar{flex-direction:column}.search{max-width:none}.fields{gap:25px}.result-buttons{grid-template-columns:1fr}.user{display:none}}
+
+:root{
+ --navy:#061737;--navy2:#0b2c63;--blue:#0867e8;--blue2:#3190ff;
+ --bg:#eef5ff;--card:#ffffff;--line:#d8e5f5;--text:#0b2858;--muted:#657b9e;
+ --green:#08b967;--greenbg:#e6fff2;--yellow:#ffb313;--yellowbg:#fff6d8;
+ --red:#f02f42;--redbg:#ffebee;
+ --shadow:0 18px 40px rgba(23,65,120,.13),0 3px 8px rgba(23,65,120,.08);
+}
+body{
+ background:
+   radial-gradient(circle at 92% 4%,rgba(45,137,255,.15),transparent 24%),
+   radial-gradient(circle at 10% 92%,rgba(20,94,202,.10),transparent 28%),
+   linear-gradient(135deg,#f7fbff 0%,#edf5ff 48%,#eaf2fd 100%);
+}
+body:before{
+ content:"";position:fixed;inset:auto 0 0 0;height:180px;z-index:-1;
+ background:
+  radial-gradient(60% 100% at 5% 100%,rgba(15,74,155,.16),transparent 70%),
+  radial-gradient(60% 100% at 75% 100%,rgba(47,126,232,.10),transparent 70%);
+ pointer-events:none;
+}
+.sidebar{
+ background:
+  radial-gradient(circle at 50% 30%,rgba(37,119,255,.18),transparent 32%),
+  linear-gradient(160deg,#04132f 0%,#08285d 55%,#06193e 100%);
+ box-shadow:8px 0 30px rgba(3,24,60,.18);
+}
+.sidebar:after{
+ content:"";position:absolute;left:-80px;right:-30px;bottom:-40px;height:210px;
+ background:radial-gradient(70% 100% at 20% 100%,rgba(26,103,221,.30),transparent 70%);
+ border-radius:50%;pointer-events:none;
+}
+.brand-icon{
+ width:46px;height:46px;border-radius:14px;
+ background:linear-gradient(145deg,#3b9bff,#0757cf);
+ box-shadow:inset 2px 2px 5px rgba(255,255,255,.35),inset -4px -5px 8px rgba(0,36,115,.35),0 10px 22px rgba(0,86,220,.35);
+ font-size:24px;
+}
+.brand b{font-size:15px}.brand small{font-size:11px}
+.nav button{
+ min-height:47px;padding:13px 14px;border-radius:12px;font-size:14px;
+ text-shadow:0 1px 1px rgba(0,0,0,.18);
+}
+.nav button.active{
+ background:linear-gradient(145deg,#2783f4,#0b58bd);
+ box-shadow:inset 1px 1px 2px rgba(255,255,255,.22),inset -3px -4px 8px rgba(0,31,104,.25),0 8px 20px rgba(0,82,194,.30);
+}
+main{padding:22px 34px 45px}
+.topbar{height:58px;margin-bottom:20px}
+.global-search{
+ height:44px;border-radius:14px;padding:0 16px;
+ box-shadow:inset 2px 2px 5px rgba(35,77,125,.08),0 5px 14px rgba(30,73,130,.07);
+}
+.global-search input{font-size:13px}
+.top-icon,.user{
+ height:44px;border-radius:13px;box-shadow:var(--shadow)
+}
+.user{padding:0 13px;font-size:12px}
+.avatar{
+ width:30px;height:30px;background:linear-gradient(145deg,#173e80,#071d49);
+ box-shadow:inset 1px 1px 2px rgba(255,255,255,.25),0 3px 8px #061b4330;
+}
+.top-title{margin:5px 0 22px}
+.top-title h1{font-size:32px;letter-spacing:-.8px;font-weight:850}
+.top-title p{font-size:14px;margin-top:7px}
+.datebox{font-size:12px}.datebox b{font-size:13px}
+.cards{gap:16px;margin-bottom:22px}
+.card{
+ min-height:91px;border-radius:17px;padding:17px 18px;
+ border:1px solid rgba(211,226,244,.9);
+ box-shadow:var(--shadow);
+ background:linear-gradient(145deg,#fff,#f5f9ff);
+ position:relative;overflow:hidden;
+}
+.card:after{
+ content:"";position:absolute;inset:0;background:linear-gradient(125deg,rgba(255,255,255,.65),transparent 38%,rgba(91,157,236,.05));
+ pointer-events:none;
+}
+.card-icon{
+ width:48px;height:48px;border-radius:14px;font-size:22px;
+ box-shadow:inset 2px 2px 5px rgba(255,255,255,.75),inset -4px -5px 9px rgba(39,101,178,.16),0 7px 14px rgba(35,95,170,.12);
+}
+.card-icon.green{box-shadow:inset 2px 2px 5px #fff9,inset -4px -5px 9px #07854d2a,0 7px 14px #07854d1a}
+.card-icon.yellow{box-shadow:inset 2px 2px 5px #fff9,inset -4px -5px 9px #c687002a,0 7px 14px #c687001a}
+.card-icon.red{box-shadow:inset 2px 2px 5px #fff9,inset -4px -5px 9px #c51f302a,0 7px 14px #c51f301a}
+.card span{font-size:11px}.card b{font-size:26px}.card small{font-size:10px}
+.panel{
+ border-radius:18px;padding:22px;margin-bottom:20px;
+ border:1px solid rgba(211,226,244,.92);
+ box-shadow:var(--shadow);
+ background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(247,251,255,.96));
+}
+.panel h2{font-size:19px}.panel p{font-size:12px}
+.progress-main{gap:22px}
+.progress{height:14px;box-shadow:inset 2px 3px 7px rgba(52,88,133,.12)}
+.progress div{box-shadow:0 0 12px rgba(31,115,230,.28)}
+.progress-row{font-size:12px;margin-top:9px}
+.progress-cta{
+ height:64px;border-radius:13px;font-size:14px;
+ background:linear-gradient(145deg,#2684f4,#0758c6);
+ box-shadow:inset 2px 2px 4px rgba(255,255,255,.28),inset -4px -5px 8px rgba(0,33,113,.32),0 10px 22px rgba(0,80,193,.25);
+}
+.progress-cta:hover,.open-detran:hover{
+ transform:translateY(-1px);
+ box-shadow:inset 2px 2px 4px rgba(255,255,255,.28),inset -4px -5px 8px rgba(0,33,113,.32),0 14px 26px rgba(0,80,193,.30);
+}
+.mini{gap:12px;margin-top:20px}.mini div{
+ padding:13px;border-radius:12px;
+ background:linear-gradient(145deg,#f9fbff,#eef5fd);
+ box-shadow:inset 1px 1px 3px #fff,inset -2px -3px 6px #cfdeee55;
+}.mini span{font-size:10px}.mini b{font-size:19px}
+.lower-grid{gap:16px}.simple-row{font-size:12px;padding:8px 0}
+.recent-empty{font-size:12px}.tip{font-size:12px}
+.toolbar{gap:12px;margin-bottom:16px}.search,.select{height:45px;border-radius:12px;box-shadow:inset 2px 2px 5px #31557c10,0 4px 12px #1d4d8a08}
+.search input,.select{font-size:12px}
+.found{font-size:11px}
+.table-wrap{border-radius:13px;box-shadow:inset 0 1px 3px #4c739d10}
+table{min-width:980px}th,td{padding:14px 13px;font-size:11px}th{font-size:9px}td{height:47px}
+.view{
+ padding:8px 12px;border-radius:9px;font-size:10px;
+ box-shadow:inset 1px 1px 2px #fff,inset -2px -3px 5px #bdd3ec66,0 3px 7px #3a70aa14;
+}
+.page-btn{min-width:34px;height:34px;border-radius:9px;box-shadow:0 3px 8px #2c5c9210}
+.page-btn.active{box-shadow:inset 1px 1px 2px #fff5,inset -2px -3px 5px #003e9666,0 5px 12px #0758c62b}
+.process-grid{gap:20px}.process-main{min-height:360px}
+.current h2{font-size:24px}.fields{gap:75px}.fields span{font-size:11px}.fields b{font-size:14px}
+.det-card{
+ border-radius:15px;padding:18px;
+ background:linear-gradient(145deg,#f8fcff,#eaf4ff);
+ box-shadow:inset 2px 2px 6px #fff,inset -4px -5px 10px #c7dbee77,0 8px 18px #316ba914;
+}
+.det-card h3{font-size:16px}.det-card p{font-size:11px}
+.copy-chip{padding:10px 12px;border-radius:10px;font-size:11px;box-shadow:inset 1px 1px 3px #fff,inset -2px -3px 5px #c8d9eb55}
+.open-detran{
+ height:50px;border-radius:11px;font-size:13px;
+ background:linear-gradient(145deg,#2784f5,#0758c5);
+ box-shadow:inset 2px 2px 4px #fff4,inset -4px -5px 8px #002d8c55,0 10px 20px #0758c52b;
+}
+.hint{font-size:10px;padding:11px;border-radius:10px}
+.result-buttons{gap:12px}.result-buttons button{min-height:68px;border-radius:13px;font-size:13px;box-shadow:inset 2px 2px 4px #fff9,inset -3px -4px 8px #00000013,0 7px 15px #315d9215}
+.result-buttons small{font-size:9px}
+.steps{gap:13px}.step{font-size:12px}.step-num{
+ width:27px;height:27px;font-size:11px;
+ background:linear-gradient(145deg,#2d83f2,#0758bf);
+ box-shadow:inset 1px 1px 3px #fff5,inset -2px -3px 5px #003c9055,0 5px 10px #0758c62b;
+}
+.badge{padding:6px 10px;font-size:9px;box-shadow:inset 1px 1px 2px #fff8,inset -2px -2px 4px #0000000b}
+
+
+/* LATERAL — réplica fiel da referência fornecida */
+.sidebar{
+  width:240px;
+  top:0;left:10px;bottom:12px;right:auto;
+  padding:20px 15px 18px;
+  border-radius:0 0 25px 25px;
+  overflow:hidden;
+  background:#061b45;
+  box-shadow:8px 0 22px rgba(0,35,92,.18);
+  color:#fff;
+}
+.sidebar:before{
+  content:"";
+  position:absolute;inset:0;
+  background:
+    radial-gradient(105% 44% at 54% 100%,rgba(22,91,194,.28),transparent 67%),
+    linear-gradient(180deg,#061a43 0%,#061b45 64%,#061b45 100%);
+  pointer-events:none;
+  z-index:-2;
+}
+.sidebar:after{
+  content:"";
+  position:absolute;
+  left:-28px;right:-38px;bottom:-6px;height:210px;
+  background:linear-gradient(152deg,transparent 0 25%,rgba(13,58,128,.62) 26%,rgba(7,31,75,.12) 70%);
+  border-radius:52% 60% 0 0/55% 52% 0 0;
+  pointer-events:none;
+  z-index:-1;
+}
+.brand{
+  height:64px;
+  padding:0 4px 0 4px;
+  gap:14px;
+  align-items:center;
+  margin-bottom:14px;
+}
+.brand-icon{
+  width:55px;height:55px;flex:0 0 55px;
+  border-radius:14px;
+  background:linear-gradient(145deg,#3a9aff 0%,#0867e8 48%,#0754ca 100%);
+  display:grid;place-items:center;
+  box-shadow:inset 2px 2px 4px rgba(255,255,255,.36),inset -5px -6px 9px rgba(0,39,128,.35),0 7px 17px rgba(0,79,205,.30);
+}
+.brand-icon svg{width:35px;height:35px;display:block}
+.brand-copy{min-width:0}
+.brand b{font-size:16px;line-height:1.08;letter-spacing:.15px;color:#fff;font-weight:800}
+.brand small{display:block;margin-top:7px;font-size:12px;line-height:1;color:#90a9d2}
+.nav{display:grid;gap:8px;padding:0}
+.nav button{
+  height:50px;min-height:50px;
+  padding:0 14px;
+  border-radius:12px;
+  gap:14px;
+  color:#fff;
+  background:transparent;
+  font-size:16px;
+  font-weight:700;
+  letter-spacing:.05px;
+  box-shadow:none;
+  text-shadow:none;
+}
+.nav button:hover{background:rgba(22,91,194,.22);box-shadow:none}
+.nav button.active{
+  background:linear-gradient(135deg,#237cf0 0%,#0759c8 100%);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.20),inset 0 -4px 7px rgba(0,30,104,.24),0 0 0 1px rgba(54,157,255,.55),0 5px 14px rgba(0,96,226,.30);
+}
+.nav-ico{
+  width:30px;height:30px;flex:0 0 30px;
+  display:grid;place-items:center;
+  font-size:0;color:#fff;
+}
+.nav-ico svg{width:25px;height:25px;display:block}
+.nav button:not(.active) .nav-ico svg{width:24px;height:24px}
+.side-bottom{
+  left:23px;bottom:20px;
+  font-size:13px;line-height:19px;
+  color:#fff;
+  z-index:2;
+}
+.side-bottom .dot{
+  width:14px;height:14px;
+  margin-right:13px;
+  vertical-align:-2px;
+  background:#2bd65f;
+  box-shadow:0 0 8px rgba(43,214,95,.48),inset 1px 1px 2px rgba(255,255,255,.35);
+}
+.online-text{font-size:13px;color:#fff}
+.connected-text{display:inline-block;margin-left:28px;color:#8198bf;font-size:12px}
+@media(max-width:850px){
+  .sidebar{width:70px;left:0;bottom:0;border-radius:0;padding:15px 8px}
+  .brand-copy,.nav button span,.side-bottom{display:none}
+  .nav button{justify-content:center;padding:0}
+  .brand{justify-content:center;padding:0;margin-bottom:14px}
+  .brand-icon{width:46px;height:46px;flex-basis:46px}
+  .brand-icon svg{width:30px;height:30px}
+}
+
+
+/* DASHBOARD — ajuste visual fiel à referência fornecida */
+.dashboard-page{width:100%}
+.dashboard-page .top-title{margin:0 0 18px}
+.dashboard-page .top-title h1{font-size:34px;line-height:1.02;color:#09285b;font-weight:850}
+.dashboard-page .top-title p{font-size:14px;color:#294a78;font-weight:600;margin-top:7px}
+.dashboard-page .datebox{display:flex;align-items:center;gap:12px;color:#183862;font-size:12px;line-height:1.25}
+.dashboard-page .date-icon{width:26px;height:26px;color:#092e67;display:grid;place-items:center}
+.dashboard-page .date-icon svg{width:25px;height:25px}
+.dashboard-page .datebox b{color:#17375f;font-size:13px}
+.dashboard-page .stat-cards{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:15px;margin-bottom:15px}
+.dashboard-page .stat-card{
+  min-width:0;height:86px;padding:14px 17px;display:flex;align-items:center;gap:15px;
+  border:1px solid #d7e4f3;border-radius:16px;
+  background:linear-gradient(145deg,#fff 0%,#f6faff 100%);
+  box-shadow:0 11px 24px rgba(35,79,133,.12),0 2px 5px rgba(35,79,133,.07);
+  position:relative;overflow:hidden
+}
+.dashboard-page .stat-card:before{
+  content:"";position:absolute;inset:0;background:linear-gradient(125deg,rgba(255,255,255,.75),transparent 42%,rgba(72,139,222,.045));pointer-events:none
+}
+.dashboard-page .stat-icon{
+  width:50px;height:50px;flex:0 0 50px;border-radius:14px;display:grid;place-items:center;
+  box-shadow:inset 2px 2px 5px rgba(255,255,255,.82),inset -4px -5px 9px rgba(41,101,176,.16),0 7px 14px rgba(35,95,170,.12)
+}
+.dashboard-page .stat-icon svg{width:30px;height:30px}
+.dashboard-page .stat-icon.blue{background:linear-gradient(145deg,#d9ecff,#9cc8ff);color:#1764c9}
+.dashboard-page .stat-icon.green{background:linear-gradient(145deg,#54df86,#00a75f);color:#fff;box-shadow:inset 2px 2px 5px rgba(255,255,255,.55),inset -4px -5px 9px rgba(0,83,48,.28),0 7px 14px rgba(0,145,82,.16)}
+.dashboard-page .stat-icon.yellow{background:linear-gradient(145deg,#ffe77a,#ffbd16);color:#fff;box-shadow:inset 2px 2px 5px rgba(255,255,255,.58),inset -4px -5px 9px rgba(167,104,0,.22),0 7px 14px rgba(190,132,0,.15)}
+.dashboard-page .stat-icon.red{background:linear-gradient(145deg,#ff6470,#ef142d);color:#fff;box-shadow:inset 2px 2px 5px rgba(255,255,255,.5),inset -4px -5px 9px rgba(134,0,17,.28),0 7px 14px rgba(205,21,41,.15)}
+.dashboard-page .stat-icon.purple{background:linear-gradient(145deg,#a77aff,#7140d6);color:#fff;box-shadow:inset 2px 2px 5px rgba(255,255,255,.5),inset -4px -5px 9px rgba(67,23,138,.28),0 7px 14px rgba(105,60,210,.15)}
+.dashboard-page .stat-copy{min-width:0;position:relative}
+.dashboard-page .stat-copy span{display:block;font-size:12px;color:#274977;line-height:1.1;white-space:nowrap}
+.dashboard-page .stat-copy b{display:block;font-size:27px;line-height:1;color:#102e5c;margin:4px 0 3px}
+.dashboard-page .stat-copy small{display:block;font-size:10px;color:#49658d;white-space:nowrap}
+.dashboard-page .dashboard-progress{
+  display:grid;grid-template-columns:minmax(0,1fr) 356px;gap:10px;margin-bottom:14px
+}
+.dashboard-page .progress-card,.dashboard-page .start-card{
+  height:99px;border:1px solid #d7e4f3;border-radius:16px;
+  background:linear-gradient(145deg,#fff,#f7fbff);
+  box-shadow:0 11px 24px rgba(35,79,133,.12),0 2px 5px rgba(35,79,133,.07)
+}
+.dashboard-page .progress-card{padding:13px 25px 12px}
+.dashboard-page .progress-card h2{margin:0 0 10px;font-size:19px;color:#102e5c}
+.dashboard-page .progress-track{height:17px;background:#dce8f5;border-radius:999px;overflow:hidden;box-shadow:inset 2px 3px 7px rgba(43,77,121,.13)}
+.dashboard-page .progress-track>div{height:100%;background:linear-gradient(90deg,#2d8af5,#2474d9);border-radius:999px;box-shadow:0 0 12px rgba(35,116,221,.24)}
+.dashboard-page .progress-meta{display:flex;justify-content:space-between;align-items:center;margin-top:7px;color:#17375f;font-size:13px}
+.dashboard-page .progress-meta b{font-size:12px}
+.dashboard-page .progress-meta .pct{font-size:17px;font-weight:850}
+.dashboard-page .start-card{padding:11px 23px;display:flex;align-items:center}
+.dashboard-page .start-card button{
+  width:100%;height:70px;border-radius:14px;color:#fff;
+  background:linear-gradient(145deg,#2586f5,#0758c6);
+  box-shadow:inset 2px 2px 4px rgba(255,255,255,.28),inset -4px -5px 8px rgba(0,33,113,.32),0 10px 22px rgba(0,80,193,.25);
+  display:flex;align-items:center;justify-content:center;gap:15px;text-align:left
+}
+.dashboard-page .start-card button:hover{transform:translateY(-1px)}
+.dashboard-page .play-icon{
+  width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(145deg,#4a9cff,#0e6fe0);
+  box-shadow:inset 1px 1px 3px rgba(255,255,255,.35),inset -3px -4px 6px rgba(0,48,130,.25)
+}
+.dashboard-page .play-icon svg{width:22px;height:22px}
+.dashboard-page .start-text strong{display:block;font-size:16px;line-height:1.1}
+.dashboard-page .start-text small{display:block;margin-top:4px;font-size:10px;font-weight:500;opacity:.92}
+.dashboard-page .dashboard-lower{display:grid;grid-template-columns:1fr 1.16fr 1.08fr;gap:10px}
+.dashboard-page .dash-panel{
+  min-height:187px;padding:12px 25px 14px;border:1px solid #d7e4f3;border-radius:16px;
+  background:linear-gradient(145deg,#fff,#f8fbff);
+  box-shadow:0 11px 24px rgba(35,79,133,.12),0 2px 5px rgba(35,79,133,.07)
+}
+.dashboard-page .dash-panel h2{margin:0;color:#102e5c;font-size:18px;line-height:1.2}
+.dashboard-page .panel-title-icon{display:inline-grid;vertical-align:-5px;margin-right:8px}
+.dashboard-page .status-list{margin-top:7px}
+.dashboard-page .status-row{height:28px;border-bottom:1px solid #e5edf6;display:flex;align-items:center;justify-content:space-between;color:#294a78;font-size:13px}
+.dashboard-page .status-row:last-child{border-bottom:0}
+.dashboard-page .status-left{display:flex;align-items:center;gap:10px}
+.dashboard-page .status-ball{width:13px;height:13px;border-radius:50%;box-shadow:inset 1px 1px 2px rgba(255,255,255,.55),0 2px 5px rgba(25,70,120,.15)}
+.dashboard-page .status-row b{color:#102e5c;font-size:13px}
+.dashboard-page .activity-empty{text-align:center;padding:23px 10px 0;color:#17375f;font-size:13px;font-weight:650}
+.dashboard-page .activity-clock{
+  width:58px;height:58px;border-radius:50%;margin:0 auto 14px;display:grid;place-items:center;
+  background:linear-gradient(145deg,#f9fcff,#eaf3ff);color:#1972d8;
+  box-shadow:inset 2px 2px 5px #fff,inset -4px -5px 9px #c8dbee88,0 7px 15px rgba(31,103,185,.12)
+}
+.dashboard-page .activity-clock svg{width:31px;height:31px}
+.dashboard-page .activity-empty small{display:block;margin-top:5px;font-size:12px;font-weight:500;color:#5d769c}
+.dashboard-page .tips{margin-top:6px}
+.dashboard-page .tip-row{display:flex;align-items:center;gap:9px;height:28px;color:#294a78;font-size:13px}
+.dashboard-page .tip-check{
+  width:17px;height:17px;border-radius:50%;display:grid;place-items:center;background:#0cb36b;color:#fff;font-size:11px;font-weight:900;
+  box-shadow:inset 1px 1px 2px rgba(255,255,255,.45),0 2px 5px rgba(0,128,76,.14)
+}
+.dashboard-page .tip-bulb{font-size:22px;vertical-align:-3px;margin-right:7px}
+.dashboard-page .quote{margin-top:5px;color:#5a7295;font-size:12px;font-style:italic}
+@media(max-width:1250px){
+ .dashboard-page .stat-cards{grid-template-columns:repeat(3,1fr)}
+ .dashboard-page .dashboard-progress{grid-template-columns:1fr}
+ .dashboard-page .start-card{height:88px}.dashboard-page .start-card button{height:64px}
+}
+@media(max-width:900px){
+ .dashboard-page .dashboard-lower{grid-template-columns:1fr 1fr}
+ .dashboard-page .dashboard-lower .dash-panel:last-child{grid-column:1/-1}
+}
+@media(max-width:650px){
+ .dashboard-page .stat-cards{grid-template-columns:1fr 1fr}
+ .dashboard-page .dashboard-lower{grid-template-columns:1fr}
+ .dashboard-page .dashboard-lower .dash-panel:last-child{grid-column:auto}
+ .dashboard-page .top-title{align-items:flex-start}
+ .dashboard-page .datebox{display:none}
+}
+
+
+/* === BOTÕES MAIS VIVOS — mantendo a mesma paleta do layout === */
+.btn.primary,
+.page-btn.active{
+  background:linear-gradient(145deg,#2b8cff 0%,#0870ee 48%,#0457c9 100%);
+  color:#fff;
+  border-color:#0870ee;
+  box-shadow:inset 2px 2px 5px rgba(255,255,255,.34),inset -3px -4px 8px rgba(0,48,130,.25),0 7px 16px rgba(0,93,220,.28);
+}
+.btn.primary:hover,.page-btn.active:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn.success{
+  background:linear-gradient(145deg,#35e98b 0%,#08c66b 48%,#009a50 100%);
+  color:#fff;
+  box-shadow:inset 2px 2px 5px rgba(255,255,255,.38),inset -3px -4px 8px rgba(0,88,45,.25),0 7px 16px rgba(0,166,91,.28);
+}
+.btn.warning{
+  background:linear-gradient(145deg,#ffe65c 0%,#ffc21b 48%,#ee9f00 100%);
+  color:#fff;
+  box-shadow:inset 2px 2px 5px rgba(255,255,255,.42),inset -3px -4px 8px rgba(142,83,0,.22),0 7px 16px rgba(226,157,0,.25);
+}
+.btn.danger{
+  background:linear-gradient(145deg,#ff5c68 0%,#f3223d 48%,#d90927 100%);
+  color:#fff;
+  box-shadow:inset 2px 2px 5px rgba(255,255,255,.36),inset -3px -4px 8px rgba(116,0,17,.25),0 7px 16px rgba(220,23,48,.27);
+}
+.btn.success:hover,.btn.warning:hover,.btn.danger:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.open-detran,
+.start-card button{
+  background:linear-gradient(145deg,#2d91ff 0%,#0870ed 45%,#0455c8 100%) !important;
+  box-shadow:inset 2px 2px 6px rgba(255,255,255,.38),inset -4px -5px 10px rgba(0,48,130,.28),0 9px 20px rgba(0,91,218,.30) !important;
+}
+.open-detran:hover,.start-card button:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.nav button.active{
+  background:linear-gradient(145deg,#3191ff 0%,#0870ec 45%,#0756c8 100%);
+  box-shadow:inset 2px 2px 5px rgba(255,255,255,.28),inset -3px -4px 8px rgba(0,44,120,.25),0 7px 18px rgba(0,92,215,.32);
+}
+.copy-chip:hover{border-color:#4b9cff;background:#f1f7ff;box-shadow:0 5px 12px rgba(33,111,210,.12)}
+
+
+/* BOTÕES — PALETA ESCURA COMPLETA */
+.btn, .view, .page-btn, .progress-cta, .open-detran, .login-btn {
+  border: 0;
+  color: #fff !important;
+}
+.btn.success { background: linear-gradient(135deg,#075f38,#0b8d50) !important; }
+.btn.warning { background: linear-gradient(135deg,#805300,#ad7600) !important; }
+.btn.danger { background: linear-gradient(135deg,#8d1826,#b92735) !important; }
+.btn.primary, .progress-cta, .open-detran, .page-btn.active, .login-btn {
+  background: linear-gradient(135deg,#062f78,#0753bb) !important;
+}
+.btn:not(.primary):not(.success):not(.warning):not(.danger) {
+  background: linear-gradient(135deg,#182844,#263b5d) !important;
+}
+.view { background: linear-gradient(135deg,#073777,#0a4b9f) !important; }
+.page-btn { background: linear-gradient(135deg,#172640,#263b5d) !important; }
+</style>
+</head>
+<body>
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-card">
+    <div class="login-brand"><div class="login-brand-icon">✓</div><div><b>CNH CHECKER</b><small>DETRAN-MT</small></div></div>
+    <h1>Acesso restrito</h1><p>Entre com seu usuário para acessar o sistema.</p>
+    <form id="loginForm">
+      <div class="login-field"><label>E-mail</label><input id="loginEmail" type="email" autocomplete="username" required placeholder="seu@email.com"></div>
+      <div class="login-field"><label>Senha</label><input id="loginPassword" type="password" autocomplete="current-password" required placeholder="••••••••"></div>
+      <button class="login-btn" type="submit">Entrar</button>
+    </form>
+    <div id="loginMessage" class="login-message"></div>
+    <p style="text-align:center;font-size:10px;margin-top:18px">Acesso protegido por Supabase Auth</p>
+  </div>
+</div>
+
+<div class="app">
+<aside class="sidebar">
+  <div class="brand">
+    <div class="brand-icon" aria-hidden="true"><svg viewBox="0 0 32 32" width="32" height="32"><path d="M7.5 16.5l5.4 5.4L24.8 9.8" fill="none" stroke="white" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="brand-copy"><b>CNH CHECKER</b><small>DETRAN-MT</small></div>
+  </div>
+  <div class="nav" id="nav">
+    <button class="active" data-page="dashboard"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 11.2 12 4l9 7.2v8.3a1.5 1.5 0 0 1-1.5 1.5H4.5A1.5 1.5 0 0 1 3 19.5v-8.3Z" fill="currentColor"/><path d="M9 21v-6h6v6" fill="none" stroke="#0a58b9" stroke-width="2"/></svg></span><span>Dashboard</span></button>
+    <button data-page="motoristas"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="7.2" r="4" fill="currentColor"/><path d="M4.2 20.2c.6-4.1 3.1-6.2 7.8-6.2s7.2 2.1 7.8 6.2" fill="currentColor"/></svg></span><span>Motoristas</span></button>
+    <button data-page="processamento"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.5 2h5l.7 2.3 2 1.2 2.3-.5 2.5 4.3-1.7 1.7v2.4l1.7 1.7-2.5 4.3-2.3-.5-2 1.2-.7 2.3h-5l-.7-2.3-2-1.2-2.3.5L2 15.1l1.7-1.7V11L2 9.3 4.5 5l2.3.5 2-1.2L9.5 2Z" fill="currentColor"/><circle cx="12" cy="12" r="3.2" fill="#071b45"/></svg></span><span>Processamento</span></button>
+  </div>
+  <div class="side-bottom"><span class="dot"></span><span class="online-text">Sistema online</span><br><span class="connected-text">Supabase conectado</span></div>
+</aside>
+<main id="main"></main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL="https://antkqvrbcebqucqdkmau.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_Xc2Y7koEBU-BCGwsgMPDiw_ObyBXQ-I";
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+const DETRAN_URL="https://www.detran.mt.gov.br/consulte-sua-habilitacao";
+
+const loginOverlay=document.getElementById('loginOverlay'),loginForm=document.getElementById('loginForm'),loginMessage=document.getElementById('loginMessage'),main=document.getElementById('main');
+let page='dashboard',drivers=[],selected=null,query='',filter='TODOS',loading=false,currentPage=1;
+const PAGE_SIZE=10;
+
+function msg(t,error=false){const e=document.createElement('div');e.className='toast'+(error?' error':'');e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2600)}
+function setLogin(t,type='info'){loginMessage.textContent=t;loginMessage.className='login-message '+type}
+function showSystem(){loginOverlay.style.display='none'} function showLogin(){loginOverlay.style.display='grid'}
+async function initAuth(){const {data,error}=await supabaseClient.auth.getSession();if(error){setLogin('Erro ao verificar sessão.','error');return}if(data.session)showSystem();else showLogin();supabaseClient.auth.onAuthStateChange((_e,s)=>s?showSystem():showLogin())}
+loginForm.addEventListener('submit',async e=>{e.preventDefault();setLogin('Entrando...','info');const {error}=await supabaseClient.auth.signInWithPassword({email:loginEmail.value.trim(),password:loginPassword.value});if(error){setLogin('E-mail ou senha inválidos.','error');return}showSystem();await loadDrivers();render()});
+async function logout(){await supabaseClient.auth.signOut();showLogin()}
+function maskCPF(cpf){const s=String(cpf||'').replace(/\D/g,'');return s.length>=11?s.slice(0,3)+'.***.***-'+s.slice(-2):s||'—'}
+function fullCPF(cpf){const s=String(cpf||'').replace(/\D/g,'');return s.length===11?s.slice(0,3)+'.'+s.slice(3,6)+'.'+s.slice(6,9)+'-'+s.slice(9):String(cpf||'—')}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+function norm(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+function statusKey(s){return String(s||'pendente').toLowerCase()}
+function badge(s){const k=statusKey(s),map={sucesso:['success-badge','Sucesso'],atencao:['attention-badge','Atenção'],erro:['error-badge','Erro'],pendente:['pending-badge','Pendente'],processando:['processing-badge','Processando']};const [c,l]=map[k]||map.pendente;return `<span class="badge ${c}">${l}</span>`}
+function topbar(){return `<div class="topbar"><div class="global-search"><span style="font-size:21px;color:#123e78">⌕</span><input placeholder="Conferência de motoristas do DETRAN-MT..." onkeydown="if(event.key==='Enter'){page='motoristas';query=this.value;currentPage=1;render()}"></div><div class="top-right"><button class="top-icon" title="Notificações" style="position:relative">♧<span style="position:absolute;right:7px;top:5px;width:7px;height:7px;border-radius:50%;background:#e3293d;box-shadow:0 0 0 2px #fff"></span></button><div class="user"><span class="avatar">AD</span><span>Administrador</span><b style="font-size:15px;margin-left:3px">⌄</b></div></div></div>`}
+function header(title,sub,withDate=false){return topbar()+`<div class="top-title"><div><h1>${title}</h1><p>${sub}</p></div>${withDate?`<div class="datebox"><span class="date-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5" width="17" height="16" rx="2.5" stroke="currentColor" stroke-width="2"/><path d="M7 3v4M17 3v4M3.5 9.5h17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M8 13h2M14 13h2M8 17h2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><b id="dashboardDate">21 de setembro de 2026</b><span id="dashboardTime">20:34</span></span></div>`:''}</div>`}
+function statIcon(type){
+ const icons={
+  users:`<svg viewBox="0 0 32 32" fill="none"><circle cx="12" cy="10" r="5" fill="currentColor"/><circle cx="22" cy="12" r="4" fill="currentColor" opacity=".82"/><path d="M4 26c.7-6 4-9 9-9s8.3 3 9 9" fill="currentColor"/><path d="M18 20c1.5-2 3.3-3 5.5-3 3.2 0 5.2 2.4 5.5 6" fill="currentColor" opacity=".82"/></svg>`,
+  check:`<svg viewBox="0 0 32 32" fill="none"><path d="m7 16 6 6L26 9" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  alert:`<svg viewBox="0 0 32 32" fill="none"><path d="M16 5 29 27H3L16 5Z" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M16 12v7M16 23v.5" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/></svg>`,
+  error:`<svg viewBox="0 0 32 32" fill="none"><path d="M9 9l14 14M23 9 9 23" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>`,
+  clock:`<svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="11" stroke="currentColor" stroke-width="3"/><path d="M16 9v8l5 3" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+ };
+ return icons[type]||icons.clock;
+}
+function stats(){const c=counts();return `<div class="stat-cards">
+<div class="stat-card"><div class="stat-icon blue">${statIcon('users')}</div><div class="stat-copy"><span>Total de motoristas</span><b>${c.total}</b><small>Base atual</small></div></div>
+<div class="stat-card"><div class="stat-icon green">${statIcon('check')}</div><div class="stat-copy"><span>Sucesso</span><b>${c.suc}</b><small>Consultas concluídas</small></div></div>
+<div class="stat-card"><div class="stat-icon yellow">${statIcon('alert')}</div><div class="stat-copy"><span>Atenção</span><b>${c.att}</b><small>Revisão manual</small></div></div>
+<div class="stat-card"><div class="stat-icon red">${statIcon('error')}</div><div class="stat-copy"><span>Erros</span><b>${c.err}</b><small>Necessitam revisão</small></div></div>
+<div class="stat-card"><div class="stat-icon purple">${statIcon('clock')}</div><div class="stat-copy"><span>Pendentes</span><b>${c.pend}</b><small>Aguardando consulta</small></div></div>
+</div>`}
+function progress(){const c=counts(),pct=c.total?Math.round(c.done/c.total*100):0;return `<div class="dashboard-progress">
+<div class="progress-card"><h2>Progresso da conferência</h2><div class="progress-track"><div style="width:${pct}%"></div></div><div class="progress-meta"><b>${c.done} de ${c.total} motoristas processados</b><span class="pct">${pct}%</span></div></div>
+<div class="start-card"><button onclick="page='processamento';selected=null;render()"><span class="play-icon"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5.5v13L19 12 8 5.5Z"/></svg></span><span class="start-text"><strong>Iniciar processamento</strong><small>Consultar motoristas no DETRAN-MT</small></span></button></div>
+</div>`}
+function dashboardLower(){const c=counts();return `<div class="dashboard-lower">
+<div class="dash-panel"><h2>Status atual</h2><div class="status-list">
+<div class="status-row"><span class="status-left"><i class="status-ball" style="background:#11bd68"></i>Concluídos</span><b>${c.done}</b></div>
+<div class="status-row"><span class="status-left"><i class="status-ball" style="background:#2879e8"></i>Em processamento</span><b>${c.proc}</b></div>
+<div class="status-row"><span class="status-left"><i class="status-ball" style="background:#b8c7d9"></i>Pendentes</span><b>${c.pend}</b></div>
+<div class="status-row"><span class="status-left"><i class="status-ball" style="background:#ffc21d"></i>Atenção</span><b>${c.att}</b></div>
+<div class="status-row"><span class="status-left"><i class="status-ball" style="background:#f12f43"></i>Erros</span><b>${c.err}</b></div>
+</div></div>
+<div class="dash-panel"><h2><span class="panel-title-icon">◷</span>Atividade recente</h2><div class="activity-empty"><div class="activity-clock">${statIcon('clock')}</div>Nenhuma consulta realizada ainda.<small>As consultas aparecerão aqui em tempo real.</small></div></div>
+<div class="dash-panel"><h2><span class="tip-bulb">💡</span>Dicas</h2><div class="tips">
+<div class="tip-row"><span class="tip-check">✓</span>Mantenha sua conexão estável</div>
+<div class="tip-row"><span class="tip-check">✓</span>Use o processamento assistido</div>
+<div class="tip-row"><span class="tip-check">✓</span>Verifique os resultados com atenção</div>
+<div class="tip-row"><span class="tip-check">✓</span>Em caso de erro, revise manualmente</div>
+<div class="quote">“Informação hoje, um trânsito mais seguro amanhã.”</div>
+</div></div></div>`}
+function renderDashboard(){main.innerHTML=`<div class="dashboard-page">${header('Dashboard','Visão geral da conferência de motoristas',true)}${stats()}${progress()}${dashboardLower()}</div>`}
+function renderMotoristas(){let data=drivers.filter(d=>(filter==='TODOS'||statusKey(d.status)===filter)&&norm(`${d.nome} ${d.cpf} ${d.renach}`).includes(norm(query)));const pages=Math.max(1,Math.ceil(data.length/PAGE_SIZE));if(currentPage>pages)currentPage=pages;const shown=data.slice((currentPage-1)*PAGE_SIZE,currentPage*PAGE_SIZE);let pag='';for(let i=1;i<=pages;i++){if(i<=5||i===pages)pag+=`<button class="page-btn ${i===currentPage?'active':''}" onclick="currentPage=${i};render()">${i}</button>`}main.innerHTML=header('Motoristas','Motoristas carregados no Supabase')+`<div class="toolbar"><div class="search">⌕ <input placeholder="Buscar por nome, CPF ou RENACH..." value="${esc(query)}" oninput="query=this.value;currentPage=1;render()"></div><select class="select" onchange="filter=this.value;currentPage=1;render()"><option value="TODOS">Todos os status</option><option value="pendente">Pendente</option><option value="processando">Processando</option><option value="sucesso">Sucesso</option><option value="atencao">Atenção</option><option value="erro">Erro</option></select><div class="found">${data.length} motoristas encontrados</div></div><div class="panel"><div class="toolbar-title"><h2>Lista de motoristas</h2><span class="found">Página ${currentPage} de ${pages}</span></div>${table(shown)}<div class="pagination"><button class="page-btn" onclick="currentPage=Math.max(1,currentPage-1);render()">‹</button>${pag}<button class="page-btn" onclick="currentPage=Math.min(${pages},currentPage+1);render()">›</button></div></div>`}
+async function loadDrivers(){
+  loading=true;
+  try{
+    const {data,error}=await supabaseClient.from('motoristas').select('*').order('criado_em',{ascending:true});
+    if(error){
+      console.error(error);
+      msg('Não foi possível carregar os motoristas do Supabase.',true);
+      drivers=[];
+      return;
+    }
+    drivers=Array.isArray(data)?data:[];
+  }finally{loading=false}
+}
+function counts(){
+  const total=drivers.length;
+  const suc=drivers.filter(d=>statusKey(d.status)==='sucesso').length;
+  const att=drivers.filter(d=>statusKey(d.status)==='atencao').length;
+  const err=drivers.filter(d=>statusKey(d.status)==='erro').length;
+  const proc=drivers.filter(d=>statusKey(d.status)==='processando').length;
+  const pend=drivers.filter(d=>statusKey(d.status)==='pendente').length;
+  return {total,suc,att,err,proc,pend,done:suc+att+err};
+}
+function table(rows){
+  if(!rows.length)return '<div class="empty"><h3>Nenhum motorista encontrado</h3><p>Não há registros para os filtros selecionados.</p></div>';
+  return `<div class="table-wrap"><table><thead><tr><th>Nome</th><th>CPF</th><th>RENACH</th><th>Status</th><th>Resultado</th><th>Consulta</th><th></th></tr></thead><tbody>${rows.map(d=>`<tr>
+    <td><strong>${esc(d.nome||'—')}</strong></td>
+    <td>${esc(maskCPF(d.cpf))}</td>
+    <td>${esc(d.renach||'—')}</td>
+    <td>${badge(d.status)}</td>
+    <td>${esc(d.resultado||'—')}</td>
+    <td>${d.data_consulta?new Date(d.data_consulta).toLocaleString('pt-BR'):'—'}</td>
+    <td><button class="view" onclick="openDetails('${esc(d.id)}')">Ver detalhes</button></td>
+  </tr>`).join('')}</tbody></table></div>`;
+}
+function nextPending(){return drivers.find(d=>['pendente','processando'].includes(statusKey(d.status)))||null}
+function currentDriver(){if(selected)return selected;return nextPending()}
+function renderProcessamento(){const d=currentDriver();if(!d){main.innerHTML=header('Processamento','Faça a consulta no portal oficial e registre o resultado')+`<div class="panel empty"><h2>Fila concluída 🎉</h2><p>Não há motoristas pendentes para consulta.</p></div>`;return}selected=d;const c=counts();main.innerHTML=header('Processamento','Faça a consulta no portal oficial e registre o resultado')+`<div class="panel"><div class="panel-head"><div><h2>Fila de consulta</h2><p>${c.done} de ${c.total} concluídos</p></div><div>${badge(d.status)}</div></div><div class="progress"><div style="width:${c.total?Math.round(c.done/c.total*100):0}%"></div></div></div><div class="process-grid"><div class="panel process-main"><div class="current"><div class="eyebrow">MOTORISTA ATUAL</div><h2>${esc(d.nome)}</h2><div class="fields"><span>CPF<b>${maskCPF(d.cpf)}</b></span><span>RENACH<b>${esc(d.renach||'—')}</b></span></div><div class="det-card"><h3>↗ Consultar no DETRAN-MT</h3><p>Abra a página oficial “Consulte sua Habilitação” em uma nova aba.</p><div class="copy-row"><button class="copy-chip" onclick="copyText('${esc(d.cpf)}','CPF copiado')">▣ CPF <b>${maskCPF(d.cpf)}</b></button><button class="copy-chip" onclick="copyText('${esc(d.renach||'')}','RENACH copiado')">▣ RENACH <b>${esc(d.renach||'—')}</b></button><button class="copy-chip" onclick="copyBoth()">▣ Copiar os dois</button></div><button class="open-detran" onclick="openDetran()">↗ Abrir DETRAN-MT</button><div class="hint">Depois da consulta, volte para esta aba e registre o resultado. O reCAPTCHA continua sendo feito normalmente no portal.</div></div></div><div class="result-buttons"><button class="btn success" onclick="finishDriver('sucesso')">✓ Sucesso<small>Consulta realizada com sucesso</small></button><button class="btn warning" onclick="finishDriver('atencao')">⚠ Atenção<small>Necessita revisão manual</small></button><button class="btn danger" onclick="finishDriver('erro')">× Erro<small>Problema na consulta</small></button></div></div><div class="panel"><div class="eyebrow">COMO FUNCIONA?</div><h2>Consulta assistida</h2><div class="steps"><div class="step"><span class="step-num">1</span>Abra o site do DETRAN-MT</div><div class="step"><span class="step-num">2</span>Preencha o CPF e o RENACH</div><div class="step"><span class="step-num">3</span>Resolva o reCAPTCHA</div><div class="step"><span class="step-num">4</span>Clique em Consultar</div><div class="step"><span class="step-num">5</span>Volte aqui e registre o resultado</div></div><hr style="border:0;border-top:1px solid #edf0f4;margin:18px 0"><button class="btn" style="width:100%" onclick="openDetails('${d.id}')">▣ Ver detalhes do motorista</button></div></div>`}
+async function copyText(value,label){try{await navigator.clipboard.writeText(String(value||''));msg(label)}catch{msg('Não foi possível copiar automaticamente.',true)}}
+async function copyBoth(){const d=currentDriver();if(!d)return;await copyText(`CPF: ${d.cpf}\nRENACH: ${d.renach||''}`,'CPF + RENACH copiados')}
+function openDetran(){const d=currentDriver();if(!d)return;copyBoth();window.open(DETRAN_URL,'_blank','noopener,noreferrer');msg('DETRAN aberto. CPF + RENACH foram copiados.')}
+async function finishDriver(status){const d=currentDriver();if(!d)return;const label=status==='sucesso'?'CNH consultada no DETRAN':status==='atencao'?'Conferência manual necessária':'Erro na consulta';const {error}=await supabaseClient.from('motoristas').update({status,resultado:label,data_consulta:new Date().toISOString()}).eq('id',d.id);if(error){console.error(error);msg('Não foi possível salvar o resultado.',true);return}await loadDrivers();selected=null;msg('Resultado salvo. Próximo motorista carregado.');render()}
+function openDetails(id){const d=drivers.find(x=>String(x.id)===String(id));if(!d)return;document.body.insertAdjacentHTML('beforeend',`<div class="modal-bg" id="modal"><div class="modal"><div class="modal-head"><div><h2>Detalhes do motorista</h2><p>Dados armazenados no sistema.</p></div><button class="close" onclick="document.getElementById('modal').remove()">×</button></div><div class="details"><div><span>Nome</span><b>${esc(d.nome)}</b></div><div><span>CPF</span><b>${esc(fullCPF(d.cpf))}</b></div><div><span>RENACH</span><b>${esc(d.renach||'—')}</b></div><div><span>Status</span><b>${badge(d.status)}</b></div><div><span>Resultado</span><b>${esc(d.resultado||'—')}</b></div><div><span>Consulta</span><b>${d.data_consulta?new Date(d.data_consulta).toLocaleString('pt-BR'):'—'}</b></div></div><div class="actions" style="display:flex;gap:8px"><button class="btn primary" style="flex:1" onclick="document.getElementById('modal').remove();selected=drivers.find(x=>x.id==='${d.id}');page='processamento';render()">Consultar este motorista</button><button class="btn" onclick="document.getElementById('modal').remove()">Fechar</button></div></div></div>`)}
+function render(){document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));({dashboard:renderDashboard,motoristas:renderMotoristas,processamento:renderProcessamento}[page]||renderDashboard)()}
+document.getElementById('nav').onclick=e=>{const b=e.target.closest('button');if(!b)return;page=b.dataset.page;render()}
+supabaseClient.auth.getSession().then(({data})=>{if(data.session){showSystem();loadDrivers().then(render)}else showLogin()});
+setInterval(()=>{const el=document.getElementById('dashboardTime');const de=document.getElementById('dashboardDate');if(el){const now=new Date();el.textContent=now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}if(de){const now=new Date();de.textContent=now.toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'});}},1000);
+
+</script>
+</body>
+</html>
