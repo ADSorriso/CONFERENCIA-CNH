@@ -600,6 +600,118 @@ table{min-width:980px}th,td{padding:14px 13px;font-size:11px}th{font-size:9px}td
 .motoristas-page .empty{padding:48px}
 @media(max-width:900px){.motoristas-page .motoristas-toolbar{grid-template-columns:1fr 155px}.motoristas-page .motoristas-found{grid-column:1/-1;text-align:left}}
 @media(max-width:650px){.motoristas-page .motoristas-head{flex-direction:column}.motoristas-page .import-btn{width:100%}.motoristas-page .motoristas-toolbar{grid-template-columns:1fr}.motoristas-page .motoristas-found{grid-column:auto}.motoristas-page .motoristas-head h1{font-size:29px}}
+
+/* ===== MOTORISTAS — RÉPLICA DO MOCKUP 836px ===== */
+@media (min-width:601px){
+  .sidebar{width:clamp(145px,16.7vw,240px);left:10px;bottom:0;border-radius:0 0 24px 24px;padding:20px 10px 16px}
+  main{margin-left:clamp(155px,calc(16.7vw + 10px),250px);width:calc(100% - clamp(155px,calc(16.7vw + 10px),250px));padding:12px clamp(15px,2vw,28px) 24px}
+  .brand{height:48px;padding:0 0 0 0;gap:8px;margin-bottom:9px}
+  .brand-icon{width:38px;height:38px;flex-basis:38px;border-radius:10px}
+  .brand-icon svg{width:25px;height:25px}
+  .brand b{font-size:10px;letter-spacing:0}
+  .brand small{font-size:7px;margin-top:3px}
+  .nav{gap:2px}
+  .nav button{height:35px;min-height:35px;padding:0 8px;border-radius:8px;gap:7px;font-size:10px}
+  .nav-ico{width:20px;height:20px;flex-basis:20px}
+  .nav-ico svg,.nav button:not(.active) .nav-ico svg{width:16px;height:16px}
+  .side-bottom{left:14px;bottom:16px;font-size:9px;line-height:13px}
+  .side-bottom .dot{width:8px;height:8px;margin-right:5px}
+  .online-text{font-size:9px}.connected-text{margin-left:18px;font-size:8px}
+  .topbar{height:40px;margin-bottom:5px;gap:10px}
+  .global-search{height:29px;border-radius:9px;padding:0 10px;max-width:none}
+  .global-search input{font-size:8px}
+  .global-search span{font-size:15px!important}
+  .top-right{gap:7px}
+  .top-icon{width:29px;height:29px;border-radius:9px;font-size:13px}
+  .user{height:29px;border-radius:9px;padding:0 7px;gap:6px;font-size:8px}
+  .avatar{width:20px;height:20px;font-size:7px}
+  .user b{font-size:11px!important}
+  .motoristas-page .motoristas-head{gap:10px;margin:0 0 10px;padding:0}
+  .motoristas-page .motoristas-head h1{font-size:23px;letter-spacing:-.6px}
+  .motoristas-page .motoristas-head p{font-size:9px;margin-top:3px}
+  .motoristas-page .import-btn{height:35px;min-width:145px;border-radius:9px;padding:0 10px;font-size:9px}
+  .motoristas-page .motoristas-toolbar{grid-template-columns:minmax(0,1fr) 126px auto;gap:8px;margin-bottom:9px}
+  .motoristas-page .motoristas-search{height:33px;border-radius:8px;padding:0 10px;gap:6px}
+  .motoristas-page .motoristas-search>span{font-size:15px!important}
+  .motoristas-page .motoristas-search input{font-size:8px}
+  .motoristas-page .motoristas-select{height:33px;border-radius:8px;padding:0 8px;font-size:8px}
+  .motoristas-page .motoristas-found{font-size:8px}
+  .motoristas-page .motoristas-list-card{border-radius:12px;padding-bottom:6px;box-shadow:0 8px 20px rgba(35,79,133,.13),0 1px 4px rgba(35,79,133,.06)}
+  .motoristas-page table.motoristas-table{min-width:0;width:100%;table-layout:fixed}
+  .motoristas-page .motoristas-table th{height:28px;padding:0 8px;font-size:7px;letter-spacing:.25px}
+  .motoristas-page .motoristas-table td{height:37px;padding:4px 8px;font-size:7px}
+  .motoristas-page .motoristas-table .num{width:30px}
+  .motoristas-page .motoristas-table .name{max-width:none}
+  .motoristas-page .badge{padding:4px 7px;font-size:7px}
+  .motoristas-page .motoristas-table .actions-cell{gap:4px}
+  .motoristas-page .view{height:23px;padding:0 8px;border-radius:7px;font-size:7px}
+  .motoristas-page .row-menu{width:23px;height:23px;border-radius:7px;font-size:13px}
+  .motoristas-page .motoristas-pagination{gap:4px;padding:8px 8px 0}
+  .motoristas-page .motoristas-pagination .page-btn{min-width:24px;height:24px;border-radius:7px;font-size:8px}
+}
+@media (min-width:1100px){
+  .motoristas-page .motoristas-head h1{font-size:30px}
+  .motoristas-page .motoristas-head p{font-size:12px}
+  .motoristas-page .motoristas-search input,.motoristas-page .motoristas-select{font-size:10px}
+  .motoristas-page .motoristas-found{font-size:10px}
+  .motoristas-page .motoristas-table th{font-size:8px}
+  .motoristas-page .motoristas-table td{font-size:9px}
+  .motoristas-page .view{font-size:9px}
+}
+
+
+/* ===== REFERÊNCIA VISUAL — MOTORISTAS: reprodução fiel da tela enviada ===== */
+html,body{min-height:100%;}
+body{font-family:Inter,Segoe UI,Arial,sans-serif;background:#dbeeff;color:#102e59;}
+.app{min-height:100vh;padding:10px;gap:0;}
+.sidebar{
+  width:145px;left:10px;top:10px;bottom:10px;inset:10px auto 10px 10px;
+  padding:12px 8px 14px;border-radius:18px 0 0 18px;overflow:hidden;
+  background:linear-gradient(180deg,#06183c 0%,#06265a 55%,#06183d 100%);
+  box-shadow:0 9px 24px rgba(8,37,82,.18);position:fixed;
+}
+.sidebar:after{left:-38px;right:-35px;bottom:-38px;height:150px;background:radial-gradient(80% 100% at 18% 100%,rgba(18,93,201,.34),transparent 72%);}
+.brand{gap:8px;padding:2px 4px 20px;align-items:center;}
+.brand-icon{width:37px;height:37px;min-width:37px;border-radius:11px;font-size:20px;box-shadow:inset 2px 2px 5px rgba(255,255,255,.3),inset -3px -4px 7px rgba(0,30,110,.32),0 7px 15px rgba(0,76,205,.3)}
+.brand b{font-size:10px;line-height:1.1;white-space:nowrap;letter-spacing:0}.brand small{font-size:7px;line-height:1.1;white-space:nowrap}
+.nav{gap:5px}.nav button{min-height:34px;height:34px;padding:0 9px;border-radius:8px;gap:9px;font-size:9px;font-weight:700;color:#e4edff;}
+.nav button.active{background:linear-gradient(180deg,#1876ed,#0955bf);box-shadow:inset 0 1px 1px rgba(255,255,255,.22),0 5px 10px rgba(0,67,166,.32)}
+.nav-ico{width:14px;height:14px;display:grid;place-items:center;font-size:12px}.nav-ico svg{width:14px;height:14px}
+.side-bottom{left:14px;bottom:17px;font-size:7px;line-height:1.45;color:#c5d7f2}.dot{width:7px;height:7px;margin-right:5px}
+main{
+  margin-left:145px;width:calc(100% - 145px);min-height:calc(100vh - 20px);
+  padding:9px 14px 8px;border-radius:0 18px 18px 0;
+  background:linear-gradient(180deg,#f7fbff 0%,#eef6ff 100%);
+  box-shadow:0 9px 24px rgba(8,37,82,.14);overflow:hidden;
+}
+.motoristas-page{width:100%;max-width:none}.motoristas-page .topbar{height:31px;margin:0 0 7px;gap:9px}
+.global-search{height:22px;max-width:296px;flex:1;border-radius:10px;padding:0 9px;gap:6px;border:1px solid #d8e5f4;box-shadow:0 2px 5px rgba(38,78,126,.06)}
+.global-search input{font-size:8px}.global-search svg{width:11px;height:11px}
+.top-right{gap:7px;margin-left:auto}.top-icon{width:29px;height:29px;border-radius:9px;font-size:11px}.user{height:29px;border-radius:9px;padding:0 7px;gap:6px;font-size:8px}.avatar{width:21px;height:21px;font-size:8px}
+.motoristas-page .motoristas-head{margin:0 0 10px;padding:0;gap:12px;align-items:flex-start}
+.motoristas-page .motoristas-head h1{font-size:24px;line-height:1;color:#082657;letter-spacing:-.7px;font-weight:850}
+.motoristas-page .motoristas-head p{font-size:9px;margin-top:3px;color:#173c6d;font-weight:700}
+.motoristas-page .import-btn{height:34px;min-width:144px;border-radius:8px;padding:0 12px;font-size:9px;background:linear-gradient(180deg,#196dd9,#084ba9)!important;box-shadow:inset 0 1px 1px rgba(255,255,255,.18),0 6px 12px rgba(6,66,156,.24)!important}
+.motoristas-page .motoristas-toolbar{grid-template-columns:minmax(0,288px) 126px 1fr;gap:9px;margin-bottom:9px;align-items:center}
+.motoristas-page .motoristas-search{height:33px;border-radius:8px;padding:0 10px;gap:6px;border:1px solid #d8e5f4;box-shadow:0 4px 9px rgba(30,75,133,.07)}
+.motoristas-page .motoristas-search>span{font-size:16px!important}.motoristas-page .motoristas-search input{font-size:8px}
+.motoristas-page .motoristas-select{height:33px;border-radius:8px;padding:0 9px;font-size:8px;border:1px solid #d8e5f4;box-shadow:0 4px 9px rgba(30,75,133,.07)}
+.motoristas-page .motoristas-found{font-size:8px;padding-right:1px;color:#244777}
+.motoristas-page .motoristas-list-card{border-radius:11px;padding:0 0 5px;border:1px solid #d8e5f4;background:rgba(255,255,255,.78);box-shadow:0 7px 16px rgba(31,78,135,.10);}
+.motoristas-page .motoristas-table-wrap{overflow:hidden}
+.motoristas-page table.motoristas-table{width:100%;min-width:0;table-layout:fixed;border-spacing:0}
+.motoristas-page .motoristas-table th{height:28px;padding:0 8px;background:#f2f7fd;color:#274c79;font-size:7px;letter-spacing:.25px;border-bottom:1px solid #dfe9f4}
+.motoristas-page .motoristas-table td{height:29px;padding:3px 8px;background:#fff;color:#24466f;font-size:7.5px;border-bottom:1px solid #e6edf5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.motoristas-page .motoristas-table .num{width:32px;text-align:center}.motoristas-page .motoristas-table .name{font-size:7.4px;font-weight:800;max-width:none}.motoristas-page .motoristas-table .cpf{width:100px}.motoristas-page .motoristas-table .renach{width:68px}.motoristas-page .motoristas-table th:nth-child(1){width:32px}.motoristas-page .motoristas-table th:nth-child(2){width:145px}.motoristas-page .motoristas-table th:nth-child(3){width:100px}.motoristas-page .motoristas-table th:nth-child(4){width:70px}.motoristas-page .motoristas-table th:nth-child(5){width:66px}.motoristas-page .motoristas-table th:nth-child(6){width:64px}.motoristas-page .motoristas-table th:nth-child(7){width:64px}.motoristas-page .motoristas-table th:nth-child(8){width:108px}
+.motoristas-page .badge{font-size:7px;line-height:18px;height:18px;padding:0 8px;border-radius:9px;font-weight:800}
+.motoristas-page .actions-cell{display:flex;align-items:center;gap:7px}.motoristas-page .view{height:20px;padding:0 8px;border-radius:7px;font-size:7px;font-weight:800;background:linear-gradient(180deg,#eaf4ff,#dceeff);color:#0b3974;border:1px solid #cce2fb;box-shadow:0 2px 5px rgba(31,87,151,.08)}
+.motoristas-page .row-menu{width:20px;height:20px;border-radius:7px;font-size:13px;background:#fff;color:#173d70;border:1px solid #d8e5f4}
+.motoristas-page .motoristas-pagination{padding:6px 11px 0;gap:5px}.motoristas-page .motoristas-pagination .page-btn{width:25px;min-width:25px;height:25px;border-radius:7px;font-size:8px;background:#fff;border:1px solid #dce7f3;color:#21446f;box-shadow:0 2px 5px rgba(35,79,133,.07)}
+.motoristas-page .motoristas-pagination .page-btn.active{background:linear-gradient(180deg,#1d70e5,#084db3)!important;color:#fff;border-color:#0d5bc5;box-shadow:0 4px 9px rgba(0,82,190,.25)}
+@media(max-width:900px){main{margin-left:145px;width:calc(100% - 145px);padding-left:12px;padding-right:12px}.motoristas-page .motoristas-toolbar{grid-template-columns:minmax(0,1fr) 126px auto}.motoristas-page .motoristas-table th:nth-child(2){width:135px}}
+.execucoes-page .exec-card{background:linear-gradient(180deg,#fff,#f8fbff);border:1px solid #e4edf9;border-radius:16px;box-shadow:0 10px 28px rgba(27,75,130,.12);overflow:hidden}.execucoes-page .exec-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid #e8eff8}.execucoes-page .exec-head h2{margin:0;color:#102a57;font-size:18px}.execucoes-page .exec-head p{margin:4px 0 0;color:#7890b3;font-size:12px}.execucoes-page .exec-row{display:grid;grid-template-columns:1.3fr 1fr .8fr 1fr 120px;gap:14px;align-items:center;padding:13px 20px;border-bottom:1px solid #edf2f8;color:#29466f;font-size:12px}.execucoes-page .exec-row:last-child{border-bottom:0}.execucoes-page .exec-row.header{background:#f4f8fd;color:#7890b3;font-size:10px;font-weight:800;text-transform:uppercase}.execucoes-page .exec-status{display:inline-flex;align-items:center;width:max-content;padding:5px 10px;border-radius:999px;background:#e8f7ee;color:#16804b;font-weight:800}.execucoes-page .exec-empty{padding:55px 20px;text-align:center;color:#7890b3}.execucoes-page .exec-empty strong{display:block;color:#19345f;font-size:16px;margin-bottom:6px}
+@media(max-width:700px){.sidebar{width:72px;padding:12px 7px}.brand-copy,.nav button span:not(.nav-ico),.side-bottom{display:none}.nav button{justify-content:center}.brand{justify-content:center}.brand-icon{width:38px;height:38px}main{margin-left:72px;width:calc(100% - 72px);border-radius:0 14px 14px 0}.motoristas-page .motoristas-toolbar{grid-template-columns:1fr 120px}.motoristas-page .motoristas-found{grid-column:1/-1;text-align:right}.motoristas-page .motoristas-head{gap:8px}.motoristas-page .import-btn{min-width:125px}}
+
 </style>
 </head>
 <body>
@@ -627,6 +739,7 @@ table{min-width:980px}th,td{padding:14px 13px;font-size:11px}th{font-size:9px}td
     <button class="active" data-page="dashboard"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 11.2 12 4l9 7.2v8.3a1.5 1.5 0 0 1-1.5 1.5H4.5A1.5 1.5 0 0 1 3 19.5v-8.3Z" fill="currentColor"/><path d="M9 21v-6h6v6" fill="none" stroke="#0a58b9" stroke-width="2"/></svg></span><span>Dashboard</span></button>
     <button data-page="motoristas"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="7.2" r="4" fill="currentColor"/><path d="M4.2 20.2c.6-4.1 3.1-6.2 7.8-6.2s7.2 2.1 7.8 6.2" fill="currentColor"/></svg></span><span>Motoristas</span></button>
     <button data-page="processamento"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.5 2h5l.7 2.3 2 1.2 2.3-.5 2.5 4.3-1.7 1.7v2.4l1.7 1.7-2.5 4.3-2.3-.5-2 1.2-.7 2.3h-5l-.7-2.3-2-1.2-2.3.5L2 15.1l1.7-1.7V11L2 9.3 4.5 5l2.3.5 2-1.2L9.5 2Z" fill="currentColor"/><circle cx="12" cy="12" r="3.2" fill="#071b45"/></svg></span><span>Processamento</span></button>
+    <button data-page="execucoes"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3.5h9.5L19 7v13.5H6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M15 3.5V8h4M9 12h6M9 16h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span>Execuções</span></button>
   </div>
   <div class="side-bottom"><span class="dot"></span><span class="online-text">Sistema online</span><br><span class="connected-text">Supabase conectado</span></div>
 </aside>
@@ -767,7 +880,13 @@ async function copyBoth(){const d=currentDriver();if(!d)return;await copyText(`C
 function openDetran(){const d=currentDriver();if(!d)return;copyBoth();window.open(DETRAN_URL,'_blank','noopener,noreferrer');msg('DETRAN aberto. CPF + RENACH foram copiados.')}
 async function finishDriver(status){const d=currentDriver();if(!d)return;const label=status==='sucesso'?'CNH consultada no DETRAN':status==='atencao'?'Conferência manual necessária':'Erro na consulta';const {error}=await supabaseClient.from('motoristas').update({status,resultado:label,data_consulta:new Date().toISOString()}).eq('id',d.id);if(error){console.error(error);msg('Não foi possível salvar o resultado.',true);return}await loadDrivers();selected=null;msg('Resultado salvo. Próximo motorista carregado.');render()}
 function openDetails(id){const d=drivers.find(x=>String(x.id)===String(id));if(!d)return;document.body.insertAdjacentHTML('beforeend',`<div class="modal-bg" id="modal"><div class="modal"><div class="modal-head"><div><h2>Detalhes do motorista</h2><p>Dados armazenados no sistema.</p></div><button class="close" onclick="document.getElementById('modal').remove()">×</button></div><div class="details"><div><span>Nome</span><b>${esc(d.nome)}</b></div><div><span>CPF</span><b>${esc(fullCPF(d.cpf))}</b></div><div><span>RENACH</span><b>${esc(d.renach||'—')}</b></div><div><span>Status</span><b>${badge(d.status)}</b></div><div><span>Resultado</span><b>${esc(d.resultado||'—')}</b></div><div><span>Consulta</span><b>${d.data_consulta?new Date(d.data_consulta).toLocaleString('pt-BR'):'—'}</b></div></div><div class="actions" style="display:flex;gap:8px"><button class="btn primary" style="flex:1" onclick="document.getElementById('modal').remove();selected=drivers.find(x=>x.id==='${d.id}');page='processamento';render()">Consultar este motorista</button><button class="btn" onclick="document.getElementById('modal').remove()">Fechar</button></div></div></div>`)}
-function render(){document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));({dashboard:renderDashboard,motoristas:renderMotoristas,processamento:renderProcessamento}[page]||renderDashboard)()}
+function renderExecucoes(){
+  const total=drivers.length, done=drivers.filter(d=>['sucesso','atenção','atencao','erro'].includes(String(d.status||'').toLowerCase())).length;
+  const rows=drivers.filter(d=>d.data_consulta).sort((a,b)=>new Date(b.data_consulta)-new Date(a.data_consulta)).slice(0,20);
+  main.innerHTML=`<div class="execucoes-page">${header('Execuções','Histórico das consultas realizadas no Supabase')}<div class="exec-card"><div class="exec-head"><div><h2>Histórico de execuções</h2><p>${done} consultas registradas de ${total} motoristas</p></div><button class="btn dark" onclick="page='processamento';render()">Nova execução</button></div>${rows.length?`<div class="exec-row header"><div>Motorista</div><div>CPF</div><div>Status</div><div>Consulta</div><div>Ações</div></div>${rows.map((d,i)=>`<div class="exec-row"><div><strong>${esc(d.nome||'—')}</strong></div><div>${maskCPF(d.cpf||'')}</div><div><span class="exec-status">${esc(d.status||'Concluída')}</span></div><div>${fmtDate(d.data_consulta)}</div><div><button class="btn small dark" onclick="showDetails('${d.id}')">Ver detalhes</button></div></div>`).join('')}`:`<div class="exec-empty"><strong>Nenhuma execução registrada</strong>As consultas realizadas aparecerão aqui.</div>`}</div></div>`;
+}
+
+function render(){document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));({dashboard:renderDashboard,motoristas:renderMotoristas,processamento:renderProcessamento,execucoes:renderExecucoes}[page]||renderDashboard)()}
 document.getElementById('nav').onclick=e=>{const b=e.target.closest('button');if(!b)return;page=b.dataset.page;render()}
 supabaseClient.auth.getSession().then(({data})=>{if(data.session){showSystem();loadDrivers().then(render)}else showLogin()});
 setInterval(()=>{const el=document.getElementById('dashboardTime');const de=document.getElementById('dashboardDate');if(el){const now=new Date();el.textContent=now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}if(de){const now=new Date();de.textContent=now.toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'});}},1000);
