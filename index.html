@@ -1742,24 +1742,61 @@ function mfaMessage(id,text,type='info'){const e=document.getElementById(id);if(
 function onlyDigits(v){return String(v||'').replace(/\D/g,'').slice(0,6)}
 function bindMFACodeInputs(){['mfaEnrollCode','mfaChallengeCode'].forEach(id=>{const e=document.getElementById(id);if(e&&!e.dataset.bound){e.dataset.bound='1';e.addEventListener('input',()=>{e.value=onlyDigits(e.value)});e.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();id==='mfaEnrollCode'?confirmMFAEnrollment():verifyMFAChallenge()}})}})}
 async function loadAuthenticatedApp(){showSystem();await loadDrivers();setupAutoRefresh();render()}
+function mfaQrDataUri(svg){
+  const s=String(svg||'').trim();
+  if(!s)return '';
+  try{
+    const bytes=unescape(encodeURIComponent(s));
+    return 'data:image/svg+xml;base64,'+btoa(bytes);
+  }catch(_){
+    return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);
+  }
+}
 async function beginMFAEnrollment(){
-  showMFAOverlay('setup');mfaMessage('mfaEnrollMessage','Preparando seu QR Code...','info');
+  showMFAOverlay('setup');
+  const img=document.getElementById('mfaQr');
+  if(img){img.removeAttribute('src');img.style.display='none';}
+  mfaMessage('mfaEnrollMessage','Preparando seu QR Code...','info');
   try{
     const factors=await supabaseClient.auth.mfa.listFactors();
     if(factors.error)throw factors.error;
-    const pending=(factors.data?.totp||[]).filter(f=>f.status!=='verified');
-    for(const f of pending){try{await supabaseClient.auth.mfa.unenroll({factorId:f.id})}catch(_){} }
-    const {data,error}=await supabaseClient.auth.mfa.enroll({factorType:'totp',issuer:'CNH CHECKER',friendlyName:'CNH CHECKER'});
+    const totp=factors.data?.totp||[];
+    const verified=totp.find(f=>f.status==='verified');
+    if(verified){
+      window.cnhMfaFactorId=verified.id;
+      await beginMFAChallenge();
+      return;
+    }
+
+    // Remove only abandoned/unverified factors from previous setup attempts.
+    for(const f of totp.filter(f=>f.status!=='verified')){
+      try{await supabaseClient.auth.mfa.unenroll({factorId:f.id})}catch(_){}
+    }
+
+    // friendlyName is intentionally omitted so an old factor name cannot
+    // block enrollment with mfa_factor_name_conflict.
+    const {data,error}=await supabaseClient.auth.mfa.enroll({
+      factorType:'totp',
+      issuer:'CNH CHECKER'
+    });
     if(error)throw error;
+
     window.cnhMfaFactorId=data.id;
-    const qr=data?.totp?.qr_code||'';
-    const img=document.getElementById('mfaQr');
+    const qr=data?.totp?.qr_code||data?.totp?.qrCode||'';
     if(!qr)throw new Error('O Supabase não retornou o QR Code.');
-    img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(qr);
+    if(img){
+      img.src=mfaQrDataUri(qr);
+      img.style.display='block';
+      img.alt='QR Code para configurar autenticação em duas etapas';
+    }
     document.getElementById('mfaEnrollCode').value='';
     mfaMessage('mfaEnrollMessage','Escaneie o QR Code e digite o código de 6 dígitos.','info');
-    bindMFACodeInputs();setTimeout(()=>document.getElementById('mfaEnrollCode')?.focus(),100);
-  }catch(err){console.error(err);mfaMessage('mfaEnrollMessage','Não foi possível preparar a autenticação: '+(err?.message||'erro desconhecido'),'error')}
+    bindMFACodeInputs();
+    setTimeout(()=>document.getElementById('mfaEnrollCode')?.focus(),100);
+  }catch(err){
+    console.error(err);
+    mfaMessage('mfaEnrollMessage','Não foi possível preparar a autenticação: '+(err?.message||'erro desconhecido'),'error');
+  }
 }
 async function confirmMFAEnrollment(){
   const code=onlyDigits(document.getElementById('mfaEnrollCode')?.value);if(code.length!==6){mfaMessage('mfaEnrollMessage','Digite o código de 6 dígitos do seu autenticador.','error');return}
