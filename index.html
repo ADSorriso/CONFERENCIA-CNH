@@ -611,6 +611,59 @@ table{border-collapse:collapse;width:100%;min-width:880px}th,td{padding:10px 11p
 .execucoes-page .exec-view{height:34px;width:38px;padding:0;border-radius:10px;background:#e8f3ff;color:#1471df;font-size:0;border:1px solid #cfe4fb;box-shadow:inset 1px 1px 2px rgba(255,255,255,.95),0 4px 9px rgba(28,100,180,.09);display:grid;place-items:center}
 .execucoes-page .exec-view:before{content:'◉';font-size:14px;line-height:1}.execucoes-page .exec-view:hover{transform:translateY(-2px);filter:none;background:#dcecff;color:#075fcb}
 .execucoes-page .exec-menu{width:38px;height:34px;border-radius:10px}
+
+/* ===== PROCESSAMENTO — VISUAL FIEL À REFERÊNCIA ENVIADA ===== */
+.process-page-ref{background:transparent}
+.process-page-ref .ref-detran-banner{
+  position:relative;min-height:92px;display:flex;align-items:center;gap:18px;
+  padding:16px 18px;border-radius:15px;overflow:hidden;color:#fff;
+  background:linear-gradient(105deg,#092f76 0%,#0b4ba8 46%,#0a62d7 100%);
+  box-shadow:0 8px 20px rgba(10,74,157,.22),inset 0 1px 0 rgba(255,255,255,.2);
+}
+.process-page-ref .ref-detran-banner:before{
+  content:"";position:absolute;right:-2%;top:-65%;width:54%;height:220%;
+  background:linear-gradient(130deg,transparent 15%,rgba(255,255,255,.08) 16%,rgba(255,255,255,.02) 44%,transparent 45%),
+             linear-gradient(180deg,rgba(255,255,255,.08),transparent 45%);
+  transform:skewX(-18deg);pointer-events:none;
+}
+.process-page-ref .ref-building{
+  position:absolute;right:14%;top:0;width:36%;height:100%;opacity:.28;pointer-events:none;
+  background:linear-gradient(90deg,transparent 0 6%,#d8efff 6% 7%,transparent 7% 15%,#d8efff 15% 16%,transparent 16% 24%,#d8efff 24% 25%,transparent 25% 33%,#d8efff 33% 34%,transparent 34% 42%,#d8efff 42% 43%,transparent 43% 100%);
+  clip-path:polygon(10% 100%,10% 28%,28% 28%,28% 12%,92% 12%,92% 100%);
+}
+.process-page-ref .ref-detran-icon{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:rgba(0,26,75,.32);box-shadow:inset 0 1px 0 rgba(255,255,255,.12);z-index:1}
+.process-page-ref .ref-detran-copy{z-index:1;display:flex;flex-direction:column;gap:3px}
+.process-page-ref .ref-detran-copy strong{font-size:20px;line-height:1;font-weight:900;letter-spacing:-.35px}
+.process-page-ref .ref-detran-copy small{font-size:10px;opacity:.95}
+.process-page-ref .ref-access{margin-left:auto;z-index:1;display:flex;align-items:center;gap:10px;padding:0 16px;height:42px;border-radius:12px;background:linear-gradient(180deg,#1684ff,#0d68d8);color:#fff;font-weight:900;font-size:11px;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 7px 14px rgba(2,49,120,.2)}
+.process-page-ref .ref-alert{margin-top:13px;min-height:53px;display:flex;align-items:center;gap:10px;padding:0 15px;border-radius:13px;border:1px solid #f5dfb0;background:#fff9ec;color:#996400;font-size:10px;box-shadow:0 4px 12px rgba(153,100,0,.04)}
+.process-page-ref .ref-alert i{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:#fff0c8;color:#c88600;font-style:normal;font-weight:900}
+.process-page-ref .conference-area{margin-top:20px}
+.process-page-ref .conference-title{margin-bottom:14px}
+.process-page-ref .conference-title strong{font-size:20px;color:#102f5d}
+.process-page-ref .conference-title span{padding:8px 12px;border-radius:999px;font-size:9px;background:#f6faff;border-color:#d5e6fa}
+.process-page-ref .conference-grid{gap:15px}
+.process-page-ref .conference-card{min-height:272px;padding:17px;border-radius:16px;background:#fff;border:1px solid #d7e6f8;box-shadow:0 9px 24px rgba(25,74,127,.08)}
+.process-page-ref .conference-card:before{height:3px}
+.process-page-ref .conference-card .conf-icon{width:40px;height:40px;border-radius:12px}
+.process-page-ref .conference-card .conf-head strong{font-size:15px}
+.process-page-ref .conference-options{gap:8px}
+.process-page-ref .conf-option{min-height:54px;border-radius:12px;padding:9px 11px 9px 38px;font-size:10px}
+.process-page-ref .conf-option small{font-size:8px}
+.process-page-ref .conference-footer{margin-top:15px;display:flex;align-items:center;gap:10px;padding:10px;border-radius:15px}
+.process-page-ref .conference-summary{font-size:9px}
+.process-page-ref .register-btn{height:47px;min-width:205px;border-radius:12px;font-size:13px}
+.process-page-ref .register-error{height:47px;min-width:135px;border-radius:12px;font-size:12px}
+.process-page-ref .process-main + .panel{margin-top:16px;padding:18px 20px 16px;border-radius:18px}
+.process-page-ref .process-main + .panel h2{font-size:18px;margin-bottom:15px}
+.process-page-ref .process-main + .panel .steps{gap:9px}
+.process-page-ref .process-main + .panel .step{min-height:73px;padding:11px 10px;border-radius:12px;position:relative;flex-direction:row;align-items:center;gap:9px;font-size:9px}
+.process-page-ref .process-main + .panel .step-num{width:29px;height:29px;min-width:29px;border-radius:9px}
+.process-page-ref .process-main + .panel .step-ico{margin-left:auto;width:25px;height:25px;color:#0878ef;display:grid;place-items:center}
+.process-page-ref .process-main + .panel .btn{height:48px;min-height:48px;margin-top:14px;border-radius:11px!important;font-size:12px}
+@media(max-width:900px){.process-page-ref .ref-access{display:none}.process-page-ref .conference-grid{grid-template-columns:1fr}.process-page-ref .conference-footer{flex-direction:column}.process-page-ref .register-btn,.process-page-ref .register-error{width:100%}.process-page-ref .process-main + .panel .steps{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.process-page-ref .ref-detran-copy strong{font-size:16px}.process-page-ref .process-main + .panel .steps{grid-template-columns:1fr}}
+
 </style>
 
 
@@ -664,6 +717,270 @@ table{border-collapse:collapse;width:100%;min-width:880px}th,td{padding:10px 11p
 }
 </style>
 
+
+<style id="processamento-current-premium-fix">
+/* PROCESSAMENTO — mantém todo o conteúdo original; apenas melhora a apresentação */
+.process-grid>.process-main{
+  background:linear-gradient(145deg,#ffffff 0%,#f8fbff 100%)!important;
+  border:1px solid #cfe0f3!important;
+  border-radius:20px!important;
+  box-shadow:0 14px 32px rgba(21,66,120,.08),inset 0 1px 0 #fff!important;
+  padding:22px!important;
+}
+.process-grid>.process-main .current{
+  position:relative;
+  padding:2px 2px 20px!important;
+}
+.process-grid>.process-main .current:before{
+  content:"";
+  position:absolute;left:-22px;top:-22px;bottom:0;width:4px;
+  border-radius:0 4px 4px 0;background:linear-gradient(180deg,#12c98a,#087cf0);
+}
+.process-hero-head{
+  align-items:center!important;
+  gap:26px!important;
+  margin-bottom:20px!important;
+}
+.process-driver-title .eyebrow{
+  color:#0b68d1!important;
+  font-size:9px!important;
+  font-weight:900!important;
+  letter-spacing:1.7px!important;
+}
+.process-driver-title h2{
+  font-size:27px!important;
+  line-height:1.1!important;
+  letter-spacing:-.65px!important;
+  color:#0c3470!important;
+}
+.process-fields{gap:72px!important;margin-top:16px!important}
+.process-fields span{font-size:9px!important;color:#7890ad!important;font-weight:800!important}
+.process-fields b{font-size:13px!important;color:#143e78!important}
+.process-driver-info{
+  flex:0 0 300px!important;
+  min-height:72px!important;
+  border-radius:16px!important;
+  background:linear-gradient(145deg,#f5faff,#e9f3ff)!important;
+  border:1px solid #cfe2f8!important;
+  box-shadow:0 8px 18px rgba(26,83,145,.08),inset 0 1px 0 #fff!important;
+}
+.process-driver-info .info-icon{
+  width:48px!important;height:48px!important;flex-basis:48px!important;
+  border-radius:15px!important;
+  background:linear-gradient(145deg,#fff,#e1efff)!important;
+  color:#075bbd!important;
+}
+.process-driver-info strong{font-size:13px!important;color:#0e3c78!important}
+.process-driver-info span{font-size:10px!important;color:#5d7698!important}
+.det-card{
+  margin-top:0!important;
+  padding:20px!important;
+  border-radius:18px!important;
+  background:linear-gradient(145deg,#f7fbff,#edf5ff)!important;
+  border:1px solid #c9def5!important;
+  box-shadow:0 10px 24px rgba(20,71,128,.07),inset 0 1px 0 #fff!important;
+}
+.det-card h3{font-size:18px!important;color:#0b3e82!important;gap:11px!important}
+.det-card p{font-size:11px!important;color:#5d7696!important}
+.copy-row{gap:12px!important}
+.copy-chip{
+  min-height:62px!important;
+  border-radius:13px!important;
+  border:1px solid #d3e3f5!important;
+  background:#fff!important;
+  box-shadow:0 5px 12px rgba(23,73,130,.055),inset 0 1px 0 #fff!important;
+  transition:.16s ease!important;
+}
+.copy-chip:hover{transform:translateY(-2px);border-color:#a9c9ed!important;box-shadow:0 9px 17px rgba(23,73,130,.10)!important}
+.copy-chip .chip-icon{background:#eaf4ff!important;color:#0864ca!important;border-radius:10px!important}
+.copy-chip .chip-label{color:#6a82a0!important;font-size:8px!important;font-weight:900!important;letter-spacing:.5px!important}
+.copy-chip b{color:#123d77!important;font-size:12px!important}
+.open-detran{
+  height:54px!important;
+  margin-top:13px!important;
+  border-radius:13px!important;
+  background:linear-gradient(135deg,#0a4297,#075fd2)!important;
+  box-shadow:0 10px 20px rgba(6,83,179,.22),inset 0 1px 0 rgba(255,255,255,.2)!important;
+  font-size:14px!important;
+}
+.open-detran:hover{transform:translateY(-1px);filter:brightness(1.04)}
+.hint{
+  margin-top:12px!important;padding:11px 13px!important;border-radius:11px!important;
+  background:#fff7e7!important;border:1px solid #f3dfb7!important;color:#8d6108!important;
+  font-size:9px!important;
+}
+/* não remove a consulta assistida; apenas garante o grid completo */
+.process-grid>.panel:last-child{
+  width:100%!important;box-sizing:border-box!important;
+  border-radius:18px!important;
+}
+.process-grid>.panel:last-child .steps{
+  display:grid!important;
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  gap:10px!important;
+}
+.process-grid>.panel:last-child .step{
+  min-height:72px!important;
+  padding:12px!important;
+  border:1px solid #d7e6f5!important;
+  border-radius:14px!important;
+  background:linear-gradient(145deg,#fff,#f8fbff)!important;
+  box-shadow:0 4px 12px rgba(20,67,120,.055)!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:9px!important;
+}
+.process-grid>.panel:last-child .step-num{
+  width:30px!important;height:30px!important;min-width:30px!important;
+  border-radius:9px!important;background:linear-gradient(145deg,#eaf5ff,#d7eaff)!important;
+  color:#0a5dbd!important;font-size:11px!important;
+  box-shadow:inset 1px 1px 2px #fff,0 3px 7px rgba(17,88,160,.08)!important;
+}
+.process-grid>.panel:last-child .step-ico{margin-left:auto;color:#0877e8!important;font-size:16px!important}
+.process-grid>.panel:last-child .btn{
+  width:100%!important;margin-top:15px!important;min-height:50px!important;
+  border-radius:13px!important;background:linear-gradient(135deg,#173b70,#0d2850)!important;
+  color:#fff!important;font-weight:900!important;
+  box-shadow:0 9px 18px rgba(12,43,84,.18)!important;
+}
+@media(max-width:900px){
+ .process-grid>.process-main .current:before{left:-15px}
+ .process-hero-head{flex-direction:column!important;align-items:stretch!important}
+ .process-driver-info{width:100%;box-sizing:border-box;flex-basis:auto!important}
+ .process-grid>.panel:last-child .steps{grid-template-columns:1fr 1fr!important}
+}
+@media(max-width:560px){
+ .process-grid>.panel:last-child .steps{grid-template-columns:1fr!important}
+ .process-driver-title h2{font-size:22px!important}
+}
+</style>
+
+
+<style id="consulta-assistida-premium-fix">
+/* Consulta assistida — acabamento premium, sem alterar o conteúdo/fluxo */
+.process-main + .panel .steps{
+  display:grid!important;
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  gap:12px!important;
+  align-items:stretch!important;
+}
+.process-main + .panel .step{
+  position:relative!important;
+  min-height:88px!important;
+  padding:13px 13px 13px 13px!important;
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  gap:11px!important;
+  border:1px solid #d7e5f5!important;
+  border-radius:16px!important;
+  background:linear-gradient(145deg,#ffffff 0%,#f8fbff 100%)!important;
+  color:#153967!important;
+  font-size:11px!important;
+  line-height:1.3!important;
+  font-weight:700!important;
+  box-shadow:0 7px 18px rgba(20,67,120,.06), inset 0 1px 0 #fff!important;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease!important;
+}
+.process-main + .panel .step:hover{
+  transform:translateY(-2px)!important;
+  border-color:#b8d4f2!important;
+  box-shadow:0 12px 24px rgba(20,67,120,.10), inset 0 1px 0 #fff!important;
+}
+.process-main + .panel .step-num{
+  width:36px!important;height:36px!important;min-width:36px!important;
+  border-radius:12px!important;
+  display:grid!important;place-items:center!important;
+  background:linear-gradient(145deg,#eaf5ff,#dcecff)!important;
+  color:#0866d1!important;
+  font-size:13px!important;font-weight:900!important;
+  box-shadow:inset 1px 1px 2px #fff,0 5px 12px rgba(19,105,207,.12)!important;
+}
+.process-main + .panel .step-copy{
+  flex:1!important;
+  min-width:0!important;
+  color:#173a68!important;
+  font-size:10px!important;
+  line-height:1.35!important;
+}
+.process-main + .panel .step-copy b{
+  color:#082f67!important;
+  font-weight:900!important;
+}
+.process-main + .panel .step-icon{
+  width:30px!important;height:30px!important;min-width:30px!important;
+  border-radius:10px!important;
+  display:grid!important;place-items:center!important;
+  color:#1479df!important;
+  background:#edf6ff!important;
+  box-shadow:inset 1px 1px 2px #fff,0 3px 8px rgba(25,111,209,.08)!important;
+}
+.process-main + .panel .step-icon svg{width:17px!important;height:17px!important}
+.process-main + .panel .step:not(:last-child):after{
+  content:'›'!important;
+  position:absolute!important;
+  right:-12px!important;top:50%!important;
+  transform:translateY(-50%)!important;
+  z-index:5!important;
+  width:24px!important;height:24px!important;
+  border:1px solid #d7e8fa!important;
+  border-radius:50%!important;
+  display:grid!important;place-items:center!important;
+  background:#fff!important;
+  color:#4b9aeb!important;
+  font-size:18px!important;
+  line-height:1!important;
+  box-shadow:0 4px 10px rgba(25,105,183,.09)!important;
+}
+.process-main + .panel .detail-driver-btn{
+  width:100%!important;
+  min-height:64px!important;
+  margin-top:16px!important;
+  padding:10px 18px!important;
+  border:1px solid #163e77!important;
+  border-radius:15px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:18px!important;
+  background:linear-gradient(135deg,#193d73 0%,#092754 100%)!important;
+  color:#fff!important;
+  box-shadow:0 10px 20px rgba(12,42,80,.20),inset 0 1px 0 rgba(255,255,255,.16)!important;
+  font-size:13px!important;
+}
+.process-main + .panel .detail-driver-main{
+  display:flex!important;align-items:center!important;gap:11px!important;
+}
+.process-main + .panel .detail-driver-icon{
+  width:38px!important;height:38px!important;
+  border-radius:11px!important;
+  display:grid!important;place-items:center!important;
+  background:rgba(255,255,255,.13)!important;
+  color:#fff!important;
+}
+.process-main + .panel .detail-driver-icon svg{width:21px!important;height:21px!important}
+.process-main + .panel .detail-driver-main>span:last-child{
+  font-size:13px!important;font-weight:900!important;
+}
+.process-main + .panel .detail-driver-side{
+  display:flex!important;align-items:center!important;gap:9px!important;
+  color:#c9dcf7!important;
+  font-size:10px!important;font-weight:600!important;
+}
+.process-main + .panel .detail-driver-side svg{width:18px!important;height:18px!important;color:#fff!important}
+@media(max-width:1050px){
+  .process-main + .panel .steps{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .process-main + .panel .step:nth-child(3):after{display:none!important}
+}
+@media(max-width:760px){
+  .process-main + .panel .steps{grid-template-columns:1fr 1fr!important}
+  .process-main + .panel .step:not(:last-child):after{display:none!important}
+  .process-main + .panel .detail-driver-side{display:none!important}
+}
+@media(max-width:520px){
+  .process-main + .panel .steps{grid-template-columns:1fr!important}
+}
+</style>
 </head>
 <body>
 <div class="login-overlay" id="loginOverlay">
@@ -743,6 +1060,555 @@ table{border-collapse:collapse;width:100%;min-width:880px}th,td{padding:10px 11p
 .motoristas-page .motoristas-pagination{padding:12px 14px 2px}
 .motoristas-page .motoristas-pagination .page-btn{width:32px;height:32px;min-width:32px;border-radius:9px}
 @media(max-width:650px){.motoristas-page .user{min-width:0;width:42px;padding:0;justify-content:center}.motoristas-page .user>span:not(.avatar),.motoristas-page .user .user-chevron{display:none}.motoristas-page .import-btn{width:100%}}
+
+/* ===== POLIMENTO — RESULTADO DA CONFERÊNCIA / CONSULTA ASSISTIDA ===== */
+.conference-area{
+  margin-top:22px;
+  padding-top:2px;
+}
+.conference-title{
+  padding:0 2px 2px;
+  margin-bottom:12px;
+}
+.conference-title strong{
+  font-size:16px;
+  letter-spacing:-.15px;
+}
+.conference-title span{
+  font-size:10px;
+  background:#eef5ff;
+  border:1px solid #dbe8f7;
+  color:#587294;
+  padding:6px 9px;
+  border-radius:999px;
+}
+.conference-grid{gap:14px}
+.conference-card{
+  position:relative;
+  padding:14px;
+  border-radius:16px;
+  background:linear-gradient(145deg,#ffffff 0%,#f7fbff 100%);
+  border:1px solid #d5e4f5;
+  box-shadow:0 8px 20px rgba(24,69,122,.08),inset 0 1px 0 #fff;
+  overflow:hidden;
+}
+.conference-card:before{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:0;height:3px;
+  background:linear-gradient(90deg,#0b63d1,#43a8ff);
+  opacity:.8;
+}
+.conference-card .conf-head{margin-bottom:12px}
+.conference-card .conf-icon{
+  width:35px;height:35px;border-radius:11px;
+  background:linear-gradient(145deg,#f4faff,#e3f0ff);
+  color:#0b5cc2;
+  box-shadow:0 4px 10px rgba(10,91,183,.10),inset 2px 2px 4px #fff,inset -2px -2px 4px #d3e4f8;
+}
+.conference-card .conf-head strong{font-size:13px}
+.conference-options{gap:8px}
+.conf-option{
+  position:relative;
+  min-height:47px;
+  padding:8px 10px 8px 31px;
+  border-radius:11px;
+  border:1px solid #dce8f5;
+  background:#fff;
+  color:#294767;
+  box-shadow:0 2px 7px rgba(19,61,108,.035);
+}
+.conf-option:before{
+  content:"";
+  position:absolute;
+  left:11px;top:50%;
+  width:10px;height:10px;
+  transform:translateY(-50%);
+  border-radius:50%;
+  border:2px solid #b9cde4;
+  background:#fff;
+  box-sizing:border-box;
+}
+.conf-option:hover{
+  transform:translateY(-1px);
+  border-color:#a9c9ea;
+  background:#f8fbff;
+  box-shadow:0 5px 12px rgba(16,75,145,.08);
+}
+.conf-option.active{
+  background:linear-gradient(135deg,#0b59b8,#08438e);
+  border-color:#0a4da1;
+  box-shadow:0 8px 15px rgba(7,75,157,.22),inset 0 1px 0 #ffffff38;
+}
+.conf-option.active:before{
+  border-color:#fff;
+  background:#fff;
+  box-shadow:inset 0 0 0 2px #0a4da1;
+}
+.conf-option small{font-size:8.5px}
+.conference-footer{
+  margin-top:14px;
+  padding:10px;
+  border:1px solid #d9e7f6;
+  border-radius:15px;
+  background:linear-gradient(180deg,#f8fbff,#eef5fd);
+  box-shadow:inset 0 1px 0 #fff;
+}
+.conference-summary{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  padding:9px 12px;
+  border-radius:11px;
+  background:#fff;
+  border:1px solid #dbe7f4;
+  color:#5b708b;
+  box-shadow:0 2px 7px rgba(20,62,108,.04);
+}
+.register-btn,.register-error{min-height:46px}
+.register-btn{
+  min-width:205px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#0a5dc7,#084793);
+  box-shadow:0 8px 16px rgba(8,78,166,.22),inset 0 1px 0 #ffffff35;
+}
+.register-btn:not(:disabled):hover{transform:translateY(-1px);box-shadow:0 11px 20px rgba(8,78,166,.28)}
+.register-error{
+  border-radius:12px;
+  padding:0 16px;
+  background:#fff;
+  border-color:#f1cbd2;
+  box-shadow:0 3px 8px rgba(181,43,62,.06);
+}
+.register-error:hover{background:#fff5f6;border-color:#e9aab4}
+
+/* card "Como funciona" */
+.process-main + .panel{
+  margin-top:16px;
+  padding:18px 18px 16px;
+  border:1px solid #d7e5f4;
+  border-radius:17px;
+  background:linear-gradient(145deg,#ffffff,#f7fbff);
+  box-shadow:0 9px 24px rgba(18,61,115,.08),inset 0 1px 0 #fff;
+}
+.process-main + .panel .eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  margin-bottom:4px;
+  color:#0a61c8;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.7px;
+}
+.process-main + .panel .eyebrow:before{
+  content:"";
+  width:7px;height:7px;border-radius:50%;
+  background:#1683ef;
+  box-shadow:0 0 0 4px #e7f3ff;
+}
+.process-main + .panel h2{
+  margin:0 0 15px;
+  font-size:17px;
+  color:#173864;
+  letter-spacing:-.2px;
+}
+.process-main + .panel .steps{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:9px;
+}
+.process-main + .panel .step{
+  min-height:73px;
+  padding:11px 9px;
+  border:1px solid #dce8f5;
+  border-radius:13px;
+  background:#fff;
+  color:#385674;
+  font-size:10px;
+  line-height:1.35;
+  font-weight:700;
+  box-shadow:0 3px 9px rgba(19,61,108,.045);
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:8px;
+  transition:.16s ease;
+}
+.process-main + .panel .step:hover{
+  transform:translateY(-2px);
+  border-color:#b9d3ee;
+  box-shadow:0 7px 15px rgba(19,72,135,.09);
+}
+.process-main + .panel .step-num{
+  width:27px;height:27px;
+  border-radius:9px;
+  display:grid;place-items:center;
+  background:linear-gradient(145deg,#eaf5ff,#dceeff);
+  color:#0b5ab9;
+  font-size:11px;
+  font-weight:900;
+  box-shadow:inset 1px 1px 2px #fff,inset -1px -1px 2px #cfe1f6;
+}
+.process-main + .panel hr{display:none}
+.process-main + .panel .btn{
+  position:relative;
+  width:100%!important;
+  min-height:48px;
+  margin-top:15px;
+  border:1px solid #c9d9eb!important;
+  border-radius:12px!important;
+  background:linear-gradient(135deg,#17365f,#0d294e)!important;
+  color:#fff!important;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.05px;
+  box-shadow:0 8px 16px rgba(12,42,80,.18),inset 0 1px 0 #ffffff22!important;
+  transition:.16s ease;
+}
+.process-main + .panel .btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 11px 20px rgba(12,42,80,.23),inset 0 1px 0 #ffffff28!important;
+}
+@media(max-width:1050px){
+  .process-main + .panel .steps{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:900px){
+  .conference-title{align-items:flex-start;flex-direction:column}
+  .conference-title span{border-radius:9px}
+  .process-main + .panel .steps{grid-template-columns:1fr 1fr}
+  .conference-footer{padding:9px}
+}
+@media(max-width:560px){
+  .process-main + .panel .steps{grid-template-columns:1fr}
+}
+
+
+/* ===== NOVO VISUAL — somente resultado da conferência / consulta assistida ===== */
+.conference-area{
+  margin-top:28px;
+  padding:0 0 2px;
+}
+.conference-title{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:16px;
+  margin:0 0 15px;
+  padding:0 2px;
+}
+.conference-title strong{
+  display:block;
+  font-size:22px;
+  line-height:1.15;
+  letter-spacing:-.45px;
+  color:#102f5d;
+  font-weight:900;
+}
+.conference-title strong:after{
+  content:'Selecione exatamente o que apareceu no portal do DETRAN-MT.';
+  display:block;
+  margin-top:5px;
+  font-size:12px;
+  line-height:1.4;
+  letter-spacing:0;
+  color:#617b9f;
+  font-weight:500;
+}
+.conference-title span{
+  flex:0 0 auto;
+  padding:9px 13px;
+  border:1px solid #cfe2fa;
+  border-radius:13px;
+  background:linear-gradient(180deg,#f8fbff,#eef6ff);
+  color:#315d92;
+  font-size:10px;
+  font-weight:700;
+  box-shadow:0 4px 12px rgba(31,92,158,.05);
+}
+.conference-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+}
+.conference-card{
+  min-height:255px;
+  padding:17px;
+  border-radius:18px;
+  border:1px solid #d7e6f8;
+  background:linear-gradient(145deg,#ffffff 0%,#f8fbff 100%);
+  box-shadow:0 10px 25px rgba(25,74,127,.075),inset 0 1px 0 #fff;
+  overflow:hidden;
+}
+.conference-card:before{
+  height:3px;
+  opacity:1;
+  background:linear-gradient(90deg,#2f8cff,#66bcff);
+}
+.conference-card:nth-child(1):before{background:linear-gradient(90deg,#20bd6b,#70e2a2)}
+.conference-card:nth-child(2):before{background:linear-gradient(90deg,#1684ff,#70b9ff)}
+.conference-card:nth-child(3):before{background:linear-gradient(90deg,#ef5367,#ff9aab)}
+.conference-card .conf-head{
+  margin-bottom:14px;
+  gap:11px;
+}
+.conference-card .conf-icon{
+  width:40px;height:40px;
+  border-radius:13px;
+  font-size:17px;
+  background:linear-gradient(145deg,#eaf6ff,#dceeff);
+  color:#1267d3;
+  box-shadow:0 5px 12px rgba(24,108,204,.10),inset 2px 2px 5px #fff,inset -2px -2px 5px #cfe3f8;
+}
+.conference-card:nth-child(1) .conf-icon{color:#12a95d;background:linear-gradient(145deg,#ebfff4,#d8f8e7)}
+.conference-card:nth-child(3) .conf-icon{color:#e43850;background:linear-gradient(145deg,#fff0f3,#ffe1e7)}
+.conference-card .conf-head strong{
+  font-size:14px;
+  color:#12345f;
+  font-weight:900;
+}
+.conference-card .conf-head strong:after{
+  display:block;
+  margin-top:3px;
+  font-size:9px;
+  font-weight:500;
+  color:#6c83a0;
+}
+.conference-card:nth-child(1) .conf-head strong:after{content:'Situação da CNH no sistema'}
+.conference-card:nth-child(2) .conf-head strong:after{content:'Pontos registrados na CNH'}
+.conference-card:nth-child(3) .conf-head strong:after{content:'Situação de suspensão'}
+.conference-options{gap:9px}
+.conf-option{
+  min-height:55px;
+  padding:9px 12px 9px 39px;
+  border-radius:13px;
+  border:1px solid #d9e6f5;
+  background:#fff;
+  color:#163860;
+  text-align:left;
+  box-shadow:0 3px 9px rgba(22,69,120,.035);
+  transition:.16s ease;
+}
+.conf-option:before{
+  left:13px;
+  width:12px;height:12px;
+  border:2px solid #aec7e3;
+  box-shadow:none;
+}
+.conf-option:hover{
+  transform:translateY(-1px);
+  border-color:#a8c9ec;
+  background:#fafdff;
+  box-shadow:0 7px 14px rgba(16,75,145,.08);
+}
+.conf-option small{
+  display:block;
+  margin-top:3px;
+  font-size:8.5px;
+  line-height:1.25;
+  color:#5f7795;
+}
+.conf-option.active{
+  color:#17385e;
+  background:#eef8f2;
+  border-color:#55c88a;
+  box-shadow:0 7px 15px rgba(27,159,91,.10);
+}
+.conference-card:nth-child(2) .conf-option.active{
+  color:#164d8b;
+  background:#edf6ff;
+  border-color:#67aaff;
+  box-shadow:0 7px 15px rgba(31,119,218,.10);
+}
+.conference-card:nth-child(3) .conf-option.active{
+  color:#9e2738;
+  background:#fff1f3;
+  border-color:#ff8797;
+  box-shadow:0 7px 15px rgba(220,57,79,.09);
+}
+.conf-option.active:before{
+  border-color:#fff;
+  background:#19b968;
+  box-shadow:inset 0 0 0 3px #eaf9f1;
+}
+.conference-card:nth-child(2) .conf-option.active:before{background:#2086f5;box-shadow:inset 0 0 0 3px #edf6ff}
+.conference-card:nth-child(3) .conf-option.active:before{background:#e84359;box-shadow:inset 0 0 0 3px #fff1f3}
+.conference-footer{
+  margin-top:17px;
+  padding:11px;
+  min-height:58px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border:1px solid #cfe1f7;
+  border-radius:16px;
+  background:linear-gradient(135deg,#f4f9ff,#edf5ff);
+  box-shadow:inset 0 1px 0 #fff,0 6px 16px rgba(22,74,130,.05);
+}
+.conference-summary{
+  min-height:45px;
+  display:flex;
+  align-items:center;
+  flex:1;
+  padding:9px 13px;
+  border-radius:12px;
+  background:#fff;
+  border:1px solid #d9e7f6;
+  color:#58718f;
+  font-size:10px;
+  box-shadow:0 3px 9px rgba(20,62,108,.035);
+}
+.register-btn,.register-error{height:47px;min-height:47px;border-radius:13px;font-size:13px;font-weight:900;white-space:nowrap}
+.register-btn{
+  min-width:225px;
+  background:linear-gradient(135deg,#2187f4,#0b58c8);
+  border:1px solid #1671db;
+  color:#fff;
+  box-shadow:0 9px 18px rgba(15,96,207,.22),inset 0 1px 0 #ffffff42;
+}
+.register-btn:not(:disabled):hover{transform:translateY(-1px);box-shadow:0 12px 22px rgba(15,96,207,.27)}
+.register-btn:disabled{opacity:.52;cursor:not-allowed;filter:saturate(.7)}
+.register-error{
+  min-width:145px;
+  padding:0 17px;
+  color:#d42d45;
+  background:#fff;
+  border:1px solid #ffc0ca;
+  box-shadow:0 4px 10px rgba(211,45,68,.05);
+}
+.register-error:hover{background:#fff6f7;border-color:#ff9eab}
+
+/* consulta assistida */
+.process-main + .panel{
+  margin-top:20px;
+  padding:20px 20px 18px;
+  border:1px solid #d5e4f5;
+  border-radius:20px;
+  background:linear-gradient(145deg,#ffffff 0%,#f7fbff 100%);
+  box-shadow:0 12px 28px rgba(18,61,115,.075),inset 0 1px 0 #fff;
+}
+.process-main + .panel .eyebrow{
+  margin-bottom:4px;
+  color:#0b68d1;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.8px;
+}
+.process-main + .panel .eyebrow:before{
+  width:8px;height:8px;
+  background:#1683ef;
+  box-shadow:0 0 0 4px #e7f3ff;
+}
+.process-main + .panel h2{
+  margin:0 0 17px;
+  color:#102f5d;
+  font-size:20px;
+  letter-spacing:-.35px;
+  font-weight:900;
+}
+.process-main + .panel h2:after{
+  content:'Siga o passo a passo para realizar a conferência corretamente.';
+  display:block;
+  margin-top:4px;
+  color:#6a82a1;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:0;
+}
+.process-main + .panel .steps{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:10px;
+}
+.process-main + .panel .step{
+  position:relative;
+  min-height:72px;
+  padding:12px 11px;
+  border:1px solid #d9e7f6;
+  border-radius:14px;
+  background:linear-gradient(145deg,#fff,#f9fcff);
+  color:#173b67;
+  font-size:10px;
+  line-height:1.35;
+  font-weight:800;
+  box-shadow:0 4px 11px rgba(19,61,108,.045);
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:9px;
+}
+.process-main + .panel .step:not(:last-child):after{
+  content:'›';
+  position:absolute;
+  right:-9px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:2;
+  width:18px;height:18px;
+  border-radius:50%;
+  display:grid;place-items:center;
+  background:#edf6ff;
+  color:#7aa8d7;
+  font-size:14px;
+  box-shadow:0 2px 6px rgba(30,93,155,.07);
+}
+.process-main + .panel .step:hover{
+  transform:translateY(-2px);
+  border-color:#afd0f1;
+  box-shadow:0 9px 17px rgba(19,72,135,.09);
+}
+.process-main + .panel .step-num{
+  width:30px;height:30px;
+  border-radius:10px;
+  background:linear-gradient(145deg,#e9f5ff,#d9ecff);
+  color:#0b5ec3;
+  font-size:11px;
+  font-weight:900;
+  box-shadow:inset 1px 1px 2px #fff,inset -1px -1px 2px #c7ddf4;
+}
+.process-main + .panel hr{display:none}
+.process-main + .panel .btn{
+  width:100%!important;
+  min-height:55px;
+  margin-top:16px;
+  border:1px solid #d5e4f5!important;
+  border-radius:14px!important;
+  background:linear-gradient(135deg,#173b68,#0b2850)!important;
+  color:#fff!important;
+  font-size:13px;
+  font-weight:900;
+  box-shadow:0 9px 18px rgba(12,42,80,.18),inset 0 1px 0 #ffffff22!important;
+}
+.process-main + .panel .btn:before{
+  content:'▣';
+  margin-right:8px;
+  opacity:.9;
+}
+.process-main + .panel .btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 12px 22px rgba(12,42,80,.23),inset 0 1px 0 #ffffff28!important;
+}
+@media(max-width:1050px){
+  .process-main + .panel .steps{grid-template-columns:repeat(3,1fr)}
+  .process-main + .panel .step:nth-child(3):after{display:none}
+}
+@media(max-width:900px){
+  .conference-grid{grid-template-columns:1fr}
+  .conference-title{align-items:flex-start;flex-direction:column}
+  .conference-title span{align-self:flex-start}
+  .conference-footer{flex-wrap:wrap}
+  .conference-summary{width:100%;flex-basis:100%}
+  .register-btn{flex:1}
+  .register-error{flex:0 0 auto}
+  .process-main + .panel .steps{grid-template-columns:1fr 1fr}
+  .process-main + .panel .step:after{display:none!important}
+}
+@media(max-width:560px){
+  .conference-title strong{font-size:19px}
+  .conference-footer{flex-direction:column;align-items:stretch}
+  .register-btn,.register-error{width:100%}
+  .process-main + .panel .steps{grid-template-columns:1fr}
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -933,7 +1799,12 @@ function conferenceOverall(c){
   return ok?'sucesso':'atencao';
 }
 function renderConferenceCard(type,title,icon,options,c){
-  return `<div class="conference-card"><div class="conf-head"><span class="conf-icon">${icon}</span><strong>${title}</strong></div><div class="conference-options">${options.map(o=>`<button class="conf-option ${c[type]===o.value?'active':''}" onclick="setConference('${type}','${o.value}')">${o.label}<small>${o.hint}</small></button>`).join('')}</div></div>`;
+  const icons={
+    validade:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 20 6v5c0 4.7-3 8-8 10-5-2-8-5.3-8-10V6l8-3Z" fill="currentColor" opacity=".95"/><path d="m8.2 12 2.2 2.2 5-5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    pontuacao:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 18V6h3v12H5Zm5 0V9h3v9h-3Zm5 0V3h3v15h-3Z" fill="currentColor"/></svg>`,
+    suspensao:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 21 19H3L12 3Z" fill="currentColor"/><path d="M12 8v5" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1" fill="#fff"/></svg>`
+  };
+  return `<div class="conference-card ${type}"><div class="conf-head"><span class="conf-icon">${icons[type]||icon}</span><strong>${title}</strong></div><div class="conference-options">${options.map(o=>`<button class="conf-option ${c[type]===o.value?'active':''}" onclick="setConference('${type}','${o.value}')"><span class="conf-radio" aria-hidden="true"></span><span class="conf-copy"><b>${o.label}</b><small>${o.hint}</small></span></button>`).join('')}</div></div>`;
 }
 function setConference(type,value){
   const d=currentDriver(); if(!d)return;
@@ -945,7 +1816,7 @@ function renderProcessamento(){
   selected=d;
   const c=getConferenceDraft(d.id), ready=conferenceReady(c), overall=conferenceOverall(c);
   const summary=ready?`Validade: <b>${conferenceLabel('validade',c.validade)}</b> &nbsp;•&nbsp; Pontuação: <b>${conferenceLabel('pontuacao',c.pontuacao)}</b> &nbsp;•&nbsp; Suspensão: <b>${conferenceLabel('suspensao',c.suspensao)}</b>`:`Selecione uma opção em cada item para registrar a conferência.`;
-  main.innerHTML=header('Processamento','Faça a consulta no portal oficial e registre o resultado')+`<div class="process-grid"><div class="panel process-main"><div class="current"><div class="process-hero-head"><div class="process-driver-title"><div class="eyebrow">MOTORISTA ATUAL</div><h2>${esc(d.nome)}</h2><div class="process-fields"><span>CPF<b>${maskCPF(d.cpf)}</b></span><span>RENACH<b>${esc(d.renach||'—')}</b></span></div></div><div class="process-driver-info"><div class="info-icon"><svg viewBox="0 0 24 24" width="25" height="25" fill="none"><circle cx="12" cy="8" r="3.2" fill="currentColor"/><path d="M5.5 20c.7-4 2.9-6 6.5-6s5.8 2 6.5 6" fill="currentColor"/></svg></div><div><strong>Dados do motorista</strong><span>Confira e realize a consulta no DETRAN-MT.</span></div></div></div><div class="det-card"><h3><svg class="det-title-icon" viewBox="0 0 24 24" fill="none"><path d="M5 19 19 5M9 5h10v10M5 9v10h10" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Consultar no DETRAN-MT</h3><p>Abra a página oficial “Consulte sua Habilitação” em uma nova aba.</p><div class="copy-row"><button class="copy-chip" onclick="copyText('${esc(d.cpf)}','CPF copiado')"><span class="chip-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.4" fill="currentColor"/><path d="M7.5 17c.6-2.2 2-3.3 4.5-3.3s3.9 1.1 4.5 3.3" fill="currentColor"/></svg></span><span><span class="chip-label">CPF</span><b>${maskCPF(d.cpf)}</b></span><span class="chip-copy"><svg viewBox="0 0 24 24" width="15" height="15" fill="none"><rect x="8" y="8" width="11" height="11" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 16V5a2 2 0 0 1 2-2h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button><button class="copy-chip" onclick="copyText('${esc(d.renach||'')}','RENACH copiado')"><span class="chip-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="11" r="2" fill="currentColor"/><path d="M12 10h6M12 14h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><span class="chip-label">RENACH</span><b>${esc(d.renach||'—')}</b></span><span class="chip-copy"><svg viewBox="0 0 24 24" width="15" height="15" fill="none"><rect x="8" y="8" width="11" height="11" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 16V5a2 2 0 0 1 2-2h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button><button class="copy-chip" onclick="copyBoth()"><span class="chip-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="4" y="6" width="10" height="10" rx="2" stroke="currentColor" stroke-width="2"/><rect x="10" y="10" width="10" height="10" rx="2" stroke="currentColor" stroke-width="2"/></svg></span><span><span class="chip-label">Copiar os dois</span><b>CPF e RENACH</b></span></button></div><button class="open-detran" onclick="openDetran()"><svg viewBox="0 0 24 24" width="25" height="25" fill="none"><path d="M5 19 19 5M9 5h10v10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span><span class="open-main">Abrir DETRAN-MT</span><span class="open-sub">Será aberto em uma nova aba</span></span><span class="open-arrow">›</span></button><div class="hint">ⓘ &nbsp; Depois da consulta, volte para esta aba e registre o resultado. O reCAPTCHA continua sendo feito normalmente no portal.</div></div><div class="conference-area"><div class="conference-title"><strong>Resultado da conferência</strong><span>Registre exatamente o que apareceu no portal</span></div><div class="conference-grid">${renderConferenceCard('validade','Validade','✓',[{value:'valida',label:'Válida',hint:'Dentro da validade'},{value:'proxima',label:'Próxima do vencimento',hint:'Requer acompanhamento'},{value:'vencida',label:'Vencida',hint:'Necessita atenção'}],c)}${renderConferenceCard('pontuacao','Pontuação','•',[{value:'sem_alerta',label:'Sem alerta',hint:'Nenhuma pontuação relevante'},{value:'possui',label:'Possui pontuação',hint:'Há pontuação registrada'},{value:'revisao',label:'Requer atenção',hint:'Situação precisa de análise'}],c)}${renderConferenceCard('suspensao','Suspensão','!',[{value:'nao_consta',label:'Não consta',hint:'Nenhuma suspensão indicada'},{value:'consta',label:'Consta suspensão',hint:'Há suspensão registrada'},{value:'revisao',label:'Necessita conferência',hint:'Não foi possível confirmar'}],c)}</div><div class="conference-footer"><div class="conference-summary">${summary}</div><button class="register-btn" ${ready?'':'disabled'} onclick="finishConference()">✓ Registrar conferência</button><button class="register-error" onclick="finishDriver('erro')">Registrar erro</button></div></div></div></div><div class="panel"><div class="eyebrow">COMO FUNCIONA?</div><h2>Consulta assistida</h2><div class="steps"><div class="step"><span class="step-num">1</span>Abra o site do DETRAN-MT</div><div class="step"><span class="step-num">2</span>Preencha o CPF e o RENACH</div><div class="step"><span class="step-num">3</span>Resolva o reCAPTCHA</div><div class="step"><span class="step-num">4</span>Clique em Consultar</div><div class="step"><span class="step-num">5</span>Volte aqui e registre o resultado</div></div><hr style="border:0;border-top:1px solid #edf0f4;margin:18px 0"><button class="btn" style="width:100%" onclick="openDetails('${d.id}')">▣ Ver detalhes do motorista</button></div></div>`
+  main.innerHTML=header('Processamento','Faça a consulta no portal oficial e registre o resultado')+`<div class="process-grid"><div class="panel process-main"><div class="current"><div class="process-hero-head"><div class="process-driver-title"><div class="eyebrow">MOTORISTA ATUAL</div><h2>${esc(d.nome)}</h2><div class="process-fields"><span>CPF<b>${maskCPF(d.cpf)}</b></span><span>RENACH<b>${esc(d.renach||'—')}</b></span></div></div><div class="process-driver-info"><div class="info-icon"><svg viewBox="0 0 24 24" width="25" height="25" fill="none"><circle cx="12" cy="8" r="3.2" fill="currentColor"/><path d="M5.5 20c.7-4 2.9-6 6.5-6s5.8 2 6.5 6" fill="currentColor"/></svg></div><div><strong>Dados do motorista</strong><span>Confira e realize a consulta no DETRAN-MT.</span></div></div></div><div class="det-card"><h3><svg class="det-title-icon" viewBox="0 0 24 24" fill="none"><path d="M5 19 19 5M9 5h10v10M5 9v10h10" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Consultar no DETRAN-MT</h3><p>Abra a página oficial “Consulte sua Habilitação” em uma nova aba.</p><div class="copy-row"><button class="copy-chip" onclick="copyText('${esc(d.cpf)}','CPF copiado')"><span class="chip-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.4" fill="currentColor"/><path d="M7.5 17c.6-2.2 2-3.3 4.5-3.3s3.9 1.1 4.5 3.3" fill="currentColor"/></svg></span><span><span class="chip-label">CPF</span><b>${maskCPF(d.cpf)}</b></span><span class="chip-copy"><svg viewBox="0 0 24 24" width="15" height="15" fill="none"><rect x="8" y="8" width="11" height="11" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 16V5a2 2 0 0 1 2-2h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button><button class="copy-chip" onclick="copyText('${esc(d.renach||'')}','RENACH copiado')"><span class="chip-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="11" r="2" fill="currentColor"/><path d="M12 10h6M12 14h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><span class="chip-label">RENACH</span><b>${esc(d.renach||'—')}</b></span><span class="chip-copy"><svg viewBox="0 0 24 24" width="15" height="15" fill="none"><rect x="8" y="8" width="11" height="11" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 16V5a2 2 0 0 1 2-2h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button><button class="copy-chip" onclick="copyBoth()"><span class="chip-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="4" y="6" width="10" height="10" rx="2" stroke="currentColor" stroke-width="2"/><rect x="10" y="10" width="10" height="10" rx="2" stroke="currentColor" stroke-width="2"/></svg></span><span><span class="chip-label">Copiar os dois</span><b>CPF e RENACH</b></span></button></div><button class="open-detran" onclick="openDetran()"><svg viewBox="0 0 24 24" width="25" height="25" fill="none"><path d="M5 19 19 5M9 5h10v10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span><span class="open-main">Abrir DETRAN-MT</span><span class="open-sub">Será aberto em uma nova aba</span></span><span class="open-arrow">›</span></button><div class="hint">ⓘ &nbsp; Depois da consulta, volte para esta aba e registre o resultado. O reCAPTCHA continua sendo feito normalmente no portal.</div></div><div class="conference-area"><div class="conference-title"><strong>Resultado da conferência</strong><span>Registre exatamente o que apareceu no portal</span></div><div class="conference-grid">${renderConferenceCard('validade','Validade','✓',[{value:'valida',label:'Válida',hint:'Dentro da validade'},{value:'proxima',label:'Próxima do vencimento',hint:'Requer acompanhamento'},{value:'vencida',label:'Vencida',hint:'Necessita atenção'}],c)}${renderConferenceCard('pontuacao','Pontuação','•',[{value:'sem_alerta',label:'Sem alerta',hint:'Nenhuma pontuação relevante'},{value:'possui',label:'Possui pontuação',hint:'Há pontuação registrada'},{value:'revisao',label:'Requer atenção',hint:'Situação precisa de análise'}],c)}${renderConferenceCard('suspensao','Suspensão','!',[{value:'nao_consta',label:'Não consta',hint:'Nenhuma suspensão indicada'},{value:'consta',label:'Consta suspensão',hint:'Há suspensão registrada'},{value:'revisao',label:'Necessita conferência',hint:'Não foi possível confirmar'}],c)}</div><div class="conference-footer"><div class="conference-summary">${summary}</div><button class="register-btn" ${ready?'':'disabled'} onclick="finishConference()">✓ Registrar conferência</button><button class="register-error" onclick="finishDriver('erro')">Registrar erro</button></div></div></div></div><div class="panel"><div class="eyebrow">COMO FUNCIONA?</div><h2>Consulta assistida</h2><div class="steps"><div class="step"><span class="step-num">1</span><span class="step-copy">Abra o site do <b>DETRAN-MT</b></span><span class="step-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 12h17M12 3c2.3 2.4 3.4 5.4 3.4 9s-1.1 6.6-3.4 9c-2.3-2.4-3.4-5.4-3.4-9S9.7 5.4 12 3Z" stroke="currentColor" stroke-width="1.5"/></svg></span></div><div class="step"><span class="step-num">2</span><span class="step-copy">Preencha o <b>CPF e o RENACH</b></span><span class="step-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="14" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 8h8M8 12h5M8 16h7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span></div><div class="step"><span class="step-num">3</span><span class="step-copy">Resolva o <b>reCAPTCHA</b></span><span class="step-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 19 6v5c0 4.5-2.8 7.6-7 9-4.2-1.4-7-4.5-7-9V6l7-3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m8.5 12 2.1 2.1 4.8-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="step"><span class="step-num">4</span><span class="step-copy">Clique em <b>Consultar</b></span><span class="step-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="10.5" cy="10.5" r="5.8" stroke="currentColor" stroke-width="1.8"/><path d="m15 15 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span></div><div class="step"><span class="step-num">5</span><span class="step-copy">Volte aqui e <b>registre o resultado</b></span><span class="step-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.8"/><path d="m8.5 12 2.2 2.2 4.8-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></div><hr style="border:0;border-top:1px solid #edf0f4;margin:18px 0"><button class="btn detail-driver-btn" style="width:100%" onclick="openDetails('${d.id}')"><span class="detail-driver-main"><span class="detail-driver-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M5 4h10l4 4v12H5V4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 4v5h5M8 13h8M8 16h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span>Ver detalhes do motorista</span></span><span class="detail-driver-side"><span>Visualize todas as informações completas</span><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></div></div>`
 }
 
 async function copyText(value,label){try{await navigator.clipboard.writeText(String(value||''));msg(label)}catch{msg('Não foi possível copiar automaticamente.',true)}}
@@ -1053,6 +1924,278 @@ setInterval(()=>{const el=document.getElementById('dashboardTime');const de=docu
   else startSidebarWaves();
 })();
 </script>
+
+
+<style id="process-reference-exact">
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+.process-page-ref,
+.process-page-ref *{font-family:Inter,Segoe UI,Arial,sans-serif}
+
+.process-page-ref{
+  --ref-navy:#092b67;
+  --ref-blue:#0b70ee;
+  --ref-blue2:#1d83ff;
+  --ref-text:#082c63;
+  --ref-muted:#5e7da5;
+  --ref-line:#cfe2fa;
+  background:transparent!important;
+}
+
+/* topo da referência */
+.process-page-ref .ref-detran-banner{
+  min-height:60px!important;
+  height:60px!important;
+  padding:8px 14px!important;
+  border-radius:11px!important;
+  gap:12px!important;
+  background:
+    linear-gradient(90deg,rgba(5,43,109,.98),rgba(10,91,199,.96)),
+    linear-gradient(135deg,#0a2f76,#126fdd)!important;
+  box-shadow:0 7px 17px rgba(8,71,157,.20),inset 0 1px 0 rgba(255,255,255,.2)!important;
+}
+.process-page-ref .ref-detran-banner:after{
+  content:"";
+  position:absolute;right:15%;top:0;width:36%;height:100%;
+  background:linear-gradient(125deg,transparent 0 23%,rgba(255,255,255,.10) 23.5% 24%,transparent 24.5% 31%,rgba(255,255,255,.07) 31.5% 32%,transparent 32.5%);
+  opacity:.7;pointer-events:none;
+}
+.process-page-ref .ref-building{
+  right:11%!important;top:0!important;width:39%!important;height:100%!important;
+  opacity:.35!important;
+  background:
+    linear-gradient(90deg,transparent 0 9%,#dff3ff 9% 10%,transparent 10% 20%,#dff3ff 20% 21%,transparent 21% 32%,#dff3ff 32% 33%,transparent 33% 44%,#dff3ff 44% 45%,transparent 45% 56%,#dff3ff 56% 57%,transparent 57% 100%),
+    linear-gradient(180deg,transparent 0 35%,rgba(226,244,255,.8) 35% 37%,transparent 37%);
+  clip-path:polygon(3% 100%,3% 35%,18% 35%,18% 18%,87% 18%,87% 100%)!important;
+}
+.process-page-ref .ref-detran-icon{
+  width:38px!important;height:38px!important;border-radius:50%!important;
+  background:#0a3d91!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.12)!important;
+}
+.process-page-ref .ref-detran-icon svg{width:25px!important;height:25px!important}
+.process-page-ref .ref-detran-copy{gap:1px!important}
+.process-page-ref .ref-detran-copy strong{
+  font-size:16px!important;letter-spacing:-.25px!important
+}
+.process-page-ref .ref-detran-copy small{font-size:8px!important}
+.process-page-ref .ref-access{
+  height:34px!important;padding:0 12px!important;border-radius:9px!important;
+  background:linear-gradient(180deg,#1c87ff,#0969dc)!important;
+  font-size:9px!important;box-shadow:0 5px 11px rgba(0,53,137,.20)!important;
+}
+.process-page-ref .ref-alert{
+  min-height:34px!important;margin-top:9px!important;padding:0 11px!important;
+  border-radius:9px!important;border-color:#f1dca9!important;
+  background:#fff8e9!important;color:#986100!important;font-size:8px!important;
+}
+.process-page-ref .ref-alert i{width:15px!important;height:15px!important;font-size:9px!important;background:#fff0c7!important;color:#c27d00!important}
+
+/* resultado */
+.process-page-ref .conference-area{margin-top:18px!important}
+.process-page-ref .conference-title{
+  margin-bottom:11px!important;padding:0!important;align-items:center!important;
+}
+.process-page-ref .conference-title strong{
+  font-size:18px!important;line-height:1.1!important;letter-spacing:-.45px!important;
+  color:#082d64!important;
+}
+.process-page-ref .conference-title strong:after{
+  margin-top:4px!important;font-size:9px!important;color:#56779f!important;font-weight:500!important;
+}
+.process-page-ref .conference-title span{
+  padding:7px 11px!important;border-radius:999px!important;
+  border:1px solid #d0e4fb!important;background:#f6faff!important;
+  color:#3b6290!important;font-size:8px!important;box-shadow:none!important;
+}
+
+.process-page-ref .conference-grid{gap:14px!important}
+.process-page-ref .conference-card{
+  min-height:225px!important;padding:14px!important;border-radius:15px!important;
+  border:1px solid #cfe1f7!important;background:#fff!important;
+  box-shadow:0 8px 18px rgba(17,70,132,.07)!important;
+}
+.process-page-ref .conference-card:before{height:3px!important}
+.process-page-ref .conference-card.validade:before{background:#37cf84!important}
+.process-page-ref .conference-card.pontuacao:before{background:#2785ff!important}
+.process-page-ref .conference-card.suspensao:before{background:#f15b71!important}
+.process-page-ref .conference-card .conf-head{
+  margin-bottom:11px!important;gap:9px!important
+}
+.process-page-ref .conference-card .conf-icon{
+  width:34px!important;height:34px!important;border-radius:10px!important;
+  display:grid!important;place-items:center!important;
+  box-shadow:0 5px 13px rgba(27,117,217,.12),inset 1px 1px 3px #fff!important;
+}
+.process-page-ref .conference-card .conf-icon svg{width:19px!important;height:19px!important}
+.process-page-ref .conference-card.validade .conf-icon{color:#19b969!important;background:linear-gradient(145deg,#ecfff5,#d7f7e6)!important}
+.process-page-ref .conference-card.pontuacao .conf-icon{color:#1479f2!important;background:linear-gradient(145deg,#edf6ff,#dceeff)!important}
+.process-page-ref .conference-card.suspensao .conf-icon{color:#ef435b!important;background:linear-gradient(145deg,#fff0f3,#ffe0e7)!important}
+.process-page-ref .conference-card .conf-head strong{
+  font-size:14px!important;color:#092e63!important;line-height:1.05!important
+}
+.process-page-ref .conference-card .conf-head strong:after{
+  margin-top:3px!important;font-size:8px!important;color:#6a84a5!important
+}
+.process-page-ref .conference-options{gap:7px!important}
+.process-page-ref .conf-option{
+  min-height:47px!important;padding:8px 10px 8px 36px!important;
+  border-radius:11px!important;border:1px solid #cfe0f4!important;
+  background:#fff!important;box-shadow:none!important;color:#173a68!important;
+  display:flex!important;align-items:center!important;position:relative!important;
+}
+.process-page-ref .conf-option:before{display:none!important}
+.process-page-ref .conf-radio{
+  position:absolute;left:12px;top:50%;transform:translateY(-50%);
+  width:11px;height:11px;border-radius:50%;border:2px solid #aac6e5;background:#fff;
+}
+.process-page-ref .conf-option.active .conf-radio{border:3px solid #fff;box-shadow:0 0 0 2px currentColor}
+.process-page-ref .conference-card.validade .conf-option.active{
+  background:#e7f9ef!important;border-color:#62d59b!important;color:#0f8d56!important
+}
+.process-page-ref .conference-card.validade .conf-option.active .conf-radio{background:#1dc575}
+.process-page-ref .conference-card.pontuacao .conf-option.active{
+  background:#e9f3ff!important;border-color:#73b2ff!important;color:#075ebf!important
+}
+.process-page-ref .conference-card.pontuacao .conf-option.active .conf-radio{background:#187cf2}
+.process-page-ref .conference-card.suspensao .conf-option.active{
+  background:#fff0f3!important;border-color:#ff899a!important;color:#c92e47!important
+}
+.process-page-ref .conference-card.suspensao .conf-option.active .conf-radio{background:#ed425a}
+.process-page-ref .conf-copy{display:flex;flex-direction:column;gap:2px;text-align:left}
+.process-page-ref .conf-copy b{font-size:9px!important;font-weight:800!important;line-height:1.1!important}
+.process-page-ref .conf-copy small{font-size:7px!important;color:#5f7898!important;line-height:1.1!important;margin:0!important}
+
+/* rodapé */
+.process-page-ref .conference-footer{
+  margin-top:14px!important;padding:9px!important;min-height:53px!important;
+  border:1px solid #c8def6!important;border-radius:13px!important;
+  background:#edf6ff!important;box-shadow:none!important;gap:9px!important
+}
+.process-page-ref .conference-summary{
+  min-height:38px!important;padding:8px 11px!important;border-radius:9px!important;
+  border:1px solid #d6e6f7!important;background:#fff!important;
+  color:#58759a!important;font-size:8px!important;box-shadow:none!important
+}
+.process-page-ref .register-btn,.process-page-ref .register-error{
+  height:39px!important;min-height:39px!important;border-radius:10px!important;
+  font-size:10px!important;font-weight:900!important
+}
+.process-page-ref .register-btn{
+  min-width:180px!important;background:linear-gradient(135deg,#2186f5,#0a5bd0)!important;
+  border:0!important;box-shadow:0 7px 13px rgba(16,103,220,.20)!important
+}
+.process-page-ref .register-error{
+  min-width:115px!important;padding:0 12px!important;
+  color:#d32640!important;background:#fff!important;border:1px solid #ffb8c2!important;
+  box-shadow:none!important
+}
+
+/* consulta assistida */
+.process-page-ref .process-main + .panel{
+  margin-top:18px!important;padding:15px 16px 13px!important;
+  border:1px solid #d1e2f5!important;border-radius:16px!important;
+  background:#fff!important;box-shadow:0 9px 22px rgba(17,66,125,.06)!important
+}
+.process-page-ref .process-main + .panel .eyebrow{
+  margin-bottom:3px!important;font-size:7px!important;letter-spacing:1px!important;color:#0b67ce!important
+}
+.process-page-ref .process-main + .panel .eyebrow:before{
+  width:7px!important;height:7px!important;background:#167df0!important;box-shadow:0 0 0 3px #e7f2ff!important
+}
+.process-page-ref .process-main + .panel h2{
+  font-size:15px!important;letter-spacing:-.3px!important;margin:0 0 11px!important;color:#092e63!important
+}
+.process-page-ref .process-main + .panel h2:after{
+  margin-top:2px!important;font-size:8px!important;color:#6c84a2!important
+}
+.process-page-ref .process-main + .panel .steps{
+  display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:8px!important
+}
+.process-page-ref .process-main + .panel .step{
+  min-height:54px!important;padding:8px 8px!important;border:1px solid #d6e5f6!important;
+  border-radius:11px!important;background:#fff!important;box-shadow:none!important;
+  display:flex!important;flex-direction:row!important;align-items:center!important;gap:7px!important;
+  color:#143867!important;font-size:7px!important;line-height:1.25!important
+}
+.process-page-ref .process-main + .panel .step:after{display:none!important}
+.process-page-ref .process-main + .panel .step-num{
+  width:25px!important;height:25px!important;min-width:25px!important;border-radius:50%!important;
+  background:#e8f3ff!important;color:#075fc6!important;font-size:9px!important;
+  box-shadow:none!important
+}
+.process-page-ref .process-main + .panel .step-copy{font-size:7px!important;line-height:1.25!important}
+.process-page-ref .process-main + .panel .step-copy b{font-weight:800!important}
+.process-page-ref .process-main + .panel .step-ico{
+  margin-left:auto!important;width:18px!important;height:18px!important;
+  color:#0d78ee!important;display:grid!important;place-items:center!important
+}
+.process-page-ref .process-main + .panel .step-ico svg{width:15px!important;height:15px!important}
+.process-page-ref .process-main + .panel .btn{
+  height:42px!important;min-height:42px!important;margin-top:11px!important;
+  border-radius:10px!important;border:1px solid #123f7f!important;
+  background:linear-gradient(135deg,#173c70,#0b2853)!important;color:#fff!important;
+  font-size:10px!important;font-weight:900!important;
+  box-shadow:0 7px 14px rgba(11,40,83,.18)!important
+}
+.process-page-ref .process-main + .panel .btn:before{display:none!important}
+
+@media(max-width:900px){
+  .process-page-ref .conference-grid{grid-template-columns:1fr!important}
+  .process-page-ref .conference-footer{flex-direction:column!important;align-items:stretch!important}
+  .process-page-ref .register-btn,.process-page-ref .register-error{width:100%!important}
+  .process-page-ref .process-main + .panel .steps{grid-template-columns:1fr 1fr!important}
+}
+@media(max-width:560px){
+  .process-page-ref .process-main + .panel .steps{grid-template-columns:1fr!important}
+}
+
+/* ===== AJUSTE FINAL — MESMO VISUAL DA VERSÃO ANTERIOR ===== */
+.process-page-ref .conference-area{margin-top:22px!important}
+.process-page-ref .conference-title{margin-bottom:15px!important}
+.process-page-ref .conference-title strong{font-size:21px!important;font-weight:900!important;letter-spacing:-.55px!important;color:#082d64!important}
+.process-page-ref .conference-title span{font-size:10px!important;padding:9px 13px!important;color:#345f90!important;background:#f7fbff!important;border:1px solid #d3e5fa!important}
+.process-page-ref .conference-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:16px!important}
+.process-page-ref .conference-card{min-height:285px!important;padding:17px!important;border-radius:17px!important;border:1px solid #cfe1f7!important;background:#fff!important;box-shadow:0 10px 24px rgba(17,70,132,.08)!important}
+.process-page-ref .conference-card:before{height:3px!important}
+.process-page-ref .conference-card .conf-head{margin-bottom:13px!important;gap:10px!important}
+.process-page-ref .conference-card .conf-icon{width:42px!important;height:42px!important;border-radius:12px!important;box-shadow:0 7px 16px rgba(27,117,217,.13),inset 1px 1px 3px #fff!important}
+.process-page-ref .conference-card .conf-icon svg{width:21px!important;height:21px!important}
+.process-page-ref .conference-card .conf-head strong{font-size:15px!important;font-weight:900!important;color:#082d64!important}
+.process-page-ref .conference-card .conf-head strong:after{font-size:9px!important;color:#6480a3!important;margin-top:4px!important}
+.process-page-ref .conference-options{gap:9px!important}
+.process-page-ref .conf-option{min-height:58px!important;padding:9px 12px 9px 40px!important;border-radius:12px!important;border:1px solid #cfe0f4!important;background:#fff!important}
+.process-page-ref .conf-radio{left:13px!important;width:12px!important;height:12px!important;border:2px solid #aac6e5!important}
+.process-page-ref .conf-copy{gap:3px!important}
+.process-page-ref .conf-copy b{font-size:10px!important;font-weight:900!important;color:#123a69!important}
+.process-page-ref .conf-copy small{font-size:8px!important;color:#5f7898!important}
+.process-page-ref .conference-footer{margin-top:16px!important;padding:10px!important;min-height:62px!important;border-radius:14px!important;gap:10px!important;background:#eef6ff!important;border:1px solid #c8def6!important}
+.process-page-ref .conference-summary{min-height:42px!important;font-size:9px!important;padding:9px 12px!important}
+.process-page-ref .register-btn,.process-page-ref .register-error{height:44px!important;min-height:44px!important;border-radius:11px!important;font-size:11px!important;font-weight:900!important}
+.process-page-ref .register-btn{min-width:205px!important;background:linear-gradient(135deg,#2186f5,#0a5bd0)!important;box-shadow:0 8px 16px rgba(16,103,220,.22)!important}
+.process-page-ref .register-error{min-width:125px!important;color:#d32640!important;background:#fff!important;border:1px solid #ffb8c2!important}
+.process-page-ref .process-main + .panel{margin-top:20px!important;padding:18px 18px 15px!important;border-radius:17px!important;background:#fff!important;border:1px solid #d1e2f5!important;box-shadow:0 10px 25px rgba(17,66,125,.07)!important}
+.process-page-ref .process-main + .panel .eyebrow{margin-bottom:4px!important;font-size:8px!important;letter-spacing:1.1px!important;color:#0b67ce!important}
+.process-page-ref .process-main + .panel h2{font-size:19px!important;line-height:1.15!important;letter-spacing:-.35px!important;margin:0 0 5px!important;color:#082d64!important;font-weight:900!important}
+.process-page-ref .process-main + .panel h2:after{font-size:10px!important;margin-top:4px!important;color:#6781a1!important}
+.process-page-ref .process-main + .panel .steps{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:10px!important}
+.process-page-ref .process-main + .panel .step{min-height:74px!important;padding:10px 10px!important;border:1px solid #d3e5f7!important;border-radius:13px!important;background:#fff!important;box-shadow:0 5px 14px rgba(16,75,145,.04)!important;display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:center!important;gap:8px!important;color:#123a69!important;font-size:10px!important;line-height:1.2!important;text-align:center!important;font-weight:800!important;position:relative!important}
+.process-page-ref .process-main + .panel .step:not(:last-child):after{display:block!important;content:'›'!important;position:absolute!important;right:-8px!important;top:50%!important;transform:translateY(-50%)!important;color:#65a6f4!important;font-size:16px!important;font-weight:900!important;background:#fff!important;z-index:2!important}
+.process-page-ref .process-main + .panel .step-num{width:30px!important;height:30px!important;min-width:30px!important;border-radius:9px!important;background:#e7f2ff!important;color:#075fc6!important;font-size:10px!important;font-weight:900!important;box-shadow:0 5px 10px rgba(25,118,220,.10)!important}
+.process-page-ref .process-main + .panel .step-copy{font-size:9px!important;line-height:1.25!important;text-align:center!important}
+.process-page-ref .process-main + .panel .step-copy b{font-size:9px!important;font-weight:900!important}
+.process-page-ref .process-main + .panel .step-ico{display:grid!important;width:20px!important;height:20px!important;color:#0d78ee!important;margin-left:0!important}
+.process-page-ref .process-main + .panel .step-ico svg{width:17px!important;height:17px!important}
+.process-page-ref .process-main + .panel .btn{height:48px!important;min-height:48px!important;margin-top:14px!important;border-radius:12px!important;border:1px solid #123f7f!important;background:linear-gradient(135deg,#173c70,#0b2853)!important;color:#fff!important;font-size:12px!important;font-weight:900!important;box-shadow:0 8px 17px rgba(11,40,83,.18)!important}
+@media(max-width:900px){
+ .process-page-ref .conference-grid{grid-template-columns:1fr!important}
+ .process-page-ref .process-main + .panel .steps{grid-template-columns:1fr 1fr!important}
+}
+@media(max-width:600px){
+ .process-page-ref .process-main + .panel .steps{grid-template-columns:1fr!important}
+ .process-page-ref .process-main + .panel .step:not(:last-child):after{display:none!important}
+}
+
+</style>
 
 </body>
 </html>
