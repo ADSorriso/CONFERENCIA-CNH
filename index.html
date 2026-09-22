@@ -1846,20 +1846,37 @@ function table(rows,startIndex=0){
     <td><div class="actions-cell"><button class="row-action row-view" title="Ver detalhes" aria-label="Ver detalhes" onclick="openDetails('${esc(d.id)}')"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" aria-hidden="true"><path d="M2.8 12s3.3-5.5 9.2-5.5S21.2 12 21.2 12s-3.3 5.5-9.2 5.5S2.8 12 2.8 12Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="2.7" fill="currentColor"/></svg></button><button class="row-action row-edit" title="Editar motorista" aria-label="Editar motorista" onclick="editarMotorista('${esc(d.id)}')"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="m4 16.5-.8 3.3 3.3-.8L18.8 6.7a2.1 2.1 0 0 0-3-3L3.5 16.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="m14.5 5.5 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><button class="row-action row-delete" title="Excluir motorista" aria-label="Excluir motorista" onclick="excluirMotorista('${esc(d.id)}')"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3m-9 0 1 13h8l1-13M10 11v6M14 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></td>
   </tr>`).join('')}</tbody></table></div>`;
 }
+const ESTADOS_BR=[['AC','Acre'],['AL','Alagoas'],['AP','Amapá'],['AM','Amazonas'],['BA','Bahia'],['CE','Ceará'],['DF','Distrito Federal'],['ES','Espírito Santo'],['GO','Goiás'],['MA','Maranhão'],['MT','Mato Grosso'],['MS','Mato Grosso do Sul'],['MG','Minas Gerais'],['PA','Pará'],['PB','Paraíba'],['PR','Paraná'],['PE','Pernambuco'],['PI','Piauí'],['RJ','Rio de Janeiro'],['RN','Rio Grande do Norte'],['RS','Rio Grande do Sul'],['RO','Rondônia'],['RR','Roraima'],['SC','Santa Catarina'],['SP','São Paulo'],['SE','Sergipe'],['TO','Tocantins']];
+function estadoDoMotorista(d){
+  const saved=localStorage.getItem('cnh_estado_'+String(d?.id||''));
+  if(saved)return saved;
+  const r=String(d?.renach||'').trim().toUpperCase();
+  const m=r.match(/^([A-Z]{2})\s+/);
+  return m && ESTADOS_BR.some(x=>x[0]===m[1]) ? m[1] : '';
+}
+function estadoOptions(selected){
+  return '<option value="">Selecione o estado</option>'+ESTADOS_BR.map(([uf,nome])=>`<option value="${uf}" ${uf===selected?'selected':''}>${uf} — ${nome}</option>`).join('');
+}
 async function editarMotorista(id){
   const d=drivers.find(x=>String(x.id)===String(id));
   if(!d)return;
   const modalId='editMotoristaModal';
   document.getElementById(modalId)?.remove();
-  document.body.insertAdjacentHTML('beforeend',`<div class="modal-bg" id="${modalId}"><div class="modal" style="max-width:560px"><div class="modal-head"><div><h2>Editar motorista</h2><p>Atualize os dados cadastrais deste motorista.</p></div><button class="close" onclick="document.getElementById('${modalId}').remove()">×</button></div><div style="display:grid;gap:12px"><label style="display:grid;gap:6px"><span style="font-size:11px;font-weight:800;color:#294a78">Nome</span><input id="editNome" value="${esc(d.nome||'')}" style="height:42px;border:1px solid #d6e3f2;border-radius:10px;padding:0 12px;outline:0"></label><label style="display:grid;gap:6px"><span style="font-size:11px;font-weight:800;color:#294a78">CPF</span><input id="editCpf" value="${esc(d.cpf||'')}" style="height:42px;border:1px solid #d6e3f2;border-radius:10px;padding:0 12px;outline:0"></label><label style="display:grid;gap:6px"><span style="font-size:11px;font-weight:800;color:#294a78">RENACH</span><input id="editRenach" value="${esc(d.renach||'')}" style="height:42px;border:1px solid #d6e3f2;border-radius:10px;padding:0 12px;outline:0"></label></div><div class="actions" style="display:flex;gap:8px;margin-top:18px"><button class="btn primary" style="flex:1" onclick="salvarEdicaoMotorista('${esc(d.id)}')">✓ Salvar alterações</button><button class="btn" onclick="document.getElementById('${modalId}').remove()">Cancelar</button></div></div></div>`);
+  document.body.insertAdjacentHTML('beforeend',`<div class="modal-bg" id="${modalId}"><div class="modal" style="max-width:560px"><div class="modal-head"><div><h2>Editar motorista</h2><p>Atualize os dados cadastrais deste motorista.</p></div><button class="close" onclick="document.getElementById('${modalId}').remove()">×</button></div><div style="display:grid;gap:12px"><label style="display:grid;gap:6px"><span style="font-size:11px;font-weight:800;color:#294a78">Nome</span><input id="editNome" value="${esc(d.nome||'')}" style="height:42px;border:1px solid #d6e3f2;border-radius:10px;padding:0 12px;outline:0"></label><label style="display:grid;gap:6px"><span style="font-size:11px;font-weight:800;color:#294a78">CPF</span><input id="editCpf" value="${esc(d.cpf||'')}" style="height:42px;border:1px solid #d6e3f2;border-radius:10px;padding:0 12px;outline:0"></label><label style="display:grid;gap:6px"><span style="font-size:11px;font-weight:800;color:#294a78">RENACH</span><input id="editRenach" value="${esc(d.renach||'')}" style="height:42px;border:1px solid #d6e3f2;border-radius:10px;padding:0 12px;outline:0"></label><label style="display:grid;gap:6px"><span style="font-size:11px;font-weight:800;color:#294a78">Estado / UF</span><select id="editEstado" style="height:42px;border:1px solid #d6e3f2;border-radius:10px;padding:0 12px;outline:0;background:#fff;color:#173b70;font-weight:700">${estadoOptions(estadoDoMotorista(d))}</select></label></div><div class="actions" style="display:flex;gap:8px;margin-top:18px"><button class="btn primary" style="flex:1" onclick="salvarEdicaoMotorista('${esc(d.id)}')">✓ Salvar alterações</button><button class="btn" onclick="document.getElementById('${modalId}').remove()">Cancelar</button></div></div></div>`);
 }
 async function salvarEdicaoMotorista(id){
   const nome=document.getElementById('editNome')?.value.trim();
   const cpf=document.getElementById('editCpf')?.value.trim();
   const renach=document.getElementById('editRenach')?.value.trim();
+  const estado=document.getElementById('editEstado')?.value||'';
   if(!nome||!cpf){msg('Nome e CPF são obrigatórios.',true);return}
   const {error}=await supabaseClient.from('motoristas').update({nome,cpf,renach:renach||null}).eq('id',id);
   if(error){console.error(error);msg('Não foi possível salvar as alterações.',true);return}
+  localStorage.setItem('cnh_estado_'+String(id),estado);
+  if(estado){
+    const stateResult=await supabaseClient.from('motoristas').update({estado}).eq('id',id);
+    if(stateResult.error) console.info('Campo estado ainda não existe no Supabase; UF mantida localmente.',stateResult.error.message);
+  }
   document.getElementById('editMotoristaModal')?.remove();
   await loadDrivers();
   msg('Motorista atualizado com sucesso.');
