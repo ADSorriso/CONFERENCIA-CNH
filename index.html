@@ -479,6 +479,127 @@ table{min-width:980px}th,td{padding:14px 13px;font-size:11px}th{font-size:9px}td
 }
 .view { background: linear-gradient(135deg,#073777,#0a4b9f) !important; }
 .page-btn { background: linear-gradient(135deg,#172640,#263b5d) !important; }
+
+/* MOTORISTAS — visual fiel à referência enviada */
+.motoristas-page{width:100%}
+.motoristas-page .motoristas-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin:0 0 18px}
+.motoristas-page .motoristas-head h1{margin:0;font-size:34px;line-height:1.02;color:#09285b;font-weight:850;letter-spacing:-.8px}
+.motoristas-page .motoristas-head p{margin:6px 0 0;color:#294a78;font-size:14px;font-weight:600}
+.motoristas-page .import-btn{height:48px;min-width:150px;border-radius:12px;padding:0 17px;font-size:12px;white-space:nowrap}
+.motoristas-page .motoristas-toolbar{display:grid;grid-template-columns:minmax(0,1fr) 150px auto;gap:11px;align-items:center;margin-bottom:12px}
+.motoristas-page .motoristas-search{height:43px;background:#fff;border:1px solid #d8e5f5;border-radius:11px;display:flex;align-items:center;gap:8px;padding:0 12px;box-shadow:inset 2px 2px 5px rgba(49,85,124,.06),0 4px 12px rgba(29,77,138,.06);color:#143d73}
+.motoristas-page .motoristas-search input{border:0;outline:0;width:100%;font-size:11px;background:transparent;color:#183862}
+.motoristas-page .motoristas-select{height:43px;border:1px solid #d8e5f5;border-radius:11px;background:#fff;padding:0 11px;color:#294a78;font-size:11px;box-shadow:0 4px 12px rgba(29,77,138,.06);outline:0}
+.motoristas-page .motoristas-found{text-align:right;color:#274977;font-size:11px;font-weight:700;white-space:nowrap}
+.motoristas-page .motoristas-list-card{padding:0 0 10px;overflow:hidden}
+.motoristas-page .motoristas-list-head{height:49px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid #e1ebf6}
+.motoristas-page .motoristas-list-head h2{margin:0;font-size:15px;color:#102e5c}
+.motoristas-page .motoristas-list-head .found{font-size:10px;color:#7183a0}
+.motoristas-page .motoristas-table-wrap{border:0;border-radius:0;overflow:auto}
+.motoristas-page table.motoristas-table{min-width:930px;border-collapse:separate;border-spacing:0;width:100%}
+.motoristas-page .motoristas-table th{height:38px;padding:0 12px;background:#f5f9fe;color:#31527e;font-size:9px;font-weight:850;border-bottom:1px solid #dfe9f4;text-transform:uppercase;letter-spacing:.45px;vertical-align:middle}
+.motoristas-page .motoristas-table td{height:47px;padding:7px 12px;background:#fff;color:#294a78;font-size:10px;border-bottom:1px solid #edf2f7;vertical-align:middle}
+.motoristas-page .motoristas-table tr:last-child td{border-bottom:0}
+.motoristas-page .motoristas-table tbody tr:hover td{background:#f8fbff}
+.motoristas-page .motoristas-table .num{width:38px;text-align:center;color:#35567e;font-weight:700}
+.motoristas-page .motoristas-table .name{color:#153761;font-weight:800;max-width:210px}
+.motoristas-page .motoristas-table .cpf,.motoristas-page .motoristas-table .renach{font-weight:650;color:#3b577d}
+.motoristas-page .motoristas-table .result{color:#667d9d}
+.motoristas-page .motoristas-table .actions-cell{display:flex;align-items:center;gap:7px;white-space:nowrap}
+.motoristas-page .view{height:30px;padding:0 11px;border-radius:9px;font-size:9px;background:linear-gradient(135deg,#073777,#0a4b9f)!important;color:#fff;box-shadow:inset 1px 1px 2px rgba(255,255,255,.16),inset -2px -3px 5px rgba(0,26,83,.22),0 4px 8px rgba(7,55,119,.16)}
+.motoristas-page .row-menu{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#182844,#263b5d);color:#fff;font-size:17px;line-height:1;box-shadow:0 4px 8px rgba(7,24,61,.12)}
+.motoristas-page .motoristas-pagination{display:flex;justify-content:flex-end;align-items:center;gap:5px;padding:12px 14px 2px}
+.motoristas-page .motoristas-pagination .page-btn{min-width:31px;height:31px;border-radius:8px;font-size:10px}
+.motoristas-page .motoristas-pagination .page-btn.active{background:linear-gradient(135deg,#062f78,#0753bb)!important}
+.motoristas-page .empty{padding:35px}
+@media(max-width:900px){
+ .motoristas-page .motoristas-toolbar{grid-template-columns:1fr 150px}
+ .motoristas-page .motoristas-found{grid-column:1/-1;text-align:left}
+ .motoristas-page .motoristas-head{align-items:flex-start}
+}
+@media(max-width:600px){
+ .motoristas-page .motoristas-head{flex-direction:column}
+ .motoristas-page .import-btn{width:100%}
+ .motoristas-page .motoristas-toolbar{grid-template-columns:1fr}
+ .motoristas-page .motoristas-found{grid-column:auto}
+}
+
+
+/* ===== MOTORISTAS — acabamento fiel ao mockup ===== */
+.motoristas-page{width:100%;max-width:100%}
+.motoristas-page .topbar{margin-bottom:10px}
+.motoristas-page .motoristas-head{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:22px;
+  margin:0 0 16px;padding:0 1px;
+}
+.motoristas-page .motoristas-head h1{
+  margin:0;color:#09285b;font-size:34px;line-height:1.02;font-weight:850;letter-spacing:-1px;
+}
+.motoristas-page .motoristas-head p{
+  margin:6px 0 0;color:#294a78;font-size:13px;font-weight:600;
+}
+.motoristas-page .import-btn{
+  height:48px;min-width:154px;padding:0 18px;border-radius:12px;
+  font-size:11px;font-weight:850;letter-spacing:.1px;
+  background:linear-gradient(145deg,#18385f,#0b2348)!important;
+  box-shadow:inset 2px 2px 4px rgba(255,255,255,.12),inset -4px -5px 8px rgba(0,0,0,.28),0 8px 17px rgba(7,27,63,.22)!important;
+}
+.motoristas-page .import-btn:hover{transform:translateY(-1px);filter:brightness(1.06)}
+.motoristas-page .motoristas-toolbar{
+  display:grid;grid-template-columns:minmax(0,1fr) 155px auto;gap:10px;align-items:center;margin-bottom:10px;
+}
+.motoristas-page .motoristas-search{
+  height:44px;background:#fff;border:1px solid #d6e3f2;border-radius:11px;
+  display:flex;align-items:center;gap:9px;padding:0 14px;color:#123f78;
+  box-shadow:inset 2px 2px 5px rgba(44,81,126,.06),0 5px 13px rgba(26,71,125,.07);
+}
+.motoristas-page .motoristas-search>span{font-size:20px!important;line-height:1;color:#153f76}
+.motoristas-page .motoristas-search input{font-size:11px;color:#17385f}
+.motoristas-page .motoristas-select{
+  height:44px;border:1px solid #d6e3f2;border-radius:11px;background:#fff;padding:0 12px;
+  color:#294a78;font-size:11px;font-weight:650;box-shadow:0 5px 13px rgba(26,71,125,.07);outline:0;
+}
+.motoristas-page .motoristas-found{text-align:right;color:#274977;font-size:11px;font-weight:750;white-space:nowrap}
+.motoristas-page .motoristas-list-card{
+  padding:0 0 9px;overflow:hidden;border-radius:16px;background:linear-gradient(145deg,#fff,#f8fbff);
+  border:1px solid #d6e3f2;box-shadow:0 12px 27px rgba(35,79,133,.13),0 2px 5px rgba(35,79,133,.07);
+}
+.motoristas-page .motoristas-list-head{display:none}
+.motoristas-page .motoristas-table-wrap{border:0;border-radius:0;overflow:auto}
+.motoristas-page table.motoristas-table{min-width:980px;width:100%;border-collapse:separate;border-spacing:0}
+.motoristas-page .motoristas-table th{
+  height:40px;padding:0 13px;background:#f1f6fc;color:#294d7b;font-size:9px;font-weight:850;
+  border-bottom:1px solid #dce7f3;text-transform:uppercase;letter-spacing:.35px;vertical-align:middle;
+}
+.motoristas-page .motoristas-table td{
+  height:47px;padding:6px 13px;background:#fff;color:#294a78;font-size:10px;
+  border-bottom:1px solid #e8eef5;vertical-align:middle;
+}
+.motoristas-page .motoristas-table tbody tr:hover td{background:#f7fbff}
+.motoristas-page .motoristas-table tbody tr:last-child td{border-bottom:0}
+.motoristas-page .motoristas-table .num{width:38px;text-align:center;color:#35567e;font-weight:800}
+.motoristas-page .motoristas-table .name{color:#153761;font-weight:800;max-width:225px}
+.motoristas-page .motoristas-table .cpf,.motoristas-page .motoristas-table .renach{font-weight:650;color:#3a587f}
+.motoristas-page .motoristas-table .result{color:#71839b}
+.motoristas-page .motoristas-table .actions-cell{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.motoristas-page .motoristas-table .badge{padding:5px 9px;font-size:8px;background:#edf3fb;color:#244d7c;box-shadow:inset 1px 1px 2px #fff,inset -2px -2px 4px #c9d8ea55}
+.motoristas-page .view{
+  height:30px;padding:0 11px;border-radius:8px;font-size:9px;font-weight:800;
+  background:linear-gradient(145deg,#18385f,#0b2348)!important;color:#fff!important;
+  box-shadow:inset 1px 1px 2px rgba(255,255,255,.14),inset -2px -3px 5px rgba(0,0,0,.25),0 4px 8px rgba(7,27,63,.16)!important;
+}
+.motoristas-page .view:hover{transform:translateY(-1px);filter:brightness(1.08)}
+.motoristas-page .row-menu{
+  width:30px;height:30px;border-radius:8px;background:linear-gradient(145deg,#243a5b,#172842)!important;color:#fff;
+  font-size:16px;line-height:1;box-shadow:inset 1px 1px 2px rgba(255,255,255,.10),inset -2px -3px 5px rgba(0,0,0,.25),0 4px 8px rgba(7,24,61,.12);
+}
+.motoristas-page .motoristas-pagination{display:flex;justify-content:flex-end;align-items:center;gap:6px;padding:10px 13px 1px}
+.motoristas-page .motoristas-pagination .page-btn{min-width:31px;height:31px;border-radius:8px;font-size:10px}
+.motoristas-page .motoristas-pagination .page-btn.active{background:linear-gradient(145deg,#18385f,#0b2348)!important;box-shadow:inset 1px 1px 2px rgba(255,255,255,.12),inset -2px -3px 5px rgba(0,0,0,.25),0 4px 9px rgba(7,27,63,.18)!important}
+.motoristas-page .motoristas-pagination .page-btn:disabled{opacity:.48}
+.motoristas-page .empty{padding:48px}
+@media(max-width:900px){.motoristas-page .motoristas-toolbar{grid-template-columns:1fr 155px}.motoristas-page .motoristas-found{grid-column:1/-1;text-align:left}}
+@media(max-width:650px){.motoristas-page .motoristas-head{flex-direction:column}.motoristas-page .import-btn{width:100%}.motoristas-page .motoristas-toolbar{grid-template-columns:1fr}.motoristas-page .motoristas-found{grid-column:auto}.motoristas-page .motoristas-head h1{font-size:29px}}
 </style>
 </head>
 <body>
@@ -575,7 +696,34 @@ function dashboardLower(){const c=counts();return `<div class="dashboard-lower">
 <div class="quote">“Informação hoje, um trânsito mais seguro amanhã.”</div>
 </div></div></div>`}
 function renderDashboard(){main.innerHTML=`<div class="dashboard-page">${header('Dashboard','Visão geral da conferência de motoristas',true)}${stats()}${progress()}${dashboardLower()}</div>`}
-function renderMotoristas(){let data=drivers.filter(d=>(filter==='TODOS'||statusKey(d.status)===filter)&&norm(`${d.nome} ${d.cpf} ${d.renach}`).includes(norm(query)));const pages=Math.max(1,Math.ceil(data.length/PAGE_SIZE));if(currentPage>pages)currentPage=pages;const shown=data.slice((currentPage-1)*PAGE_SIZE,currentPage*PAGE_SIZE);let pag='';for(let i=1;i<=pages;i++){if(i<=5||i===pages)pag+=`<button class="page-btn ${i===currentPage?'active':''}" onclick="currentPage=${i};render()">${i}</button>`}main.innerHTML=header('Motoristas','Motoristas carregados no Supabase')+`<div class="toolbar"><div class="search">⌕ <input placeholder="Buscar por nome, CPF ou RENACH..." value="${esc(query)}" oninput="query=this.value;currentPage=1;render()"></div><select class="select" onchange="filter=this.value;currentPage=1;render()"><option value="TODOS">Todos os status</option><option value="pendente">Pendente</option><option value="processando">Processando</option><option value="sucesso">Sucesso</option><option value="atencao">Atenção</option><option value="erro">Erro</option></select><div class="found">${data.length} motoristas encontrados</div></div><div class="panel"><div class="toolbar-title"><h2>Lista de motoristas</h2><span class="found">Página ${currentPage} de ${pages}</span></div>${table(shown)}<div class="pagination"><button class="page-btn" onclick="currentPage=Math.max(1,currentPage-1);render()">‹</button>${pag}<button class="page-btn" onclick="currentPage=Math.min(${pages},currentPage+1);render()">›</button></div></div>`}
+function renderMotoristas(){
+  let data=drivers.filter(d=>(filter==='TODOS'||statusKey(d.status)===filter)&&norm(`${d.nome} ${d.cpf} ${d.renach}`).includes(norm(query)));
+  const pages=Math.max(1,Math.ceil(data.length/PAGE_SIZE));
+  if(currentPage>pages)currentPage=pages;
+  const shown=data.slice((currentPage-1)*PAGE_SIZE,currentPage*PAGE_SIZE);
+  let pag='';
+  for(let i=1;i<=pages;i++){
+    if(i<=5||i===pages)pag+=`<button class="page-btn ${i===currentPage?'active':''}" onclick="currentPage=${i};render()">${i}</button>`;
+    else if(i===6&&pages>7)pag+=`<button class="page-btn" disabled>…</button>`;
+  }
+  main.innerHTML=`<div class="motoristas-page">${topbar()}
+    <div class="motoristas-head">
+      <div><h1>Motoristas</h1><p>Motoristas carregados no Supabase</p></div>
+      <button class="btn primary import-btn" onclick="msg('Importação de motoristas será disponibilizada aqui.')">↥&nbsp; Importar motoristas</button>
+    </div>
+    <div class="motoristas-toolbar">
+      <div class="motoristas-search"><span style="font-size:19px;font-weight:800">⌕</span><input placeholder="Buscar por nome, CPF ou RENACH..." value="${esc(query)}" oninput="query=this.value;currentPage=1;render()"></div>
+      <select class="motoristas-select" onchange="filter=this.value;currentPage=1;render()">
+        <option value="TODOS">Todos os status</option><option value="pendente">Pendente</option><option value="processando">Processando</option><option value="sucesso">Sucesso</option><option value="atencao">Atenção</option><option value="erro">Erro</option>
+      </select>
+      <div class="motoristas-found">${data.length} motoristas encontrados</div>
+    </div>
+    <div class="panel motoristas-list-card">
+      ${table(shown,(currentPage-1)*PAGE_SIZE)}
+      <div class="motoristas-pagination"><button class="page-btn" onclick="currentPage=Math.max(1,currentPage-1);render()">‹</button>${pag}<button class="page-btn" onclick="currentPage=Math.min(${pages},currentPage+1);render()">›</button></div>
+    </div>
+  </div>`;
+}
 async function loadDrivers(){
   loading=true;
   try{
@@ -598,16 +746,17 @@ function counts(){
   const pend=drivers.filter(d=>statusKey(d.status)==='pendente').length;
   return {total,suc,att,err,proc,pend,done:suc+att+err};
 }
-function table(rows){
+function table(rows,startIndex=0){
   if(!rows.length)return '<div class="empty"><h3>Nenhum motorista encontrado</h3><p>Não há registros para os filtros selecionados.</p></div>';
-  return `<div class="table-wrap"><table><thead><tr><th>Nome</th><th>CPF</th><th>RENACH</th><th>Status</th><th>Resultado</th><th>Consulta</th><th></th></tr></thead><tbody>${rows.map(d=>`<tr>
-    <td><strong>${esc(d.nome||'—')}</strong></td>
-    <td>${esc(maskCPF(d.cpf))}</td>
-    <td>${esc(d.renach||'—')}</td>
+  return `<div class="motoristas-table-wrap"><table class="motoristas-table"><thead><tr><th>#</th><th>Nome</th><th>CPF</th><th>RENACH</th><th>Status</th><th>Resultado</th><th>Consulta</th><th>Ações</th></tr></thead><tbody>${rows.map((d,i)=>`<tr>
+    <td class="num">${startIndex+i+1}</td>
+    <td class="name">${esc(d.nome||'—')}</td>
+    <td class="cpf">${esc(maskCPF(d.cpf))}</td>
+    <td class="renach">${esc(d.renach||'—')}</td>
     <td>${badge(d.status)}</td>
-    <td>${esc(d.resultado||'—')}</td>
-    <td>${d.data_consulta?new Date(d.data_consulta).toLocaleString('pt-BR'):'—'}</td>
-    <td><button class="view" onclick="openDetails('${esc(d.id)}')">Ver detalhes</button></td>
+    <td class="result">${esc(d.resultado||'—')}</td>
+    <td class="result">${d.data_consulta?new Date(d.data_consulta).toLocaleString('pt-BR'):'—'}</td>
+    <td><div class="actions-cell"><button class="view" onclick="openDetails('${esc(d.id)}')">◉&nbsp; Ver detalhes</button><button class="row-menu" title="Mais ações" onclick="openDetails('${esc(d.id)}')">⋮</button></div></td>
   </tr>`).join('')}</tbody></table></div>`;
 }
 function nextPending(){return drivers.find(d=>['pendente','processando'].includes(statusKey(d.status)))||null}
